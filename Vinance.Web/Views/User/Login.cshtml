@@ -1,0 +1,12 @@
+﻿@model Vinance.Contracts.Models.Identity.LoginModel
+@{
+    ViewData["Title"] = "Login";
+}
+
+<h2>Login</h2>
+
+<form asp-controller="User" asp-action="Login" method="post">
+    Username: <input asp-for="UserName"/>
+    Password: <input asp-for="Password" type="password"/>
+    <input type="submit" value="Login"/>
+</form>

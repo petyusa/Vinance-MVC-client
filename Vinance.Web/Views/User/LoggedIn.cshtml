@@ -1,0 +1,8 @@
+﻿@using System.Security.Claims
+
+@{
+    ViewData["Title"] = "LoggedIn";
+}
+
+<h2>Hi @User.FindFirst(ClaimTypes.Name).Value !</h2>
+
