@@ -1,46 +1,32 @@
 ﻿using System.Diagnostics;
-using System.IdentityModel.Tokens.Jwt;
-using System.Net.Http;
-using System.Security.Claims;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Vinance.Contracts.Interfaces;
-using Vinance.Services;
-using Vinance.Web.Models;
 
 namespace Vinance.Web.Controllers
 {
+    using Models;
+    using Services.APIs;
+
     [Authorize]
     public class HomeController : Controller
     {
         private readonly VinanceApi _vinanceApi;
-        private readonly IUserApi _userApi;
 
-        public HomeController(VinanceApi vinanceApi, IUserApi userApi)
+        public HomeController(VinanceApi vinanceApi)
         {
             _vinanceApi = vinanceApi;
-            _userApi = userApi;
         }
 
-        [AllowAnonymous]
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
             return View();
         }
 
-        public async Task<string> About()
+        public string About()
         {
             ViewData["Message"] = "Your application description page.";
-            
-            return "haha";
-        }
 
-        public IActionResult Login()
-        {
-            return View("Index");
+            return "haha";
         }
 
         public IActionResult Contact()

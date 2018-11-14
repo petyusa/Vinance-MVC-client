@@ -3,12 +3,13 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
-using Vinance.Contracts.Interfaces;
-using Vinance.Contracts.Models;
-using Vinance.Contracts.Models.Identity;
 
-namespace Vinance.Services
+namespace Vinance.Services.APIs
 {
+    using Contracts.Interfaces;
+    using Contracts.Models;
+    using Contracts.Models.Identity;
+
     public class UserApi : IUserApi
     {
         private readonly IHttpClientFactory _factory;
@@ -31,11 +32,17 @@ namespace Vinance.Services
             return tokenResult;
         }
 
-        public async Task<string> GetAccounts()
-        { 
-            var client = _factory.CreateClient("authenticated-client");
-            var response = await client.GetAsync("accounts");
-            return await response.Content.ReadAsStringAsync();
+        public async Task<VinanceUser> Register(RegisterModel registerModel)
+        {
+            var client = _factory.CreateClient("unauthenticated-client");
+
+            var json = JsonConvert.SerializeObject(registerModel);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+            var response = await client.PostAsync("users/register", content);
+            var user = await HandleResponse<VinanceUser>(response);
+
+            return user;
         }
 
         private static async Task<T> HandleResponse<T>(HttpResponseMessage response)

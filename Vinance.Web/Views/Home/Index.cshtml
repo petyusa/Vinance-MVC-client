@@ -1,4 +1,10 @@
-﻿@model Vinance.Contracts.Models.TokenResult
+﻿@using System.Security.Claims
+@model Vinance.Contracts.Models.TokenResult
 @{
     ViewData["Title"] = "Home Page";
+}
+
+@if (User.Identity.IsAuthenticated)
+{
+    <span>Hi @User.FindFirst(ClaimTypes.Name).Value</span>
 }

@@ -1,10 +1,8 @@
 ﻿using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace Vinance.Services
+namespace Vinance.Services.APIs
 {
-    using Contracts.Interfaces;
-
     public class VinanceApi
     {
         private readonly IHttpClientFactory _factory;
