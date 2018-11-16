@@ -16,16 +16,18 @@ using Vinance.Web.Models.Identity;
 namespace Vinance.Web.Controllers
 {
     [Authorize]
-    [Route("users")]
+    [Route("")]
     public class UserController : Controller
     {
         private readonly IUserApi _userApi;
         private readonly IMapper _mapper;
+        private readonly IEmailSender _emailSender;
 
-        public UserController(IUserApi userApi, IMapper mapper)
+        public UserController(IUserApi userApi, IMapper mapper, IEmailSender emailSender)
         {
             _userApi = userApi;
             _mapper = mapper;
+            _emailSender = emailSender;
         }
 
         [AllowAnonymous]
@@ -93,14 +95,21 @@ namespace Vinance.Web.Controllers
         [AllowAnonymous]
         [HttpPost]
         [Route("register")]
-        public async Task<IActionResult> Register(RegisterViewModel registerViewModel)
+        public async Task<IActionResult> Register(RegisterViewmodel registerViewmodel)
         {
             if (!ModelState.IsValid)
             {
-                return View(registerViewModel);
+                return View(registerViewmodel);
             }
-            var model = _mapper.Map<RegisterModel>(registerViewModel);
+            var model = _mapper.Map<RegisterModel>(registerViewmodel);
             var user = await _userApi.Register(model);
+
+            if (user == null)
+            {
+                return View(registerViewmodel);
+            }
+            await _emailSender.SendEmail(user);
+
             return View("Login");
         }
     }

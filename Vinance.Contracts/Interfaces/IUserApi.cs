@@ -9,5 +9,6 @@ namespace Vinance.Contracts.Interfaces
     {
         Task<TokenResult> GetToken(LoginModel loginModel);
         Task<VinanceUser> Register(RegisterModel registerModel);
+        Task<VinanceUser> GetUser();
     }
 }

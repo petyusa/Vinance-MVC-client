@@ -2,7 +2,7 @@
 
 namespace Vinance.Web.Models.Identity
 {
-    public class RegisterViewModel
+    public class RegisterViewmodel
     {
         [Required]
         [Display(Name = "User name")]

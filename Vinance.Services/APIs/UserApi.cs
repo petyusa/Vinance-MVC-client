@@ -45,6 +45,16 @@ namespace Vinance.Services.APIs
             return user;
         }
 
+        public async Task<VinanceUser> GetUser()
+        {
+            var client = _factory.CreateClient("authenticated-client");
+
+            var response = await client.GetAsync("users/me");
+            var user = await HandleResponse<VinanceUser>(response);
+
+            return user;
+        }
+
         private static async Task<T> HandleResponse<T>(HttpResponseMessage response)
         {
             var json = await response.Content.ReadAsStringAsync();

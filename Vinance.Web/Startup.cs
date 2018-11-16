@@ -35,18 +35,20 @@ namespace Vinance.Web
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(opt =>
                 {
-                    opt.LoginPath = "/users/login";
+                    opt.LoginPath = "/login";
                 });
 
-            services.AddTransient<AuthHandler>();
+            services.AddEmailSender();
 
+            services.AddTransient<AuthHandler>();
             services.AddUnAuthenticatedHttpClient(Configuration);
 
             services.AddAuthenticatedHttpClient(Configuration)
                 .AddHttpMessageHandler<AuthHandler>();
 
             services.AddTransient<IUserApi, UserApi>();
-            services.AddTransient<VinanceApi>();
+
+
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }

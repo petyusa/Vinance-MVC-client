@@ -10,13 +10,6 @@ namespace Vinance.Web.Controllers
     [Authorize]
     public class HomeController : Controller
     {
-        private readonly VinanceApi _vinanceApi;
-
-        public HomeController(VinanceApi vinanceApi)
-        {
-            _vinanceApi = vinanceApi;
-        }
-
         public IActionResult Index()
         {
             return View();
