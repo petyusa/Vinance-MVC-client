@@ -48,8 +48,6 @@ namespace Vinance.Web
 
             services.AddTransient<IUserApi, UserApi>();
 
-
-
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 
