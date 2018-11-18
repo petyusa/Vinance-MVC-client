@@ -1,0 +1,26 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>Accounts</h2>
+
+
+<div class="row">
+    <div id="account-list" class="col-lg-8">
+        @await Component.InvokeAsync("GetAllAccount")
+    </div>
+
+    <div id="create-account" class="d-none col-lg-4" >
+        @await Component.InvokeAsync("CreateAccount")
+    </div>
+</div>
+
+<script>
+    function show() {
+        const target = $('#create-account');
+        console.log(target);
+        target.toggleClass('d-none');
+    }
+
+</script>

@@ -6,6 +6,7 @@ using Newtonsoft.Json;
 
 namespace Vinance.Services.APIs
 {
+    using Contracts;
     using Contracts.Interfaces;
     using Contracts.Models;
     using Contracts.Models.Identity;
@@ -21,8 +22,8 @@ namespace Vinance.Services.APIs
 
         public async Task<TokenResult> GetToken(LoginModel loginModel)
         {
-            var client = _factory.CreateClient("unauthenticated-client");
-            
+            var client = _factory.CreateClient("not-authenticated-client");
+
             var json = JsonConvert.SerializeObject(loginModel);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
 
@@ -34,7 +35,7 @@ namespace Vinance.Services.APIs
 
         public async Task<VinanceUser> Register(RegisterModel registerModel)
         {
-            var client = _factory.CreateClient("unauthenticated-client");
+            var client = _factory.CreateClient("not-authenticated-client");
 
             var json = JsonConvert.SerializeObject(registerModel);
             var content = new StringContent(json, Encoding.UTF8, "application/json");

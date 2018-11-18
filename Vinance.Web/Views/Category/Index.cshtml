@@ -1,0 +1,13 @@
+﻿@model IEnumerable<Vinance.Contracts.Models.Domain.Category>
+@{
+    ViewData["Title"] = "Index";
+}
+
+@foreach (var cat in Model)
+{
+    <div style="margin-bottom: 10px">
+        <div>@cat.Name</div>
+        <div>@cat.Type</div>
+        <div>@cat.Balance</div>
+    </div>
+}

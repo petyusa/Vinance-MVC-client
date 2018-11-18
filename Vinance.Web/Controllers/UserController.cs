@@ -9,12 +9,13 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Vinance.Contracts.Interfaces;
-using Vinance.Contracts.Models.Identity;
-using Vinance.Web.Models.Identity;
 
 namespace Vinance.Web.Controllers
 {
+    using Contracts.Interfaces;
+    using Contracts.Models.Identity;
+    using Models.Identity;
+
     [Authorize]
     [Route("")]
     public class UserController : Controller

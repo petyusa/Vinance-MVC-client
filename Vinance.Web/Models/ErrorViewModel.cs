@@ -1,5 +1,3 @@
-using System;
-
 namespace Vinance.Web.Models
 {
     public class ErrorViewModel

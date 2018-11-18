@@ -1,0 +1,13 @@
+﻿@model Vinance.Contracts.Models.Domain.Account
+
+<div class="form-container">
+    
+<form asp-action="Create" asp-controller="Account" data-ajax="true" data-ajax-method="POST" data-ajax-update="#account-list" data-ajax-mode="replace">
+    <div class="form-group">
+        <label asp-for="Name"></label>
+        <input asp-for="Name" class="form-control" />
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+    <input type="submit" value="Add" class="btn btn-primary"/>
+</form>
+</div>
