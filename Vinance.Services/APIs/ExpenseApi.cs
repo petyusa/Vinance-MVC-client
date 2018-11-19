@@ -1,21 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
-using Vinance.Contracts.Interfaces;
-using Vinance.Contracts.Models;
-using Vinance.Contracts.Models.Domain;
 
 namespace Vinance.Services.APIs
 {
+    using Contracts.Interfaces;
+    using Contracts.Models.Domain;
+    using Extensions;
+
     public class ExpenseApi : IExpenseApi
     {
         private readonly IHttpClientFactory _factory;
+        private readonly IResponseHandler _responseHandler;
 
-        public ExpenseApi(IHttpClientFactory factory)
+        public ExpenseApi(IHttpClientFactory factory, IResponseHandler responseHandler)
         {
             _factory = factory;
+            _responseHandler = responseHandler;
         }
 
         public async Task<IEnumerable<Expense>> GetAll()
@@ -24,25 +26,23 @@ namespace Vinance.Services.APIs
 
             var response = await client.GetAsync("expenses");
 
-            return await HandleResponse<IEnumerable<Expense>>(response);
+            return await _responseHandler.HandleAsync<IEnumerable<Expense>>(response);
         }
 
-        public Task<bool> Create(Expense expense)
+        public async Task<bool> Create(Expense expense)
         {
-            throw new System.NotImplementedException();
+            var client = _factory.CreateClient("authenticated-client");
+
+            var response = await client.PostAsJsonAsync("expenses", expense);
+
+            return response.StatusCode == HttpStatusCode.Created;
         }
 
-        private static async Task<T> HandleResponse<T>(HttpResponseMessage response)
+        public async Task Delete(int expenseId)
         {
-            var json = await response.Content.ReadAsStringAsync();
-            var result = JsonConvert.DeserializeObject<Response<T>>(json);
+            var client = _factory.CreateClient("authenticated-client");
 
-            if (result.Error != null)
-            {
-                throw new Exception(result.Error.ToString());
-            }
-
-            return result.Data;
+            var response = await client.DeleteAsync($"expenses/{expenseId}");
         }
     }
 }

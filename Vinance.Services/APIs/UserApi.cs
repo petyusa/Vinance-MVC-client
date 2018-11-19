@@ -1,34 +1,30 @@
-﻿using System;
-using System.Net.Http;
-using System.Text;
+﻿using System.Net.Http;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
 
 namespace Vinance.Services.APIs
 {
-    using Contracts;
     using Contracts.Interfaces;
     using Contracts.Models;
     using Contracts.Models.Identity;
+    using Extensions;
 
     public class UserApi : IUserApi
     {
         private readonly IHttpClientFactory _factory;
+        private readonly IResponseHandler _responseHandler;
 
-        public UserApi(IHttpClientFactory factory)
+        public UserApi(IHttpClientFactory factory, IResponseHandler responseHandler)
         {
             _factory = factory;
+            _responseHandler = responseHandler;
         }
 
         public async Task<TokenResult> GetToken(LoginModel loginModel)
         {
             var client = _factory.CreateClient("not-authenticated-client");
 
-            var json = JsonConvert.SerializeObject(loginModel);
-            var content = new StringContent(json, Encoding.UTF8, "application/json");
-
-            var response = await client.PostAsync("users/token", content);
-            var tokenResult = await HandleResponse<TokenResult>(response);
+            var response = await client.PostAsJsonAsync("users/token", loginModel);
+            var tokenResult = await _responseHandler.HandleAsync<TokenResult>(response);
 
             return tokenResult;
         }
@@ -37,11 +33,8 @@ namespace Vinance.Services.APIs
         {
             var client = _factory.CreateClient("not-authenticated-client");
 
-            var json = JsonConvert.SerializeObject(registerModel);
-            var content = new StringContent(json, Encoding.UTF8, "application/json");
-
-            var response = await client.PostAsync("users/register", content);
-            var user = await HandleResponse<VinanceUser>(response);
+            var response = await client.PostAsJsonAsync("users/register", registerModel);
+            var user = await _responseHandler.HandleAsync<VinanceUser>(response);
 
             return user;
         }
@@ -51,22 +44,9 @@ namespace Vinance.Services.APIs
             var client = _factory.CreateClient("authenticated-client");
 
             var response = await client.GetAsync("users/me");
-            var user = await HandleResponse<VinanceUser>(response);
+            var user = await _responseHandler.HandleAsync<VinanceUser>(response);
 
             return user;
-        }
-
-        private static async Task<T> HandleResponse<T>(HttpResponseMessage response)
-        {
-            var json = await response.Content.ReadAsStringAsync();
-            var result = JsonConvert.DeserializeObject<Response<T>>(json);
-
-            if (result.Error != null)
-            {
-                throw new Exception(result.Error.ToString());
-            }
-
-            return result.Data;
         }
     }
 }

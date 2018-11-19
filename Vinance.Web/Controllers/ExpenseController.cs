@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Vinance.Contracts.Interfaces;
 
 namespace Vinance.Web.Controllers
 {
+    using Contracts.Interfaces;
+    using Contracts.Models.Domain;
+
+    [Route("expenses")]
     public class ExpenseController : Controller
     {
         private readonly IExpenseApi _expenseApi;
@@ -16,9 +16,27 @@ namespace Vinance.Web.Controllers
             _expenseApi = expenseApi;
         }
 
+        [HttpGet]
+        [Route("")]
         public IActionResult Index()
         {
             return View();
+        }
+
+        [HttpPost]
+        [Route("create")]
+        public async Task<IActionResult> Create(Expense expense)
+        {
+            var success = await _expenseApi.Create(expense);
+            return ViewComponent("GetAllExpense");
+        }
+
+        [HttpPost]
+        [Route("delete")]
+        public async Task<IActionResult> Delete(int expenseId)
+        {
+            await _expenseApi.Delete(expenseId);
+            return ViewComponent("GetAllExpense");
         }
     }
 }

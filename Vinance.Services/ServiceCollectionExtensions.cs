@@ -3,10 +3,10 @@ using System.Net.Http.Headers;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using SendGrid;
-using Vinance.Services.APIs;
 
 namespace Vinance.Services
 {
+    using APIs;
     using Contracts;
     using Contracts.Interfaces;
     using Services;
@@ -19,7 +19,6 @@ namespace Vinance.Services
             {
                 opt.BaseAddress = new Uri(configuration["Vinance-url"]);
                 opt.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue(Constants.ApplicationJson));
-                opt.DefaultRequestHeaders.Add("Content-tpye", Constants.ApplicationJson);
             });
         }
 
@@ -29,7 +28,6 @@ namespace Vinance.Services
             {
                 opt.BaseAddress = new Uri(configuration["Vinance-url"]);
                 opt.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue(Constants.ApplicationJson));
-                opt.DefaultRequestHeaders.Add("Content-tpye", Constants.ApplicationJson);
             });
         }
 
@@ -43,9 +41,11 @@ namespace Vinance.Services
 
         public static IServiceCollection AddVinanceApis(this IServiceCollection services)
         {
+            services.AddTransient<IResponseHandler, ResponseHandler>();
             services.AddTransient<IUserApi, UserApi>();
             services.AddTransient<IAccountApi, AccountApi>();
             services.AddTransient<ICategoryApi, CategoryApi>();
+            services.AddTransient<IExpenseApi, ExpenseApi>();
             return services;
         }
     }

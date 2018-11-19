@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace Vinance.Contracts.Models.Domain
 {
@@ -14,10 +15,12 @@ namespace Vinance.Contracts.Models.Domain
 
         public int FromId { get; set; }
 
+        [Display(Name = "From")]
         public string FromName { get; set; }
 
         public int CategoryId { get; set; }
 
+        [Display(Name = "Category")]
         public string CategoryName { get; set; }
     }
 }
