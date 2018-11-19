@@ -1,6 +1,7 @@
 {
     "version": "1.0",
     "defaultProvider": "cdnjs",
+    "defaultDestination": "wwwroot/lib/",
     "libraries": [
         {
             "provider": "cdnjs",
@@ -26,6 +27,11 @@
             "provider": "cdnjs",
             "library": "jquery-validation-unobtrusive@3.2.11",
             "destination": "wwwroot/lib/jquery-validation-unobtrusive/"
+        },
+        {
+            "provider": "unpkg",
+            "library": "jquery-ajax-unobtrusive",
+            "destination": "wwwroot/lib/jquery-ajax-hehe/"
         }
     ]
 }

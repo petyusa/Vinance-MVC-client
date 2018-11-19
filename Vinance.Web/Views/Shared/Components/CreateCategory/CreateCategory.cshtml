@@ -1,0 +1,16 @@
+﻿@using Vinance.Contracts.Enumerations
+@model Vinance.Contracts.Models.Domain.Category
+
+<div class="form-container">
+    <form asp-controller="Category" asp-action="Create" data-ajax="true" data-ajax-method="POST">
+        <div class="form-group">
+            <label asp-for="Name"></label>
+            <input asp-for="Name" class="form-control" />
+        </div>
+        <div class="form-group">
+            <label asp-for="Type"></label>
+            <select asp-for="Type" asp-items="Html.GetEnumSelectList<CategoryType>()" class="custom-select"></select>
+        </div>
+        <input type="submit" value="Create" class="btn btn-primary" />
+    </form>
+</div>

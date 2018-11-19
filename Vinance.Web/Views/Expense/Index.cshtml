@@ -14,3 +14,11 @@
         @await Component.InvokeAsync("CreateExpense")
     </div>
 </div>
+<div class="row">
+    <div class="col-lg-8">
+        @await Component.InvokeAsync("GetAllAccount")
+    </div>
+    <div class="col-lg-4">
+        @await Component.InvokeAsync("CreateCategory")
+    </div>
+</div>

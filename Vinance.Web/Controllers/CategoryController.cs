@@ -1,13 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Vinance.Contracts.Enumerations;
-using Vinance.Contracts.Interfaces;
 
 namespace Vinance.Web.Controllers
 {
+    using Contracts.Enumerations;
+    using Contracts.Interfaces;
+    using Contracts.Models.Domain;
+
     [Route("categories")]
     public class CategoryController : Controller
     {
@@ -24,6 +23,15 @@ namespace Vinance.Web.Controllers
         {
             var categories = await _categoryApi.GetCategories(type);
             return View(categories);
+        }
+
+        [HttpPost]
+        [Route("create")]
+        public async Task<IActionResult> Create(Category category)
+        {
+            var success = await _categoryApi.Create(category);
+            var message = new { success };
+            return Json(message);
         }
     }
 }

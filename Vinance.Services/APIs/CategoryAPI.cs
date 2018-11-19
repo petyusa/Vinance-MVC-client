@@ -7,6 +7,7 @@ namespace Vinance.Services.APIs
     using Contracts.Enumerations;
     using Contracts.Interfaces;
     using Contracts.Models.Domain;
+    using Extensions;
 
     public class CategoryApi : ICategoryApi
     {
@@ -32,6 +33,15 @@ namespace Vinance.Services.APIs
             var response = await client.GetAsync($"categories{query}");
 
             return await _responseHandler.HandleAsync<IEnumerable<Category>>(response);
+        }
+
+        public async Task<bool> Create(Category category)
+        {
+            var client = _factory.CreateClient("authenticated-client");
+
+            var response = await client.PostAsJsonAsync("categories", category);
+
+            return response.IsSuccessStatusCode;
         }
     }
 }
