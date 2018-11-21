@@ -1,11 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Net;
+﻿using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace Vinance.Services.APIs
 {
+    using Contracts;
     using Contracts.Interfaces;
     using Contracts.Models.Domain;
     using Extensions;
@@ -21,44 +20,39 @@ namespace Vinance.Services.APIs
             _responseHandler = responseHandler;
         }
 
-        public async Task<Account> Create(Account account)
+        public async Task<bool> Create(Account account)
         {
-            var client = _factory.CreateClient("authenticated-client");
-
+            var client = _factory.CreateClient(Constants.AuthenticatedClient);
             var response = await client.PostAsJsonAsync("accounts", account);
-
-            return await _responseHandler.HandleAsync<Account>(response);
+            return response.IsSuccessStatusCode;
         }
 
         public async Task<IEnumerable<Account>> GetAll()
         {
-            var client = _factory.CreateClient("authenticated-client");
-
+            var client = _factory.CreateClient(Constants.AuthenticatedClient);
             var response = await client.GetAsync("accounts");
-
             return await _responseHandler.HandleAsync<IEnumerable<Account>>(response);
         }
 
-        public Task<string> GetById()
+        public async Task<Account> GetById(int accountId)
         {
-            throw new System.NotImplementedException();
+            var client = _factory.CreateClient(Constants.AuthenticatedClient);
+            var response = await client.GetAsync($"accounts/{accountId}");
+            return await _responseHandler.HandleAsync<Account>(response);
         }
 
-        public Task<string> Update()
+        public async Task<bool> Update(Account account)
         {
-            throw new System.NotImplementedException();
+            var client = _factory.CreateClient(Constants.AuthenticatedClient);
+            var response = await client.PutAsJsonAsync("accounts", account);
+            return response.IsSuccessStatusCode;
         }
 
-        public async Task Delete(int accountId)
+        public async Task<bool> Delete(int accountId)
         {
-            var client = _factory.CreateClient("authenticated-client");
-
+            var client = _factory.CreateClient(Constants.AuthenticatedClient);
             var response = await client.DeleteAsync($"accounts/{accountId}");
-
-            if (response.StatusCode != HttpStatusCode.NoContent)
-            {
-                throw new Exception();
-            }
+            return response.IsSuccessStatusCode;
         }
     }
 }

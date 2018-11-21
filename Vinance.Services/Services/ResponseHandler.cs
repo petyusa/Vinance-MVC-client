@@ -1,6 +1,6 @@
-﻿using System;
-using System.Net.Http;
+﻿using System.Net.Http;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 
 namespace Vinance.Services.Services
@@ -10,16 +10,24 @@ namespace Vinance.Services.Services
 
     public class ResponseHandler : IResponseHandler
     {
+        private readonly ILogger<ResponseHandler> _logger;
+
+        public ResponseHandler(ILogger<ResponseHandler> logger)
+        {
+            _logger = logger;
+        }
+
         public async Task<T> HandleAsync<T>(HttpResponseMessage response)
         {
             var json = await response.Content.ReadAsStringAsync();
             var result = JsonConvert.DeserializeObject<Response<T>>(json);
+            return result.Data;
+        }
 
-            if (result.Error != null)
-            {
-                throw new Exception(result.Error.ToString());
-            }
-
+        public async Task<T> HandleWithErrorAsync<T>(HttpResponseMessage response)
+        {
+            var json = await response.Content.ReadAsStringAsync();
+            var result = JsonConvert.DeserializeObject<Response<T>>(json);
             return result.Data;
         }
     }

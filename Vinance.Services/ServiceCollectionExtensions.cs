@@ -15,7 +15,7 @@ namespace Vinance.Services
     {
         public static IHttpClientBuilder AddAuthenticatedHttpClient(this IServiceCollection services, IConfiguration configuration)
         {
-            return services.AddHttpClient("authenticated-client", opt =>
+            return services.AddHttpClient(Constants.AuthenticatedClient, opt =>
             {
                 opt.BaseAddress = new Uri(configuration["Vinance-url"]);
                 opt.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue(Constants.ApplicationJson));
@@ -24,7 +24,7 @@ namespace Vinance.Services
 
         public static IHttpClientBuilder AddUnAuthenticatedHttpClient(this IServiceCollection services, IConfiguration configuration)
         {
-            return services.AddHttpClient("not-authenticated-client", opt =>
+            return services.AddHttpClient(Constants.NotAuthenticatedClient, opt =>
             {
                 opt.BaseAddress = new Uri(configuration["Vinance-url"]);
                 opt.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue(Constants.ApplicationJson));

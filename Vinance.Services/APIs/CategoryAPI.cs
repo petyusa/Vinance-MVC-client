@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 
 namespace Vinance.Services.APIs
 {
+    using Contracts;
     using Contracts.Enumerations;
     using Contracts.Interfaces;
     using Contracts.Models.Domain;
@@ -22,7 +23,7 @@ namespace Vinance.Services.APIs
 
         public async Task<IEnumerable<Category>> GetCategories(CategoryType? type)
         {
-            var client = _factory.CreateClient("authenticated-client");
+            var client = _factory.CreateClient(Constants.AuthenticatedClient);
 
             var query = "";
             if (type.HasValue)
@@ -37,10 +38,22 @@ namespace Vinance.Services.APIs
 
         public async Task<bool> Create(Category category)
         {
-            var client = _factory.CreateClient("authenticated-client");
-
+            var client = _factory.CreateClient(Constants.AuthenticatedClient);
             var response = await client.PostAsJsonAsync("categories", category);
+            return response.IsSuccessStatusCode;
+        }
 
+        public async Task<bool> Update(Category category)
+        {
+            var client = _factory.CreateClient(Constants.AuthenticatedClient);
+            var response = await client.PutAsJsonAsync("categories", category);
+            return response.IsSuccessStatusCode;
+        }
+
+        public async Task<bool> Delete(int categoryId)
+        {
+            var client = _factory.CreateClient(Constants.AuthenticatedClient);
+            var response = await client.DeleteAsync($"categories/{categoryId}");
             return response.IsSuccessStatusCode;
         }
     }

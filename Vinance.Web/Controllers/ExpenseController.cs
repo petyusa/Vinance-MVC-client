@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Vinance.Web.Controllers
 {
+    using Components.Account;
     using Contracts.Interfaces;
     using Contracts.Models.Domain;
 
@@ -28,7 +29,7 @@ namespace Vinance.Web.Controllers
         public async Task<IActionResult> Create(Expense expense)
         {
             var success = await _expenseApi.Create(expense);
-            return ViewComponent("GetAllExpense");
+            return ViewComponent(typeof(GetAllAccount));
         }
 
         [HttpPost]
@@ -36,7 +37,7 @@ namespace Vinance.Web.Controllers
         public async Task<IActionResult> Delete(int expenseId)
         {
             await _expenseApi.Delete(expenseId);
-            return ViewComponent("GetAllExpense");
+            return ViewComponent(typeof(GetAllAccount));
         }
     }
 }

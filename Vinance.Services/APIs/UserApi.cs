@@ -24,7 +24,7 @@ namespace Vinance.Services.APIs
             var client = _factory.CreateClient("not-authenticated-client");
 
             var response = await client.PostAsJsonAsync("users/token", loginModel);
-            var tokenResult = await _responseHandler.HandleAsync<TokenResult>(response);
+            var tokenResult = await _responseHandler.HandleWithErrorAsync<TokenResult>(response);
 
             return tokenResult;
         }
@@ -34,7 +34,7 @@ namespace Vinance.Services.APIs
             var client = _factory.CreateClient("not-authenticated-client");
 
             var response = await client.PostAsJsonAsync("users/register", registerModel);
-            var user = await _responseHandler.HandleAsync<VinanceUser>(response);
+            var user = await _responseHandler.HandleWithErrorAsync<VinanceUser>(response);
 
             return user;
         }
@@ -44,7 +44,7 @@ namespace Vinance.Services.APIs
             var client = _factory.CreateClient("authenticated-client");
 
             var response = await client.GetAsync("users/me");
-            var user = await _responseHandler.HandleAsync<VinanceUser>(response);
+            var user = await _responseHandler.HandleWithErrorAsync<VinanceUser>(response);
 
             return user;
         }

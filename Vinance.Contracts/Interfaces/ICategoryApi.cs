@@ -10,5 +10,7 @@ namespace Vinance.Contracts.Interfaces
     {
         Task<IEnumerable<Category>> GetCategories(CategoryType? type);
         Task<bool> Create(Category category);
+        Task<bool> Update(Category category);
+        Task<bool> Delete(int categoryId);
     }
 }

@@ -9,6 +9,7 @@ namespace Vinance.Contracts.Interfaces
     {
         Task<IEnumerable<Expense>> GetAll();
         Task<bool> Create(Expense expense);
-        Task Delete(int expenseId);
+        Task<bool> Delete(int expenseId);
+        Task<bool> Update(Expense expense);
     }
 }

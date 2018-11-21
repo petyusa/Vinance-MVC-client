@@ -2,8 +2,8 @@
 {
     public static class Constants
     {
-        public static string AuthenticatedClient => "authenticated-client";
-        public static string NotAuthenticatedClient => "not-authenticated-client";
-        public static string ApplicationJson => "application/json";
+        public const string AuthenticatedClient = "authenticated-client";
+        public const string NotAuthenticatedClient = "not-authenticated-client";
+        public const string ApplicationJson = "application/json";
     }
 }
