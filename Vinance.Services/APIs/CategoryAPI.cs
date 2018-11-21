@@ -21,12 +21,12 @@ namespace Vinance.Services.APIs
             _responseHandler = responseHandler;
         }
 
-        public async Task<IEnumerable<Category>> GetCategories(CategoryType? type)
+        public async Task<IEnumerable<Category>> GetCategories(CategoryType? type = null)
         {
             var client = _factory.CreateClient(Constants.AuthenticatedClient);
 
             var query = "";
-            if (type.HasValue)
+            if (type != null)
             {
                 query = $"?type={type}";
 

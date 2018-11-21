@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Vinance.Web.Controllers
 {
+    using Components.Account;
     using Contracts.Interfaces;
     using Contracts.Models.Domain;
 
@@ -16,13 +17,6 @@ namespace Vinance.Web.Controllers
             _accountApi = accountApi;
         }
 
-        [HttpGet]
-        [Route("")]
-        public IActionResult Index()
-        {
-            return View();
-        }
-
         [HttpPost]
         [Route("create")]
         public async Task<IActionResult> Create(Account model)
@@ -32,7 +26,7 @@ namespace Vinance.Web.Controllers
         }
 
         [HttpPost]
-        [Route("")]
+        [Route("delete")]
         public async Task<IActionResult> Delete([FromForm]int accountId)
         {
             await _accountApi.Delete(accountId);
@@ -40,10 +34,16 @@ namespace Vinance.Web.Controllers
         }
 
         [HttpGet]
-        [Route("get-all")]
+        [Route("")]
         public IActionResult GetAll()
         {
-            return ViewComponent("GetAllAccount");
+            return ViewComponent(typeof(GetAllAccount));
+        }
+
+        public async Task<IActionResult> Edit(Account account)
+        {
+            await _accountApi.Update(account);
+            return RedirectToAction("GetAll");
         }
     }
 }

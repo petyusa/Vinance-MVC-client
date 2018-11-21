@@ -46,6 +46,8 @@ namespace Vinance.Services
             services.AddTransient<IAccountApi, AccountApi>();
             services.AddTransient<ICategoryApi, CategoryApi>();
             services.AddTransient<IExpenseApi, ExpenseApi>();
+            services.AddTransient<IIncomeApi, IncomeApi>();
+            services.AddTransient<ITransferApi, TransferApi>();
             return services;
         }
     }

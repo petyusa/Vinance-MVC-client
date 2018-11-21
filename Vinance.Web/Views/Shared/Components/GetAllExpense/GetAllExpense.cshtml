@@ -1,54 +1,57 @@
 ﻿@model IEnumerable<Vinance.Contracts.Models.Domain.Expense>
 
-@{
-    ViewData["Title"] = "Index";
-}
-<table class="table  table-striped" id="expense-table">
+<table class="table  table-striped" id="expense-list">
     <thead>
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Date)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Amount)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Comment)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.FromName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.CategoryName)
-        </th>
-        <th></th>
-    </tr>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Date)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Amount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Comment)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FromName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CategoryName)
+            </th>
+            <th></th>
+        </tr>
     </thead>
     <tbody>
-    @foreach (var item in Model) {
-        <tr>
-            <td>
-                @item.Date.ToShortDateString()
-            </td>
-            <td>
-                @item.Amount Ft
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Comment)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FromName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CategoryName)
-            </td>
-            <td>
-                <form asp-controller="Expense" asp-action="Delete" data-ajax-method="POST" data-ajax="true" data-ajax-update="#expense-table" data-ajax-mode="replace">
-                    <input asp-for="@item.Id" class="d-none" name="expenseId">
-                    <input type="submit" value="delete" class="btn btn-sm btn-danger"/>
-                </form>
-            </td>
-        </tr>
-    }
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @item.Date.ToShortDateString()
+                </td>
+                <td>
+                    @item.Amount Ft
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Comment)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FromName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CategoryName)
+                </td>
+                <td>
+                    <form asp-controller="Expense"
+                          asp-action="Delete"
+                          data-ajax-method="POST"
+                          data-ajax="true"
+                          data-ajax-update="#expense-list"
+                          data-ajax-mode="replace">
+                        <input asp-for="@item.Id" class="d-none" name="expenseId">
+                        <input type="submit" value="delete" class="btn btn-sm btn-danger" />
+                    </form>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

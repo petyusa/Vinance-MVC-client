@@ -1,0 +1,60 @@
+﻿@model IEnumerable<Vinance.Contracts.Models.Domain.Transfer>
+
+<table class="table table-dark table-striped" id="account-list">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Date)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Amount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FromName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ToName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CategoryName)
+            </th>
+            <th>
+                <button onclick="show()" class="btn btn-primary btn-sm">Add Account</button>
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @item.Date.ToShortDateString()
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Amount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FromName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ToName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CategoryName)
+            </td>
+            <td>
+                <form asp-controller="Transfer"
+                      asp-action="Delete"
+                      data-ajax-method="POST"
+                      data-ajax="true"
+                      data-ajax-update="#transfer-list"
+                      data-ajax-mode="replace"
+                      data-ajax-success="showAlert({message: 'Transfer successfully deleted', class:'success'})">
+                    <input asp-for="@item.Id" class="d-none" name="transferId">
+                    <input type="submit" value="delete" class="btn btn-sm btn-danger" />
+                </form>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>
