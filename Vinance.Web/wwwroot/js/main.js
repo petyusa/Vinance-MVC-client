@@ -16,4 +16,3 @@
     }, 2000);
 }
 
-feather.replace();
