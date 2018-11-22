@@ -1,6 +1,6 @@
 ﻿@model IEnumerable<Vinance.Contracts.Models.Domain.Income>
 
-<table class="table table-dark table-striped" id="income-list">
+<table class="table table-striped" id="income-list">
     <thead>
     <tr>
         <th>
@@ -16,7 +16,6 @@
             @Html.DisplayNameFor(model => model.CategoryName)
         </th>
         <th>
-            <button onclick="show()" class="btn btn-primary btn-sm">Add Account</button>
         </th>
     </tr>
     </thead>
@@ -37,7 +36,8 @@
                 @Html.DisplayFor(modelItem => item.CategoryName)
             </td>
             <td>
-                <form asp-controller="Income"
+                <form class="d-inline-block"
+                      asp-controller="Income"
                       asp-action="Delete"
                       data-ajax-method="POST"
                       data-ajax="true"
@@ -45,8 +45,16 @@
                       data-ajax-mode="replace"
                       data-ajax-success="showAlert({message: 'Income successfully deleted', class:'success'})">
                     <input asp-for="@item.Id" class="d-none" name="incomeId">
-                    <input type="submit" value="delete" class="btn btn-sm btn-danger" />
+                    <button type="submit" class="btn-table delete"><i data-feather="x"></i></button>
                 </form>
+                <a class="d-inline-block"
+                   asp-controller="Income"
+                   asp-action="Edit"
+                   asp-route-incomeId="@item.Id"
+                   data-ajax="true"
+                   data-ajax-method="GET"
+                   data-ajax-update="#create-income"
+                   data-ajax-mode="replace"><i data-feather="x"></i></a>
             </td>
         </tr>
     }

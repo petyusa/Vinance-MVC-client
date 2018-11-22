@@ -5,8 +5,8 @@
           asp-action="Create"
           data-ajax="true"
           data-ajax-method="POST"
-          data-ajax-mode="replace"
           data-ajax-update="#account-list"
+          data-ajax-mode="replace"
           data-ajax-success="showAlert({message: 'Transfer successfully created.', class: 'success'})">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <div class="form-group">
@@ -25,14 +25,14 @@
             <span asp-validation-for="Comment" class="text-danger"></span>
         </div>
         <div class="form-group">
-            <label asp-for="ToId"></label>
-            <select asp-for="ToId" asp-items="Model.AccountList" class="custom-select"></select>
-            <span asp-validation-for="ToId" class="text-danger"></span>
-        </div>
-        <div class="form-group">
             <label asp-for="FromId"></label>
             <select asp-for="FromId" asp-items="Model.AccountList" class="custom-select"></select>
             <span asp-validation-for="FromId" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="ToId"></label>
+            <select asp-for="ToId" asp-items="Model.AccountList" class="custom-select"></select>
+            <span asp-validation-for="ToId" class="text-danger"></span>
         </div>
         <div class="form-group">
             <label asp-for="CategoryId"></label>

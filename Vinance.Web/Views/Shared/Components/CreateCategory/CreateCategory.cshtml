@@ -2,7 +2,11 @@
 @model Vinance.Contracts.Models.Domain.Category
 
 <div class="form-container">
-    <form asp-controller="Category" asp-action="Create" data-ajax="true" data-ajax-method="POST">
+    <form asp-controller="Category" 
+          asp-action="Create" 
+          data-ajax="true" 
+          data-ajax-method="POST"
+          -data-ajax-success="showAlert({message:'Category successfully created', class: 'success'})">
         <div class="form-group">
             <label asp-for="Name"></label>
             <input asp-for="Name" class="form-control" />

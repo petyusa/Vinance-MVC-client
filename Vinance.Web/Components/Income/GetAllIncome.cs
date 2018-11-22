@@ -1,9 +1,10 @@
-﻿using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Vinance.Contracts.Interfaces;
+﻿using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace Vinance.Web.Components.Income
 {
+    using Contracts.Interfaces;
+
     public class GetAllIncome : ViewComponent
     {
         private readonly IIncomeApi _incomeApi;

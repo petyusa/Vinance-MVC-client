@@ -15,3 +15,5 @@
         myAlert.fadeOut();
     }, 2000);
 }
+
+feather.replace();

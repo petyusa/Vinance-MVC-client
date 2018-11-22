@@ -1,9 +1,10 @@
-﻿using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace Vinance.Web.Controllers
 {
     using Components.Account;
+    using Components.Expense;
     using Contracts.Interfaces;
     using Contracts.Models.Domain;
 
@@ -37,7 +38,22 @@ namespace Vinance.Web.Controllers
         public async Task<IActionResult> Delete(int expenseId)
         {
             await _expenseApi.Delete(expenseId);
-            return ViewComponent(typeof(GetAllAccount));
+            return ViewComponent(typeof(GetAllExpense));
+        }
+
+        [HttpPost]
+        [Route("edit")]
+        public async Task<IActionResult> Edit(Expense expense)
+        {
+            await _expenseApi.Update(expense);
+            return ViewComponent(typeof(GetAllExpense));
+        }
+
+        [HttpGet]
+        [Route("all")]
+        public IActionResult GetAll()
+        {
+            return ViewComponent(typeof(GetAllExpense));
         }
     }
 }

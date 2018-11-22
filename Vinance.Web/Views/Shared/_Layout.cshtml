@@ -7,11 +7,15 @@
 
     <environment include="Development">
         <link rel="stylesheet" href="~/lib/twitter-bootstrap/css/bootstrap.css" />
+        <link rel="stylesheet" href="~/lib/tempus-dominus-bootstrap-4/css/tempusdominus-bootstrap-4.css" />
         <link rel="stylesheet" href="~/css/site.css" />
     </environment>
     <environment exclude="Development">
         <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/css/bootstrap.min.css"
               asp-fallback-href="~/lib/twitter-bootstrap/css/bootstrap.min.css"
+              asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.0-alpha14/css/tempusdominus-bootstrap-4.min.css"
+              asp-fallback-href="~/lib/tempus-dominus-bootstrap-4/css/tempusdominus-bootstrap-4.css"
               asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
         <link rel="stylesheet" href="~/css/site.css" />
     </environment>
@@ -28,10 +32,16 @@
                 @if (User.Identity.IsAuthenticated)
                 {
                     <li class="nav-item">
-                        <a class="nav-link" asp-controller="Account" asp-action="GetAll">Accounts</a>
+                        <a class="nav-link" asp-controller="Account" asp-action="Index">Accounts</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" asp-controller="Expense" asp-action="Index">Expenses</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-controller="Income" asp-action="Index">Incomes</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-controller="Transfer" asp-action="Index">Transfers</a>
                     </li>
                 }
             </ul>
@@ -71,6 +81,8 @@
         <script src="~/lib/jquery-validate/jquery.validate.js"></script>
         <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
         <script src="~/lib/twitter-bootstrap/js/bootstrap.bundle.js"></script>
+        <script src="~/lib/tempus-dominus-bootstrap-4/js/tempusdominus-bootstrap-4.js"></script>
+        <script src="~/lib/feather-icons/feather.js"></script>
         <script src="~/js/main.js"></script>
     </environment>
     <environment exclude="Development">
@@ -86,6 +98,7 @@
                 crossorigin="anonymous"
                 integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa">
         </script>
+        <script src="~/lib/feather-icons/feather.min.js"></script>
     </environment>
     @RenderSection("Scripts", required: false)
 </body>

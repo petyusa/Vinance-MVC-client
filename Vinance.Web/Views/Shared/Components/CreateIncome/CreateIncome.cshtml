@@ -5,9 +5,10 @@
           asp-action="Create"
           data-ajax="true"
           data-ajax-method="POST"
-          data-ajax-mode="replace"
           data-ajax-update="#account-list"
-          data-ajax-success="showAlert({message: 'Income successfully created.', class: 'success'})">
+          data-ajax-mode="replace"
+          data-ajax-success="showAlert({message: 'Income successfully created.', class: 'success'})"
+          id="create-income">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <div class="form-group">
             <label asp-for="Date"></label>

@@ -1,9 +1,10 @@
-﻿using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Vinance.Contracts.Interfaces;
+﻿using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace Vinance.Web.Components.Transfer
 {
+    using Contracts.Interfaces;
+
     public class GetAllTransfer : ViewComponent
     {
         private readonly ITransferApi _transferApi;

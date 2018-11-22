@@ -1,9 +1,9 @@
-﻿using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Vinance.Web.Components.Account;
+﻿using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace Vinance.Web.Controllers
 {
+    using Components.Account;
     using Components.Income;
     using Contracts.Interfaces;
     using Contracts.Models.Domain;
@@ -20,6 +20,13 @@ namespace Vinance.Web.Controllers
 
         [HttpGet]
         [Route("")]
+        public IActionResult Index()
+        {
+            return View();
+        }
+
+        [HttpGet]
+        [Route("all")]
         public IActionResult GetAll()
         {
             return ViewComponent(typeof(GetAllIncome));
@@ -33,12 +40,19 @@ namespace Vinance.Web.Controllers
             return ViewComponent(typeof(GetAllAccount));
         }
 
+        [HttpGet]
+        [Route("edit")]
+        public IActionResult Edit(int incomeId)
+        {
+            return ViewComponent(typeof(EditIncome), new { incomeId });
+        }
+
         [HttpPost]
         [Route("edit")]
         public async Task<IActionResult> Edit(Income income)
         {
             await _incomeApi.Update(income);
-            return ViewComponent(typeof(GetAllAccount));
+            return ViewComponent(typeof(GetAllIncome));
         }
 
         [HttpPost]
@@ -46,7 +60,7 @@ namespace Vinance.Web.Controllers
         public async Task<IActionResult> Delete(int incomeId)
         {
             await _incomeApi.Delete(incomeId);
-            return ViewComponent(typeof(GetAllAccount));
+            return ViewComponent(typeof(GetAllIncome));
         }
     }
 }

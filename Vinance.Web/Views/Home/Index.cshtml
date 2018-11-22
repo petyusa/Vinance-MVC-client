@@ -1,4 +1,8 @@
 ﻿@using System.Security.Claims
+@using Vinance.Web.Components.Account
+@using Vinance.Web.Components.Expense
+@using Vinance.Web.Components.Income
+@using Vinance.Web.Components.Transfer
 @{
     ViewData["Title"] = "Home Page";
 }
@@ -8,3 +12,22 @@
     <span>Hi @User.FindFirst(ClaimTypes.Name).Value</span>
 }
 
+<div class="row">
+    <div class="col-lg-4">
+        @await Component.InvokeAsync(typeof(CreateIncome))
+    </div>
+    <div class="col-lg-4">
+        @await Component.InvokeAsync(typeof(CreateExpense))
+    </div>
+    <div class="col-lg-4">
+        @await Component.InvokeAsync(typeof(CreateTransfer))
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-8">
+        @await Component.InvokeAsync(typeof(GetAllAccount))
+    </div>
+    <div class="col-lg-4">
+        @await Component.InvokeAsync(typeof(CreateAccount))
+    </div>
+</div>

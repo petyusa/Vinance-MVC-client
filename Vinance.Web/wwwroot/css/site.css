@@ -12,3 +12,17 @@
     left: 50%;
     transform: translate(-50%, 0);
 }
+
+.btn-table {
+    padding: 0px;
+    background-color: Transparent;
+    background-repeat: no-repeat;
+    border: none;
+    cursor: pointer;
+    overflow: hidden;
+    outline: none;
+}
+
+    .btn-table.delete {
+        color: #D33682;
+    }

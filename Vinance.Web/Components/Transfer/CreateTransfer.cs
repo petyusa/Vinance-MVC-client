@@ -1,13 +1,14 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Vinance.Contracts.Enumerations;
-using Vinance.Contracts.Interfaces;
-using Vinance.Web.Models;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Vinance.Web.Components.Transfer
 {
+    using Contracts.Enumerations;
+    using Contracts.Interfaces;
+    using Models;
+
     public class CreateTransfer : ViewComponent
     {
         private readonly IAccountApi _accountApi;

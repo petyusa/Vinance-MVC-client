@@ -1,8 +1,8 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 
 namespace Vinance.Web.Middlewares
 {
@@ -17,7 +17,7 @@ namespace Vinance.Web.Middlewares
 
         protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
         {
-            if (!_contextAccessor.HttpContext.Request.Cookies.TryGetValue("token", out string token))
+            if (!_contextAccessor.HttpContext.Request.Cookies.TryGetValue("token", out var token))
             {
                 throw new UnauthorizedAccessException("User is not authenticated");
             }

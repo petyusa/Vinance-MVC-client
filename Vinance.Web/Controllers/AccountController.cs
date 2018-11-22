@@ -17,6 +17,13 @@ namespace Vinance.Web.Controllers
             _accountApi = accountApi;
         }
 
+        [HttpGet]
+        [Route("")]
+        public IActionResult Index()
+        {
+            return View();
+        }
+
         [HttpPost]
         [Route("create")]
         public async Task<IActionResult> Create(Account model)
@@ -34,12 +41,14 @@ namespace Vinance.Web.Controllers
         }
 
         [HttpGet]
-        [Route("")]
+        [Route("all")]
         public IActionResult GetAll()
         {
             return ViewComponent(typeof(GetAllAccount));
         }
 
+        [HttpPost]
+        [Route("edit")]
         public async Task<IActionResult> Edit(Account account)
         {
             await _accountApi.Update(account);

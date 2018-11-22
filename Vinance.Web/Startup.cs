@@ -58,6 +58,7 @@ namespace Vinance.Web
                 app.UseHsts();
             }
 
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseAuthentication();

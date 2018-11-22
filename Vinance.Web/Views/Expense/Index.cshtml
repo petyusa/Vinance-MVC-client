@@ -1,43 +1,14 @@
-﻿@model IEnumerable<Vinance.Contracts.Models.Domain.Expense>
-
-@{
-    ViewData["Title"] = "Index";
+﻿@{
+    ViewData["Title"] = "Expenses";
 }
 
-<h2>Index</h2>
+<h2>Expenses</h2>
 
-<div class="row">
-    <div class="col-lg-4">
-        @await Component.InvokeAsync("CreateIncome")
-    </div>
-    <div class="col-lg-4">
-        @await Component.InvokeAsync("CreateTransfer")
-    </div>
-    <div class="col-lg-4">
-        @await Component.InvokeAsync("CreateExpense")
-    </div>
-</div>
-<div class="row">
-    <div class="col-lg-8">
-        @await Component.InvokeAsync("GetAllAccount")
-    </div>
-    <div class="col-lg-4">
-        @await Component.InvokeAsync("CreateAccount")
-    </div>
-</div>
 <div class="row">
     <div class="col-lg-8">
         @await Component.InvokeAsync("GetAllExpense")
     </div>
     <div class="col-lg-4">
-        @await Component.InvokeAsync("CreateCategory")
-    </div>
-</div>
-<div class="row">
-    <div class="col-lg-6">
-        @await Component.InvokeAsync("GetAllIncome")
-    </div>
-    <div class="col-lg-6">
-        @await Component.InvokeAsync("GetAllTransfer")
+        @await Component.InvokeAsync("CreateExpense")
     </div>
 </div>

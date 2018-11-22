@@ -26,6 +26,13 @@ namespace Vinance.Services.APIs
             return await _responseHandler.HandleAsync<IEnumerable<Income>>(response);
         }
 
+        public async Task<Income> Get(int incomeId)
+        {
+            var client = _factory.CreateClient("authenticated-client");
+            var response = await client.GetAsync($"incomes/{incomeId}");
+            return await _responseHandler.HandleAsync<Income>(response);
+        }
+
         public async Task<bool> Create(Income income)
         {
             var client = _factory.CreateClient("authenticated-client");

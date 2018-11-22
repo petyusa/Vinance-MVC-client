@@ -1,0 +1,14 @@
+﻿@{
+    ViewData["Title"] = "Transfers";
+}
+
+<h2>Index</h2>
+
+<div class="row">
+    <div class="col-lg-8">
+        @await Component.InvokeAsync("GetAllTransfer")
+    </div>
+    <div class="col-lg-4">
+        @await Component.InvokeAsync("CreateTransfer")
+    </div>
+</div>

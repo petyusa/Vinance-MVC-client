@@ -1,10 +1,9 @@
-﻿using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Vinance.Web.Components.Account;
+﻿using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace Vinance.Web.Controllers
 {
-    using Contracts.Enumerations;
+    using Components.Category;
     using Contracts.Interfaces;
     using Contracts.Models.Domain;
 
@@ -27,11 +26,11 @@ namespace Vinance.Web.Controllers
         }
 
         [HttpGet]
-        [Route("")]
+        [Route("all")]
         public async Task<IActionResult> GetAll()
         {
             await _categoryApi.GetCategories();
-            return ViewComponent(typeof(GetAllAccount));
+            return ViewComponent(typeof(GetAllCategory));
         }
 
         [HttpGet]

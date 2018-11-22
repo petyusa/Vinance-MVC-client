@@ -1,9 +1,10 @@
-﻿using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Vinance.Web.Components.Account;
+﻿using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace Vinance.Web.Controllers
 {
+    using Components.Account;
+    using Components.Transfer;
     using Contracts.Interfaces;
     using Contracts.Models.Domain;
 
@@ -19,9 +20,16 @@ namespace Vinance.Web.Controllers
 
         [HttpGet]
         [Route("")]
+        public IActionResult Index()
+        {
+            return View();
+        }
+
+        [HttpGet]
+        [Route("all")]
         public IActionResult GetAll()
         {
-            return ViewComponent(typeof(GetAllAccount));
+            return ViewComponent(typeof(GetAllTransfer));
         }
 
         [HttpPost]
@@ -29,7 +37,7 @@ namespace Vinance.Web.Controllers
         public async Task<IActionResult> Create(Transfer transfer)
         {
             await _transferApi.Create(transfer);
-            return ViewComponent(typeof(GetAllAccount));
+            return RedirectToAction("GetAll");
         }
 
         [HttpPost]

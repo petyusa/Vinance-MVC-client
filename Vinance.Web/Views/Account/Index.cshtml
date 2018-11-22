@@ -1,6 +1,6 @@
 ﻿
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Accounts";
 }
 
 <h2>Accounts</h2>
@@ -11,16 +11,7 @@
         @await Component.InvokeAsync("GetAllAccount")
     </div>
 
-    <div id="create-account" class="d-none col-lg-4" >
+    <div id="create-account" class="col-lg-4" >
         @await Component.InvokeAsync("CreateAccount")
     </div>
 </div>
-
-<script>
-    function show() {
-        const target = $('#create-account');
-        console.log(target);
-        target.toggleClass('d-none');
-    }
-
-</script>
