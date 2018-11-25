@@ -1,10 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Vinance.Web.Controllers
 {
-    using Components.Account;
     using Components.Income;
+    using Components.MainPage;
     using Contracts.Interfaces;
     using Contracts.Models.Domain;
 
@@ -32,12 +32,19 @@ namespace Vinance.Web.Controllers
             return ViewComponent(typeof(GetAllIncome));
         }
 
+        [HttpGet]
+        [Route("create")]
+        public IActionResult Create()
+        {
+            return ViewComponent(typeof(CreateIncome));
+        }
+
         [HttpPost]
         [Route("create")]
         public async Task<IActionResult> Create(Income income)
         {
             await _incomeApi.Create(income);
-            return ViewComponent(typeof(GetAllAccount));
+            return ViewComponent(typeof(MainPageTables));
         }
 
         [HttpGet]

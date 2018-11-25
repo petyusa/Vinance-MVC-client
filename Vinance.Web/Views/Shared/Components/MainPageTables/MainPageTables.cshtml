@@ -1,0 +1,12 @@
+﻿@using Vinance.Contracts.Enumerations
+@using Vinance.Web.Components.Account
+@using Vinance.Web.Components.Category
+
+<div class="row">
+    <div class="col-lg-6">
+        @await Component.InvokeAsync(typeof(GetAllAccount))
+    </div>
+    <div class="col-lg-6">
+        @await Component.InvokeAsync(typeof(GetAllCategory), new { type = CategoryType.Expense })
+    </div>
+</div>

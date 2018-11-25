@@ -6,7 +6,9 @@
 
 <div class="row">
     <div class="col-lg-8">
-        @await Component.InvokeAsync("GetAllExpense")
+        <div id="expense-list">
+            @await Component.InvokeAsync("GetAllExpense")
+        </div>
     </div>
     <div class="col-lg-4">
         @await Component.InvokeAsync("CreateExpense")

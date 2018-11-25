@@ -6,12 +6,13 @@
           data-ajax="true" 
           data-ajax-method="POST" 
           data-ajax-mode="replace" 
-          data-ajax-update="#account-list" 
-          data-ajax-success="showAlert({message: 'Expense successfully created.', class: 'success'})">
+          data-ajax-update="#main-page-tables" 
+          data-ajax-success="showAlert({message: 'Expense successfully created.', class: 'success'})"
+          data-ajax-failure="showAlert({message: 'There was an error', class: 'danger'})">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <div class="form-group">
             <label asp-for="Date"></label>
-            <input asp-for="Date" type="text" class="form-control text-right" id="datetimepicker1" data-toggle="datetimepicker" data-target="#datetimepicker1" value="@DateTime.Now.ToString("yyyy-MM-dd")"/>
+            <input asp-for="Date" type="text" class="form-control text-right" id="expense-datetimepicker" data-toggle="datetimepicker" data-target="#expense-datetimepicker" value="@DateTime.Now.ToString("yyyy-MM-dd")"/>
             <span asp-validation-for="Date" class="text-danger"></span>
         </div>
         <div class="form-group">
@@ -26,7 +27,9 @@
         </div>
         <div class="form-group">
             <label asp-for="FromId"></label>
-            <select asp-for="FromId" asp-items="Model.AccountList" class="custom-select"></select>
+            <select asp-for="FromId" asp-items="Model.AccountList" class="custom-select">
+                <option value="" disabled selected>Select your option</option>
+            </select>
             <span asp-validation-for="FromId" class="text-danger"></span>
         </div>
         <div class="form-group">
@@ -40,9 +43,5 @@
     </form>
 </div>
 <script type="text/javascript">
-    $(function () {
-        $('#datetimepicker1').datetimepicker({
-            format: 'L'
-        });
-    });
+    initializeDatetimepicker("expense-datetimepicker");
 </script>

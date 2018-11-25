@@ -1,33 +1,43 @@
-﻿@using System.Security.Claims
-@using Vinance.Web.Components.Account
-@using Vinance.Web.Components.Expense
-@using Vinance.Web.Components.Income
-@using Vinance.Web.Components.Transfer
+﻿@using Vinance.Web.Components.Expense
+@using Vinance.Web.Components.MainPage
 @{
     ViewData["Title"] = "Home Page";
 }
 
-@if (User.Identity.IsAuthenticated)
-{
-    <span>Hi @User.FindFirst(ClaimTypes.Name).Value</span>
-}
-
-<div class="row">
-    <div class="col-lg-4">
-        @await Component.InvokeAsync(typeof(CreateIncome))
+<div class="row mb-4">
+    <div class="col-sm-4">
+        <a class="btn btn-primary btn-block"
+           asp-controller="Expense"
+           asp-action="Create"
+           data-ajax="true"
+           data-ajax-method="GET"
+           data-ajax-update="#create-form"
+           data-ajax-mode="replace">Add expense</a>
     </div>
-    <div class="col-lg-4">
-        @await Component.InvokeAsync(typeof(CreateExpense))
+    <div class="col-sm-4">
+        <a class="btn btn-primary btn-block"
+           asp-controller="Income"
+           asp-action="Create"
+           data-ajax="true"
+           data-ajax-method="GET"
+           data-ajax-update="#create-form"
+           data-ajax-mode="replace">Add income</a>
     </div>
-    <div class="col-lg-4">
-        @await Component.InvokeAsync(typeof(CreateTransfer))
+    <div class="col-sm-4">
+        <a class="btn btn-primary btn-block"
+           asp-controller="Transfer"
+           asp-action="Create"
+           data-ajax="true"
+           data-ajax-method="GET"
+           data-ajax-update="#create-form"
+           data-ajax-mode="replace">Add transfer</a>
     </div>
 </div>
 <div class="row">
-    <div class="col-lg-8">
-        @await Component.InvokeAsync(typeof(GetAllAccount))
+    <div class="col-lg-8" id="main-page-tables">
+        @await Component.InvokeAsync(typeof(MainPageTables))
     </div>
-    <div class="col-lg-4">
-        @await Component.InvokeAsync(typeof(CreateAccount))
+    <div class="col-lg-4" id="create-form">
+        @await Component.InvokeAsync(typeof(CreateExpense))
     </div>
 </div>

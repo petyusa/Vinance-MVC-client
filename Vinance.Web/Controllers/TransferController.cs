@@ -1,9 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Vinance.Web.Controllers
 {
-    using Components.Account;
+    using Components.MainPage;
     using Components.Transfer;
     using Contracts.Interfaces;
     using Contracts.Models.Domain;
@@ -32,12 +32,19 @@ namespace Vinance.Web.Controllers
             return ViewComponent(typeof(GetAllTransfer));
         }
 
+        [HttpGet]
+        [Route("create")]
+        public IActionResult Create()
+        {
+            return ViewComponent(typeof(CreateTransfer));
+        }
+
         [HttpPost]
         [Route("create")]
         public async Task<IActionResult> Create(Transfer transfer)
         {
             await _transferApi.Create(transfer);
-            return RedirectToAction("GetAll");
+            return ViewComponent(typeof(MainPageTables));
         }
 
         [HttpPost]
@@ -53,7 +60,7 @@ namespace Vinance.Web.Controllers
         public async Task<IActionResult> Delete(int transferId)
         {
             await _transferApi.Delete(transferId);
-            return RedirectToAction("GetAll");
+            return ViewComponent(typeof(GetAllTransfer));
         }
     }
 }

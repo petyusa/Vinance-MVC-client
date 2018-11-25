@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
+using Vinance.Contracts.Enumerations;
 
 namespace Vinance.Web.Components.Category
 {
@@ -14,9 +15,9 @@ namespace Vinance.Web.Components.Category
             _categoryApi = categoryApi;
         }
 
-        public async Task<IViewComponentResult> InvokeAsync()
+        public async Task<IViewComponentResult> InvokeAsync(CategoryType? type = null)
         {
-            var categories = await _categoryApi.GetCategories();
+            var categories = await _categoryApi.GetCategories(type);
             return View("GetAllCategory", categories);
         }
     }

@@ -16,3 +16,9 @@
     }, 2000);
 }
 
+function initializeDatetimepicker(datetimepickerId) {
+    const input = $(`#${datetimepickerId}`);
+    input.datetimepicker({
+        format: "L"
+    });
+}

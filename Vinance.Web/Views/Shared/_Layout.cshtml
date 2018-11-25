@@ -40,9 +40,9 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mr-auto">
-                @if (User.Identity.IsAuthenticated)
-                {
+            @if (User.Identity.IsAuthenticated)
+            {
+                <ul class="navbar-nav mr-auto">
                     <li class="nav-item">
                         <a class="nav-link" asp-controller="Account" asp-action="Index">Accounts</a>
                     </li>
@@ -55,8 +55,14 @@
                     <li class="nav-item">
                         <a class="nav-link" asp-controller="Transfer" asp-action="Index">Transfers</a>
                     </li>
-                }
-            </ul>
+                </ul>
+            }
+            @if (User.Identity.IsAuthenticated)
+            {
+                <span class="navbar-text">
+                    Hi @User.Identity.Name!
+                </span>
+            }
             <ul class="navbar-nav">
                 @if (!User.Identity.IsAuthenticated)
                 {
@@ -79,15 +85,17 @@
 
     <div class="container">
         @RenderBody()
-        <hr />
-        <footer>
+    </div>
+
+    <div class="footer bg-dark">
+        <footer class="text-center">
             <p>&copy; 2018 - Vinance.Web</p>
         </footer>
     </div>
 
     <div id="alert-div" class="alert-container"></div>
     <script>
-        feather.replace({width:24, height:24});
+        feather.replace({ width: 20, height: 20});
     </script>
     <environment exclude="Development">
         <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-3.3.1.min.js"

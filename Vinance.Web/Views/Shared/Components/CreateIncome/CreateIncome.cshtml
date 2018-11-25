@@ -5,19 +5,19 @@
           asp-action="Create"
           data-ajax="true"
           data-ajax-method="POST"
-          data-ajax-update="#account-list"
           data-ajax-mode="replace"
+          data-ajax-update="#main-page-tables"
           data-ajax-success="showAlert({message: 'Income successfully created.', class: 'success'})"
-          id="create-income">
+          data-ajax-failure="showAlert({message: 'There was an error', class: 'danger'})">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <div class="form-group">
             <label asp-for="Date"></label>
-            <input asp-for="Date" type="date" class="form-control" value="@DateTime.Now.ToString("yyyy-MM-dd")" />
+            <input asp-for="Date" type="text" class="form-control text-right" id="income-datetimepicker" data-toggle="datetimepicker" data-target="#income-datetimepicker" value="@DateTime.Now.ToString("yyyy-MM-dd")" />
             <span asp-validation-for="Date" class="text-danger"></span>
         </div>
         <div class="form-group">
             <label asp-for="Amount"></label>
-            <input asp-for="Amount" class="form-control" />
+            <input asp-for="Amount" class="form-control text-right"/>
             <span asp-validation-for="Amount" class="text-danger"></span>
         </div>
         <div class="form-group">
@@ -40,3 +40,6 @@
         </div>
     </form>
 </div>
+<script type="text/javascript">
+        initializeDatetimepicker("income-datetimepicker");
+</script>

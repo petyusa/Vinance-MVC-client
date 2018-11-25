@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 
@@ -25,12 +26,16 @@ namespace Vinance.Services.APIs
         {
             var client = _factory.CreateClient(Constants.AuthenticatedClient);
 
-            var query = "";
+            var query = "?";
             if (type != null)
             {
-                query = $"?type={type}";
+                query += $"type={type}&";
 
             }
+            var date = DateTime.Now;
+            var firstDayOfMonth = new DateTime(date.Year, date.Month, 1);
+            var lastDayOfMonth = firstDayOfMonth.AddMonths(1).AddDays(-1);
+            query += $"from={firstDayOfMonth:MM-dd-yyyy}&to={lastDayOfMonth:MM-dd-yyyy}";
             var response = await client.GetAsync($"categories{query}");
 
             return await _responseHandler.HandleAsync<IEnumerable<Category>>(response);

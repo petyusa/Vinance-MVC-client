@@ -1,36 +1,39 @@
 ﻿@model IEnumerable<Vinance.Contracts.Models.Domain.Transfer>
 
-<table class="table table-striped" id="transfer-list">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Date)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Amount)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FromName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ToName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CategoryName)
-            </th>
-            <th>
-            </th>
-        </tr>
+<table class="table table-bordered table-sm table-striped">
+    <thead class="thead-dark">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Date)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Amount)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FromName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ToName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CategoryName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Comment)
+        </th>
+        <th>
+        </th>
+    </tr>
     </thead>
     <tbody>
     @foreach (var item in Model)
     {
-        <tr>
+        <tr class="transfer-row">
             <td>
                 @item.Date.ToShortDateString()
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Amount)
+            <td class="text-right">
+                @item.Amount.ToString("### ### ###")Ft
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.FromName)
@@ -42,7 +45,11 @@
                 @Html.DisplayFor(modelItem => item.CategoryName)
             </td>
             <td>
-                <form asp-controller="Transfer"
+                @Html.DisplayFor(modelItem => item.Comment)
+            </td>
+            <td class="text-center">
+                <form class="d-inline-block"
+                      asp-controller="Transfer"
                       asp-action="Delete"
                       data-ajax-method="POST"
                       data-ajax="true"
@@ -50,10 +57,21 @@
                       data-ajax-mode="replace"
                       data-ajax-success="showAlert({message: 'Transfer successfully deleted', class:'success'})">
                     <input asp-for="@item.Id" class="d-none" name="transferId">
-                    <input type="submit" value="delete" class="btn btn-sm btn-danger" />
+                    <button type="submit" class="btn-table delete"><i data-feather="trash"></i></button>
                 </form>
+                <a class="d-inline-block"
+                   asp-controller="Transfer"
+                   asp-action="Edit"
+                   asp-route-incomeId="@item.Id"
+                   data-ajax="true"
+                   data-ajax-method="GET"
+                   data-ajax-update="#expense-income"
+                   data-ajax-mode="replace"><i data-feather="edit-2"></i></a>
             </td>
         </tr>
     }
     </tbody>
 </table>
+<script>
+    feather.replace({width:20, height: 20})
+</script>
