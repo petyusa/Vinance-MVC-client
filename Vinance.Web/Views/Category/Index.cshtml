@@ -1,13 +1,17 @@
 ﻿@model IEnumerable<Vinance.Contracts.Models.Domain.Category>
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Categories";
 }
 
-@foreach (var cat in Model)
-{
-    <div style="margin-bottom: 10px">
-        <div>@cat.Name</div>
-        <div>@cat.Type</div>
-        <div>@cat.Balance</div>
+<h4>Categories</h4>
+
+<div class="row">
+    <div class="col-lg-8">
+        <div id="expense-list">
+            @await Component.InvokeAsync("GetAllCategory")
+        </div>
     </div>
-}
+    <div class="col-lg-4">
+        @await Component.InvokeAsync("CreateCategory")
+    </div>
+</div>

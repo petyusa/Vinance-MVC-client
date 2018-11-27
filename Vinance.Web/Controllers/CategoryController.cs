@@ -17,6 +17,13 @@ namespace Vinance.Web.Controllers
             _categoryApi = categoryApi;
         }
 
+        [HttpGet]
+        [Route("")]
+        public IActionResult Index(Category category)
+        {
+            return View();
+        }
+
         [HttpPost]
         [Route("create")]
         public async Task<IActionResult> Create(Category category)
