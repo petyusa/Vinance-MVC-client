@@ -1,0 +1,31 @@
+﻿@model IEnumerable<CategoryViewmodel>
+@{
+    var categoryNames = Newtonsoft.Json.JsonConvert.SerializeObject(Model.Select(c => c.Name));
+    var categoryBalances = Newtonsoft.Json.JsonConvert.SerializeObject(Model.Select(c => c.Balance));
+}
+
+
+
+<canvas id="myChart" width="400" height="400"></canvas>
+<script>
+    let ctx = document.getElementById("myChart").getContext('2d');
+    function createChart() {
+        const labels = @Html.Raw(categoryNames);
+        const amounts = @Html.Raw(categoryBalances);
+        const data = {
+            labels: labels,
+            datasets: [{
+                data: amounts
+            }]
+        };
+        const options = {
+        };
+        const myPieChart = new Chart(ctx,{
+            type: 'pie',
+            data: data,
+            options: options
+        });
+    }
+
+    createChart();
+</script>

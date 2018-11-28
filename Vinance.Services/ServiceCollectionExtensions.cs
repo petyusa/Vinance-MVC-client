@@ -22,7 +22,7 @@ namespace Vinance.Services
             });
         }
 
-        public static IHttpClientBuilder AddUnAuthenticatedHttpClient(this IServiceCollection services, IConfiguration configuration)
+        public static IHttpClientBuilder AddNotAuthenticatedHttpClient(this IServiceCollection services, IConfiguration configuration)
         {
             return services.AddHttpClient(Constants.NotAuthenticatedClient, opt =>
             {
@@ -31,10 +31,10 @@ namespace Vinance.Services
             });
         }
 
-        public static IServiceCollection AddEmailSender(this IServiceCollection services, IConfiguration configuration)
+        public static IServiceCollection AddEmailSender(this IServiceCollection services)
         {
             services.AddTransient<IEmailSender, EmailSender>();
-            var apiKey = configuration["SENDGRID_API_KEY"];
+            var apiKey = Environment.GetEnvironmentVariable("SENDGRID_API_KEY");
             services.AddSingleton(new SendGridClient(apiKey));
             return services;
         }

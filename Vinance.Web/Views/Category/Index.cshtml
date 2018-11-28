@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Vinance.Contracts.Models.Domain.Category>
+﻿@using Vinance.Contracts.Enumerations
 @{
     ViewData["Title"] = "Categories";
 }
@@ -6,11 +6,23 @@
 <h4>Categories</h4>
 
 <div class="row">
-    <div class="col-lg-8">
-        <div id="expense-list">
-            @await Component.InvokeAsync("GetAllCategory")
+    <div class="col-lg-4">
+        <div id="expense-category-list">
+            @await Component.InvokeAsync("GetAllCategory", new { type = CategoryType.Expense })
         </div>
     </div>
+    <div class="col-lg-4">
+        <div id="income-category-list">
+            @await Component.InvokeAsync("GetAllCategory", new { type = CategoryType.Income })
+        </div>
+    </div>
+    <div class="col-lg-4">
+        <div id="transfer-category-list">
+            @await Component.InvokeAsync("GetAllCategory", new { type = CategoryType.Transfer })
+        </div>
+    </div>
+</div>
+<div class="row">
     <div class="col-lg-4">
         @await Component.InvokeAsync("CreateCategory")
     </div>

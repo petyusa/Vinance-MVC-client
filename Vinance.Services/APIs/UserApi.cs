@@ -48,5 +48,13 @@ namespace Vinance.Services.APIs
 
             return user;
         }
+
+        public async Task<bool> ConfirmEmail(string email, string token)
+        {
+            var client = _factory.CreateClient("not-authenticated-client");
+
+            var response = await client.PostAsJsonAsync("users/confirm-email", new { Email = email, Token = token });
+            return response.IsSuccessStatusCode;
+        }
     }
 }

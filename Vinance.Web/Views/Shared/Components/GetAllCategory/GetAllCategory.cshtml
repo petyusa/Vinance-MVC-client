@@ -1,4 +1,5 @@
-﻿@model IEnumerable<Vinance.Contracts.Models.Domain.Category>
+﻿@using Vinance.Contracts.Enumerations
+@model IEnumerable<CategoryViewmodel>
 
 <table class="table table-bordered table-sm table-striped" id="category-list">
     <thead class="thead-dark form-group">
@@ -9,27 +10,48 @@
             <th>
                 @Html.DisplayNameFor(model => model.Balance)
             </th>
-            <th></th>
+            @if (Model.Any(c => c.Type == CategoryType.Expense))
+            {
+                <th></th>
+            }
         </tr>
     </thead>
     <tbody>
         @foreach (var item in Model)
         {
-            var width = Math.Floor((item.Balance / (double)item.MonthlyLimit)*100);
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td class="text-right">
-                @item.Balance.ToString("### ### ###")Ft
-            </td>
-            <td style="width: 100px; padding: 0">
-                <div style="width: @width%; height: 20px; background-color: red"></div>
-            </td>
-            <td>
-                <div style="width: 50px; height: 20px; background-color: red;"></div>
-            </td>
-        </tr>
+            if (item.MonthlyLimitUsed >= 100)
+            {
+                item.MonthlyLimitUsed = 100;
+            }
+            var color = "";
+            if (item.MonthlyLimitUsed < Math.Floor((DateTime.Now.Day/30d)*100)*0.8)
+            {
+                color = "#2AA198";
+            }
+            else if (item.MonthlyLimitUsed < Math.Floor((DateTime.Now.Day / 30d) * 100))
+            {
+                color = "#CB4B16";
+            }
+            else
+            {
+                color = "#D33682";
+            }
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td class="text-right">
+                    @item.Balance.ToString("### ### ###")Ft
+                </td>
+                @if (item.Type == CategoryType.Expense)
+                {
+                    <td style="width: 100px;">
+                        <div style="width: 100%; overflow: hidden; height: 23px; background-color: grey; border: 1px solid black; border-radius: 4px;" title="Monthly Limit: @item.MonthlyLimit, used: @item.MonthlyLimitUsed%">
+                            <div style="width: @item.MonthlyLimitUsed%; height: 100%; background-color: @color;"></div>
+                        </div>
+                    </td>
+                }
+            </tr>
         }
     </tbody>
 </table>

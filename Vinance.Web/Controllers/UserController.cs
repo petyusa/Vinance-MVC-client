@@ -112,5 +112,14 @@ namespace Vinance.Web.Controllers
 
             return View("Login");
         }
+
+        [HttpGet]
+        [AllowAnonymous]
+        [Route("confirm-email")]
+        public async Task<IActionResult> ConfirmEmail(string email, string token)
+        {
+            await _userApi.ConfirmEmail(email, token);
+            return View();
+        }
     }
 }

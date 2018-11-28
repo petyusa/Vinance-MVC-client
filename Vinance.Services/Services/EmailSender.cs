@@ -21,9 +21,9 @@ namespace Vinance.Services.Services
             var msg = new SendGridMessage()
             {
                 From = new EmailAddress("noreply@vinance.com", "Vinance"),
-                Subject = "Sending with SendGrid is Fun" + message,
-                PlainTextContent = "and easy to do anywhere, even with C#",
-                HtmlContent = "<strong>and easy to do anywhere, even with C#</strong>"
+                Subject = "Email confirmation",
+                HtmlContent = $@"Dear user,
+please click <a href='https://localhost:44366/confirm-email?email={email}&token={message}'>here</a> to confirm your email address."
             };
             msg.AddTo(new EmailAddress(email));
             var response = await _sendGridClient.SendEmailAsync(msg);

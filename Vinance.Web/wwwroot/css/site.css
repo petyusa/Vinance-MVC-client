@@ -1,4 +1,8 @@
-﻿.form-container {
+﻿body, html {
+    font-family: 'Comfortaa', cursive;
+}
+
+.form-container {
     background-color: aliceblue;
     border: 1px solid teal;
     border-radius: 2px;

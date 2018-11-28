@@ -10,5 +10,6 @@ namespace Vinance.Contracts.Interfaces
         Task<TokenResult> GetToken(LoginModel loginModel);
         Task<TokenResult> Register(RegisterModel registerModel);
         Task<VinanceUser> GetUser();
+        Task<bool> ConfirmEmail(string email, string token);
     }
 }

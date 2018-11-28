@@ -10,3 +10,8 @@
         @await Component.InvokeAsync(typeof(GetAllCategory), new { type = CategoryType.Expense })
     </div>
 </div>
+<div class="row">
+    <div class="col-lg-6">
+        @await Component.InvokeAsync(typeof(CategoryChart))
+    </div>
+</div>

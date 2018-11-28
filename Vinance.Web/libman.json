@@ -40,6 +40,11 @@
         {
             "library": "moment.js@2.22.2",
             "destination": "wwwroot/lib/moment.js"
+        },
+        {
+            "provider": "cdnjs",
+            "library": "Chart.js@2.7.3",
+            "destination": "wwwroot/lib/Chart.js/"
         }
     ]
 }
