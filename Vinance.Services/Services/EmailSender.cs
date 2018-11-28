@@ -16,16 +16,16 @@ namespace Vinance.Services.Services
             _sendGridClient = sendGridClient;
         }
 
-        public async Task SendEmail(VinanceUser user)
+        public async Task SendEmail(string email, string message)
         {
             var msg = new SendGridMessage()
             {
                 From = new EmailAddress("noreply@vinance.com", "Vinance"),
-                Subject = "Sending with SendGrid is Fun",
+                Subject = "Sending with SendGrid is Fun" + message,
                 PlainTextContent = "and easy to do anywhere, even with C#",
                 HtmlContent = "<strong>and easy to do anywhere, even with C#</strong>"
             };
-            msg.AddTo(new EmailAddress(user.Email, $"{user.FirstName} {user.LastName}"));
+            msg.AddTo(new EmailAddress(email));
             var response = await _sendGridClient.SendEmailAsync(msg);
             if ((int) response.StatusCode <= 200 || (int) response.StatusCode > 299)
             {

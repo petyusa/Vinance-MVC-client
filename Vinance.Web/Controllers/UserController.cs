@@ -102,13 +102,13 @@ namespace Vinance.Web.Controllers
                 return View(registerViewmodel);
             }
             var model = _mapper.Map<RegisterModel>(registerViewmodel);
-            var user = await _userApi.Register(model);
+            var token = await _userApi.Register(model);
 
-            if (user == null)
+            if (token == null)
             {
                 return View(registerViewmodel);
             }
-            await _emailSender.SendEmail(user);
+            await _emailSender.SendEmail(registerViewmodel.Email, token.Token);
 
             return View("Login");
         }

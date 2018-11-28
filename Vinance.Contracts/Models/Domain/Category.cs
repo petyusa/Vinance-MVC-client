@@ -8,6 +8,7 @@ namespace Vinance.Contracts.Models.Domain
         public int Id { get; set; }
         public string Name { get; set; }
         public int Balance { get; set; }
+        public int MonthlyLimit { get; set; }
         public CategoryType Type { get; set; }
     }
 }

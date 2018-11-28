@@ -29,12 +29,12 @@ namespace Vinance.Services.APIs
             return tokenResult;
         }
 
-        public async Task<VinanceUser> Register(RegisterModel registerModel)
+        public async Task<TokenResult> Register(RegisterModel registerModel)
         {
             var client = _factory.CreateClient("not-authenticated-client");
 
             var response = await client.PostAsJsonAsync("users/register", registerModel);
-            var user = await _responseHandler.HandleWithErrorAsync<VinanceUser>(response);
+            var user = await _responseHandler.HandleWithErrorAsync<TokenResult>(response);
 
             return user;
         }
