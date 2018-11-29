@@ -21,6 +21,7 @@ namespace Vinance.Web.Controllers
         [Route("")]
         public IActionResult Index(Category category)
         {
+            Response.Cookies.Append("theme", "light");
             return View();
         }
 
@@ -48,7 +49,7 @@ namespace Vinance.Web.Controllers
             return RedirectToAction("GetAll");
         }
 
-        [HttpGet]
+        [HttpPost]
         [Route("delete")]
         public async Task<IActionResult> Delete(int categoryId)
         {

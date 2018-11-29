@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 
@@ -38,7 +39,8 @@ namespace Vinance.Services.APIs
             query += $"from={firstDayOfMonth:MM-dd-yyyy}&to={lastDayOfMonth:MM-dd-yyyy}";
             var response = await client.GetAsync($"categories{query}");
 
-            return await _responseHandler.HandleAsync<IEnumerable<Category>>(response);
+            var categories = await _responseHandler.HandleAsync<IEnumerable<Category>>(response);
+            return categories.OrderBy(c => c.Name);
         }
 
         public async Task<bool> Create(Category category)

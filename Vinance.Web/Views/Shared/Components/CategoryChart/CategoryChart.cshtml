@@ -4,21 +4,39 @@
     var categoryBalances = Newtonsoft.Json.JsonConvert.SerializeObject(Model.Select(c => c.Balance));
 }
 
-
-
-<canvas id="myChart" width="400" height="400"></canvas>
+<canvas id="category-chart"></canvas>
 <script>
-    let ctx = document.getElementById("myChart").getContext('2d');
+    var canvasDiv = document.getElementById("category-chart");
+    canvasDiv.height = canvasDiv.width;
+    var ctx = canvasDiv.getContext('2d');
     function createChart() {
         const labels = @Html.Raw(categoryNames);
         const amounts = @Html.Raw(categoryBalances);
         const data = {
             labels: labels,
             datasets: [{
-                data: amounts
+                data: amounts,
+                backgroundColor: [
+                    "#B58900",
+                    "#6610f2",
+                    "#D33682",
+                    "#fd7e14",
+                    "#20c997",
+                    "#839496",
+                    "#268BD2",
+                    "#CB4B16",
+                    "#FDF6E3",
+                    "#2AA198",
+                    "#073642",
+                    "#6f42c1",
+                    "#e83e8c"
+                ]
             }]
         };
         const options = {
+            legend: {
+                display: false
+            }
         };
         const myPieChart = new Chart(ctx,{
             type: 'pie',

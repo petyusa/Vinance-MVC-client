@@ -8,23 +8,26 @@ namespace Vinance.Web.Models
     public class CreateTransferViewmodel
     {
         [Required]
+        [Display(Name = "Dátum")]
         public DateTime Date { get; set; }
 
         [Required]
+        [Display(Name = "Összeg")]
         public int Amount { get; set; }
 
+        [Display(Name = "Komment")]
         public string Comment { get; set; }
 
         [Required]
-        [Display(Name = "To")]
-        public int ToId { get; set; }
-
-        [Required]
-        [Display(Name = "From")]
+        [Display(Name = "Honnan")]
         public int FromId { get; set; }
 
         [Required]
-        [Display(Name = "Category")]
+        [Display(Name = "Hova")]
+        public int ToId { get; set; }
+
+        [Required]
+        [Display(Name = "Kategória")]
         public int CategoryId { get; set; }
 
         public IEnumerable<SelectListItem> AccountList { get; set; }

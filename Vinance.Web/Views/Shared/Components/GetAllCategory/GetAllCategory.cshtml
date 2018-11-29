@@ -1,6 +1,27 @@
 ﻿@using Vinance.Contracts.Enumerations
 @model IEnumerable<CategoryViewmodel>
+@{
+    var type = Model.FirstOrDefault()?.Type;
+    var title = "";
+    switch (type)
+    {
+        case CategoryType.Expense:
+            title = "Költségek";
+            break;
+        case CategoryType.Income:
+            title = "Bevételek";
+            break;
+        case CategoryType.Transfer:
+            title = "Pénzmozgások";
+            break;
+        case null:
+            break;
+        default:
+            throw new ArgumentOutOfRangeException();
+    }
+}
 
+<h4>@title</h4>
 <table class="table table-bordered table-sm table-striped" id="category-list">
     <thead class="thead-dark form-group">
         <tr>
@@ -10,32 +31,16 @@
             <th>
                 @Html.DisplayNameFor(model => model.Balance)
             </th>
-            @if (Model.Any(c => c.Type == CategoryType.Expense))
+            @if (type == CategoryType.Expense)
             {
                 <th></th>
             }
+            <th></th>
         </tr>
     </thead>
     <tbody>
         @foreach (var item in Model)
         {
-            if (item.MonthlyLimitUsed >= 100)
-            {
-                item.MonthlyLimitUsed = 100;
-            }
-            var color = "";
-            if (item.MonthlyLimitUsed < Math.Floor((DateTime.Now.Day/30d)*100)*0.8)
-            {
-                color = "#2AA198";
-            }
-            else if (item.MonthlyLimitUsed < Math.Floor((DateTime.Now.Day / 30d) * 100))
-            {
-                color = "#CB4B16";
-            }
-            else
-            {
-                color = "#D33682";
-            }
             <tr>
                 <td>
                     @Html.DisplayFor(modelItem => item.Name)
@@ -43,15 +48,54 @@
                 <td class="text-right">
                     @item.Balance.ToString("### ### ###")Ft
                 </td>
-                @if (item.Type == CategoryType.Expense)
+                @if (type == CategoryType.Expense)
                 {
+                    var color = "";
+                    if (item.MonthlyLimitUsed >= 100)
+                    {
+                        item.MonthlyLimitUsed = 100;
+                    }
+                    if (item.MonthlyLimitUsed < Math.Floor((DateTime.Now.Day / 30d) * 100) * 0.8)
+                    {
+                        color = "#2AA198";
+                    }
+                    else if (item.MonthlyLimitUsed < Math.Floor((DateTime.Now.Day / 30d) * 100))
+                    {
+                        color = "#CB4B16";
+                    }
+                    else
+                    {
+                        color = "#D33682";
+                    }
+
                     <td style="width: 100px;">
-                        <div style="width: 100%; overflow: hidden; height: 23px; background-color: grey; border: 1px solid black; border-radius: 4px;" title="Monthly Limit: @item.MonthlyLimit, used: @item.MonthlyLimitUsed%">
+                        <div style="width: 100%; overflow: hidden; height: 23px; background-color: grey; border: 1px solid black; border-radius: 4px;" data-toggle="tooltip" data-original-title="Monthly Limit: @item.MonthlyLimit, used: @item.MonthlyLimitUsed%">
                             <div style="width: @item.MonthlyLimitUsed%; height: 100%; background-color: @color;"></div>
                         </div>
                     </td>
                 }
+                    <td>
+                        @if (item.CanBeDeleted)
+                        {
+                            <form class="d-inline-block"
+                                  asp-controller="Category"
+                                  asp-action="Delete"
+                                  data-ajax-method="POST"
+                                  data-ajax="true"
+                                  data-ajax-update="#category-list"
+                                  data-ajax-mode="replace"
+                                  data-ajax-success="showAlert({message: 'Kategória sikeresen törölve', class:'success'})">
+                                <input asp-for="@item.Id" class="d-none" name="categoryId">
+                                <button type="submit" class="btn-table text-danger"><i data-feather="trash"></i></button>
+                            </form>
+                        }
+                    </td>
             </tr>
         }
     </tbody>
 </table>
+<script>
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip();
+    });
+</script>
