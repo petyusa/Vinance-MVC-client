@@ -17,11 +17,11 @@ namespace Vinance.Web.Middlewares
 
         protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
         {
-            if (!_contextAccessor.HttpContext.Request.Cookies.TryGetValue("token", out var token))
+            var token = _contextAccessor.HttpContext.User.FindFirst("access_token")?.Value;
+            if (token == null)
             {
                 throw new UnauthorizedAccessException("User is not authenticated");
             }
-
             request.Headers.Add("Authorization", "Bearer " + token);
             return base.SendAsync(request, cancellationToken);
         }

@@ -4,6 +4,6 @@ namespace Vinance.Contracts.Interfaces
 {
     public interface IEmailSender
     {
-        Task SendEmail(string email, string message);
+        Task SendEmail(string userName, string email, string token);
     }
 }

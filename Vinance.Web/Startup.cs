@@ -33,7 +33,7 @@ namespace Vinance.Web
                     opt.LoginPath = "/login";
                 });
 
-            services.AddEmailSender();
+            services.AddEmailSender(Configuration);
 
             services.AddTransient<AuthHandler>();
             services.AddNotAuthenticatedHttpClient(Configuration);

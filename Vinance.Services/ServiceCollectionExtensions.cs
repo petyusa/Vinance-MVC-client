@@ -17,7 +17,7 @@ namespace Vinance.Services
         {
             return services.AddHttpClient(Constants.AuthenticatedClient, opt =>
             {
-                opt.BaseAddress = new Uri(configuration["Vinance-url"]);
+                opt.BaseAddress = new Uri(configuration["Vinance-API-url"]);
                 opt.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue(Constants.ApplicationJson));
             });
         }
@@ -26,15 +26,15 @@ namespace Vinance.Services
         {
             return services.AddHttpClient(Constants.NotAuthenticatedClient, opt =>
             {
-                opt.BaseAddress = new Uri(configuration["Vinance-url"]);
+                opt.BaseAddress = new Uri(configuration["Vinance-API-url"]);
                 opt.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue(Constants.ApplicationJson));
             });
         }
 
-        public static IServiceCollection AddEmailSender(this IServiceCollection services)
+        public static IServiceCollection AddEmailSender(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddTransient<IEmailSender, EmailSender>();
-            var apiKey = Environment.GetEnvironmentVariable("SENDGRID_API_KEY");
+            var apiKey = configuration["SENDGRID_API_KEY"];
             services.AddSingleton(new SendGridClient(apiKey));
             return services;
         }

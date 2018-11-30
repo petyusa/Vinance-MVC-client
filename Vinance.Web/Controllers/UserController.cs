@@ -49,6 +49,7 @@ namespace Vinance.Web.Controllers
             var tokenHandler = new JwtSecurityTokenHandler();
             var result = tokenHandler.ReadJwtToken(tokenResult.Token);
             var claimsIdentity = new ClaimsIdentity(result.Claims, CookieAuthenticationDefaults.AuthenticationScheme);
+            claimsIdentity.AddClaim(new Claim("access_token", tokenResult.Token));
             var principal = new ClaimsPrincipal(claimsIdentity);
 
             DateTime? validTo;
@@ -56,14 +57,6 @@ namespace Vinance.Web.Controllers
                 validTo = result.ValidTo;
             else
                 validTo = null;
-
-            var opt = new CookieOptions
-            {
-                Expires = validTo,
-                HttpOnly = true,
-                Secure = true
-            };
-            HttpContext.Response.Cookies.Append("token", tokenResult.Token, opt);
 
             var authOpt = new AuthenticationProperties
             {
@@ -108,7 +101,7 @@ namespace Vinance.Web.Controllers
             {
                 return View(registerViewmodel);
             }
-            await _emailSender.SendEmail(registerViewmodel.Email, token.Token);
+            await _emailSender.SendEmail(registerViewmodel.UserName, registerViewmodel.Email, token.Token);
 
             return View("Login");
         }
