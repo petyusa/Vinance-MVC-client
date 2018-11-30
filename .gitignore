@@ -273,3 +273,6 @@ __pycache__/
 
 # End of https://www.gitignore.io/api/aspnetcore
 Vinance.Web/internal-log.txt
+Vinance.Web/appsettings.json
+Vinance.Web/appsettings.Production.json
+Vinance.Web/appsettings.Development.json
