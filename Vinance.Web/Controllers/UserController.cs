@@ -60,8 +60,7 @@ namespace Vinance.Web.Controllers
             var opt = new CookieOptions
             {
                 Expires = validTo,
-                HttpOnly = true,
-                Secure = true
+                HttpOnly = true
             };
             HttpContext.Response.Cookies.Append("token", tokenResult.Token, opt);
 

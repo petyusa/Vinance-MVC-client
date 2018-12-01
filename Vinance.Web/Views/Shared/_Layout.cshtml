@@ -7,7 +7,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Vinance</title>
 
-    <environment include="Development">
         @if (HttpContextAccessor.HttpContext.Request.Cookies.TryGetValue("theme", out var theme))
         {
             if (theme == "dark")
@@ -26,18 +25,6 @@
         <link href="https://fonts.googleapis.com/css?family=Comfortaa" rel="stylesheet">
         <link rel="stylesheet" href="~/lib/tempus-dominus-bootstrap-4/css/tempusdominus-bootstrap-4.css" />
         <link rel="stylesheet" href="~/css/site.css" />
-    </environment>
-    <environment exclude="Development">
-        <link href="https://fonts.googleapis.com/css?family=Comfortaa" rel="stylesheet">
-        <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/css/bootstrap.min.css"
-              asp-fallback-href="~/lib/twitter-bootstrap/css/bootstrap.min.css"
-              asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.0-alpha14/css/tempusdominus-bootstrap-4.min.css"
-              asp-fallback-href="~/lib/tempus-dominus-bootstrap-4/css/tempusdominus-bootstrap-4.css"
-              asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
-        <link rel="stylesheet" href="~/css/site.css" />
-    </environment>
-    <environment include="Development">
         <script src="~/lib/jquery/jquery.js"></script>
         <script src="~/lib/jquery-ajax-unobtrusive/jquery-ajax-unobtrusive.min.js"></script>
         <script src="~/lib/jquery-validate/jquery.validate.js"></script>
@@ -49,8 +36,6 @@
         <script src="~/lib/feather-icons/feather.js"></script>
         <script src="~/lib/Chart.js/Chart.min.js"></script>
         <script src="~/js/main.js"></script>
-    </environment>
-
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -63,19 +48,19 @@
             {
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
-                    <a class="nav-link" asp-controller="Account" asp-action="Index">Accounts</a>
+                    <a class="nav-link" asp-controller="Account" asp-action="Index">Számlák</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" asp-controller="Expense" asp-action="Index">Expenses</a>
+                    <a class="nav-link" asp-controller="Expense" asp-action="Index">Kiadások</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" asp-controller="Income" asp-action="Index">Incomes</a>
+                    <a class="nav-link" asp-controller="Income" asp-action="Index">Bevételek</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" asp-controller="Transfer" asp-action="Index">Transfers</a>
+                    <a class="nav-link" asp-controller="Transfer" asp-action="Index">Pénzmozgások</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" asp-controller="Category" asp-action="Index">Categories</a>
+                    <a class="nav-link" asp-controller="Category" asp-action="Index">Kategóriák</a>
                 </li>
             </ul>
             }
@@ -119,21 +104,6 @@
     <script>
         feather.replace({ width: 20, height: 20 });
     </script>
-    <environment exclude="Development">
-        <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-3.3.1.min.js"
-                asp-fallback-src="~/lib/jquery/jquery.min.js"
-                asp-fallback-test="window.jQuery"
-                crossorigin="anonymous"
-                integrity="sha384-tsQFqpEReu7ZLhBV2VZlAu7zcOV+rXbYlF2cqB8txI/8aZajjp4Bqd+V6D5IgvKT">
-        </script>
-        <script src="https://ajax.aspnetcdn.com/ajax/bootstrap/4.1.1/bootstrap.min.js"
-                asp-fallback-src="~/lib/twitter-bootstrap/js/bootstrap.bundle.js"
-                asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal"
-                crossorigin="anonymous"
-                integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa">
-        </script>
-        <script src="~/lib/feather-icons/feather.min.js"></script>
-    </environment>
     @RenderSection("Scripts", required: false)
 </body>
 </html>

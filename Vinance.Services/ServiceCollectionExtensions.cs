@@ -31,10 +31,10 @@ namespace Vinance.Services
             });
         }
 
-        public static IServiceCollection AddEmailSender(this IServiceCollection services)
+        public static IServiceCollection AddEmailSender(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddTransient<IEmailSender, EmailSender>();
-            var apiKey = Environment.GetEnvironmentVariable("SENDGRID_API_KEY");
+            var apiKey = configuration["SG-key"];
             services.AddSingleton(new SendGridClient(apiKey));
             return services;
         }

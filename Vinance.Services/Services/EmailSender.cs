@@ -23,7 +23,7 @@ namespace Vinance.Services.Services
                 From = new EmailAddress("noreply@vinance.com", "Vinance"),
                 Subject = "Email confirmation",
                 HtmlContent = $@"Dear user,
-please click <a href='https://localhost:44366/confirm-email?email={email}&token={message}'>here</a> to confirm your email address."
+please click <a href='http://petyusa-001-site2.itempurl.com/confirm-email?email={email}&token={message}'>here</a> to confirm your email address."
             };
             msg.AddTo(new EmailAddress(email));
             var response = await _sendGridClient.SendEmailAsync(msg);

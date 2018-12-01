@@ -7,8 +7,8 @@
           data-ajax-method="POST"
           data-ajax-mode="replace"
           data-ajax-update="#main-page-tables"
-          data-ajax-success="showAlert({message: 'Transfer successfully created.', class: 'success'})"
-          data-ajax-failure="showAlert({message: 'There was an error', class: 'danger'})">
+          data-ajax-success="showAlert({message: 'Pénzmozgás hozzáadva.', class: 'success'})"
+          data-ajax-failure="showAlert({message: 'Hiba történt.', class: 'danger'})">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <div class="form-group">
             <label asp-for="Date"></label>
@@ -33,17 +33,19 @@
         <div class="form-group">
             <label asp-for="ToId"></label>
             <select asp-for="ToId" asp-items="Model.AccountList" class="custom-select">
-                <option value="" disabled selected>Select your option</option>
+                <option value="" disabled selected>Válassz számlát</option>
             </select>
             <span asp-validation-for="ToId" class="text-danger"></span>
         </div>
         <div class="form-group">
             <label asp-for="CategoryId"></label>
-            <select asp-for="CategoryId" asp-items="Model.CategoryList" class="custom-select"></select>
+            <select asp-for="CategoryId" asp-items="Model.CategoryList" class="custom-select">
+                <option value="" disabled selected>Válassz számlát</option>
+            </select>
             <span asp-validation-for="CategoryId" class="text-danger"></span>
         </div>
         <div class="form-group">
-            <input type="submit" value="Create" class="btn btn-primary" />
+            <input type="submit" value="Hozzáadás" class="btn btn-primary" />
         </div>
     </form>
 </div>
