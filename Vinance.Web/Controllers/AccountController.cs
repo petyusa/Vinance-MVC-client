@@ -21,7 +21,7 @@ namespace Vinance.Web.Controllers
         [Route("")]
         public IActionResult Index()
         {
-            Response.Cookies.Append("theme", "dark");
+            ViewData["main-page"] = false;
             return View();
         }
 

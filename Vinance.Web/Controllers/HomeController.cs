@@ -9,9 +9,9 @@ namespace Vinance.Web.Controllers
     [Authorize]
     public class HomeController : Controller
     {
-
         public IActionResult Index()
         {
+            ViewData["main-page"] = true;
             return View();
         }
 

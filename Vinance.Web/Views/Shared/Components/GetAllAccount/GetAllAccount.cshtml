@@ -15,7 +15,7 @@
             <th>
                 @Html.DisplayNameFor(model => model.Balance)
             </th>
-            @if (isMainPage)
+            @if (!isMainPage)
             {
                 <th></th>
             }
@@ -31,7 +31,7 @@
                 <td class="text-right">
                     @(item.Balance == 0 ? "0Ft" : item.Balance.ToString("### ### ###") + "Ft")
                 </td>
-                @if (isMainPage)
+                @if (!isMainPage)
                 {
                     <td>
                         @if (item.CanBeDeleted)
