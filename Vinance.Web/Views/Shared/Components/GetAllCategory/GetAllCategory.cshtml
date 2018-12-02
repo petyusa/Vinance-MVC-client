@@ -19,10 +19,15 @@
         default:
             throw new ArgumentOutOfRangeException();
     }
+    var isMainPage = false;
+    if (ViewData.TryGetValue("main-page", out var data))
+    {
+        isMainPage = (bool)data;
+    }
 }
 
 <h4>@title</h4>
-<table class="table table-bordered table-sm table-striped" id="category-list">
+<table class="table table-bordered table-sm table-striped">
     <thead class="thead-dark form-group">
         <tr>
             <th>
@@ -35,7 +40,10 @@
             {
                 <th></th>
             }
-            <th></th>
+            @if (isMainPage)
+            {
+                <th></th>
+            }
         </tr>
     </thead>
     <tbody>
@@ -46,7 +54,7 @@
                     @Html.DisplayFor(modelItem => item.Name)
                 </td>
                 <td class="text-right">
-                    @item.Balance.ToString("### ### ###")Ft
+                    @(item.Balance == 0 ? "0Ft" : item.Balance.ToString("### ### ###") + "Ft")
                 </td>
                 @if (type == CategoryType.Expense)
                 {
@@ -74,6 +82,8 @@
                         </div>
                     </td>
                 }
+                @if (isMainPage)
+                {
                     <td>
                         @if (item.CanBeDeleted)
                         {
@@ -82,7 +92,7 @@
                                   asp-action="Delete"
                                   data-ajax-method="POST"
                                   data-ajax="true"
-                                  data-ajax-update="#category-list"
+                                  data-ajax-update="#category-tables"
                                   data-ajax-mode="replace"
                                   data-ajax-success="showAlert({message: 'Kategória sikeresen törölve', class:'success'})">
                                 <input asp-for="@item.Id" class="d-none" name="categoryId">
@@ -90,6 +100,7 @@
                             </form>
                         }
                     </td>
+                }
             </tr>
         }
     </tbody>

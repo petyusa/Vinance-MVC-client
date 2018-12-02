@@ -1,22 +1,25 @@
 ﻿using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Vinance.Web.Controllers
 {
-    using Components.Account;
     using Components.Expense;
     using Components.MainPage;
     using Contracts.Interfaces;
     using Contracts.Models.Domain;
+    using Models;
 
     [Route("expenses")]
     public class ExpenseController : Controller
     {
         private readonly IExpenseApi _expenseApi;
+        private readonly IMapper _mapper;
 
-        public ExpenseController(IExpenseApi expenseApi)
+        public ExpenseController(IExpenseApi expenseApi, IMapper mapper)
         {
             _expenseApi = expenseApi;
+            _mapper = mapper;
         }
 
         [HttpGet]
@@ -49,11 +52,19 @@ namespace Vinance.Web.Controllers
             return ViewComponent(typeof(GetAllExpense));
         }
 
+        [HttpGet]
+        [Route("edit")]
+        public IActionResult Edit(int expenseId)
+        {
+            return ViewComponent(typeof(EditExpense), expenseId);
+        }
+
         [HttpPost]
         [Route("edit")]
-        public async Task<IActionResult> Edit(Expense expense)
+        public async Task<IActionResult> Edit(CreateExpenseViewmodel expense)
         {
-            await _expenseApi.Update(expense);
+            var model = _mapper.Map<Expense>(expense);
+            await _expenseApi.Update(model);
             return ViewComponent(typeof(GetAllExpense));
         }
 

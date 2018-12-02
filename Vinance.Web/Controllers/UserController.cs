@@ -2,12 +2,12 @@
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 
 namespace Vinance.Web.Controllers
 {
@@ -33,15 +33,16 @@ namespace Vinance.Web.Controllers
         [AllowAnonymous]
         [HttpGet]
         [Route("login")]
-        public IActionResult Login()
+        public IActionResult Login(string returnUrl = "")
         {
-            return View("Login");
+            var model = new LoginViewmodel{ReturnUrl = returnUrl};
+            return View("Login", model);
         }
 
         [AllowAnonymous]
         [HttpPost]
         [Route("login")]
-        public async Task<IActionResult> Login(LoginViewmodel login, string returnUrl)
+        public async Task<IActionResult> Login(LoginViewmodel login)
         {
             var loginModel = _mapper.Map<LoginModel>(login);
             var tokenResult = await _userApi.GetToken(loginModel);
@@ -60,11 +61,14 @@ namespace Vinance.Web.Controllers
 
             var authOpt = new AuthenticationProperties
             {
-                ExpiresUtc = validTo,
                 IsPersistent = login.RememberMe
             };
             await HttpContext.SignInAsync(principal, authOpt);
 
+            if (!string.IsNullOrWhiteSpace(login.ReturnUrl) && Url.IsLocalUrl(login.ReturnUrl))
+            {
+                return Redirect(login.ReturnUrl);
+            }
             return RedirectToAction("Index", "Home");
         }
 
@@ -72,7 +76,6 @@ namespace Vinance.Web.Controllers
         [Route("logout")]
         public async Task<IActionResult> Logout()
         {
-            HttpContext.Response.Cookies.Delete("token");
             await HttpContext.SignOutAsync();
             return RedirectToAction("Login");
         }

@@ -6,7 +6,9 @@
           asp-action="Create"
           data-ajax="true"
           data-ajax-method="POST"
-          -data-ajax-success="showAlert({message:'Kategória létrehozva', class: 'success'})">
+          data-ajax-update="#category-tables"
+          data-ajax-mode="replace"
+          data-ajax-success="showAlert({message:'Kategória létrehozva', class: 'success'})">
         <div class="form-group">
             <label asp-for="Name"></label>
             <input asp-for="Name" class="form-control" />

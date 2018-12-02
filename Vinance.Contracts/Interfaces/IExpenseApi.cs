@@ -8,6 +8,7 @@ namespace Vinance.Contracts.Interfaces
     public interface IExpenseApi
     {
         Task<IEnumerable<Expense>> GetAll();
+        Task<Expense> Get(int expenseId);
         Task<bool> Create(Expense expense);
         Task<bool> Delete(int expenseId);
         Task<bool> Update(Expense expense);

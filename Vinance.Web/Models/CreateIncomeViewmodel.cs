@@ -7,6 +7,8 @@ namespace Vinance.Web.Models
 {
     public class CreateIncomeViewmodel
     {
+        public int Id { get; set; }
+
         [Required]
         [Display(Name = "Dátum")]
         public DateTime Date { get; set; }

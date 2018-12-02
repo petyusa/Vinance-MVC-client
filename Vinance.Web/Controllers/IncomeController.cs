@@ -1,5 +1,7 @@
 ﻿using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Vinance.Web.Models;
 
 namespace Vinance.Web.Controllers
 {
@@ -12,10 +14,12 @@ namespace Vinance.Web.Controllers
     public class IncomeController : Controller
     {
         private readonly IIncomeApi _incomeApi;
+        private readonly IMapper _mapper;
 
-        public IncomeController(IIncomeApi incomeApi)
+        public IncomeController(IIncomeApi incomeApi, IMapper mapper)
         {
             _incomeApi = incomeApi;
+            _mapper = mapper;
         }
 
         [HttpGet]
@@ -51,14 +55,15 @@ namespace Vinance.Web.Controllers
         [Route("edit")]
         public IActionResult Edit(int incomeId)
         {
-            return ViewComponent(typeof(EditIncome), new { incomeId });
+            return ViewComponent(typeof(EditIncome), incomeId);
         }
 
         [HttpPost]
         [Route("edit")]
-        public async Task<IActionResult> Edit(Income income)
+        public async Task<IActionResult> Edit(CreateIncomeViewmodel income)
         {
-            await _incomeApi.Update(income);
+            var model = _mapper.Map<Income>(income);
+            await _incomeApi.Update(model);
             return ViewComponent(typeof(GetAllIncome));
         }
 

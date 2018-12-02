@@ -1,5 +1,7 @@
 ﻿using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Vinance.Web.Models;
 
 namespace Vinance.Web.Controllers
 {
@@ -12,10 +14,12 @@ namespace Vinance.Web.Controllers
     public class TransferController : Controller
     {
         private readonly ITransferApi _transferApi;
+        private readonly IMapper _mapper;
 
-        public TransferController(ITransferApi transferApi)
+        public TransferController(ITransferApi transferApi, IMapper mapper)
         {
             _transferApi = transferApi;
+            _mapper = mapper;
         }
 
         [HttpGet]
@@ -47,12 +51,20 @@ namespace Vinance.Web.Controllers
             return ViewComponent(typeof(MainPageTables));
         }
 
+        [HttpGet]
+        [Route("edit")]
+        public IActionResult Edit(int transferId)
+        {
+            return ViewComponent(typeof(EditTransfer), transferId);
+        }
+
         [HttpPost]
         [Route("edit")]
-        public async Task<IActionResult> Edit(Transfer transfer)
+        public async Task<IActionResult> Edit(CreateTransferViewmodel transfer)
         {
-            await _transferApi.Update(transfer);
-            return RedirectToAction("GetAll");
+            var model = _mapper.Map<Transfer>(transfer);
+            await _transferApi.Update(model);
+            return ViewComponent(typeof(GetAllTransfer));
         }
 
         [HttpPost]

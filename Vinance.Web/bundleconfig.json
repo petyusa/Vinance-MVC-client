@@ -1,0 +1,69 @@
+[
+    {
+        "outputFileName": "wwwroot/css/site.min.css",
+        "inputFiles": [
+            "wwwroot/css/site.css",
+            "wwwroot/lib/tempus-dominus-bootstrap-4/css/tempusdominus-bootstrap-4.css",
+            "wwwroot/lib/twitter-bootstrap/css/bootstrap.css"
+        ],
+        "minify": {
+            "enabled": true,
+            "commentMode": "hacks"
+        }
+    },
+    {
+        "outputFileName": "wwwroot/css/dark-theme.min.css",
+        "inputFiles": [
+            "wwwroot/lib/twitter-bootstrap/css/dark-theme/bootstrap-dark.css"
+        ],
+        "minify": {
+            "enabled": true,
+            "commentMode": "hacks"
+        }
+    },
+    {
+        "outputFileName": "wwwroot/js/libs.min.js",
+        "inputFiles": [
+            "wwwroot/lib/Chart.js/chart.js",
+            "wwwroot/lib/feather-icons/feather.js",
+            "wwwroot/lib/popper.js/esm/popper.min.js",
+            "wwwroot/lib/twitter-bootstrap/js/bootstrap.js",
+            "wwwroot/lib/moment.js/moment-with-locales.js",
+            "wwwroot/lib/tempus-dominus-bootstrap-4/js/tempusdominus-bootstrap-4.js"
+        ],
+        "minify": {
+            "enabled": true,
+            "renameLocals": false,
+            "commentMode": "hacks"
+        },
+        "sourceMap": false
+    },
+    {
+        "outputFileName": "wwwroot/js/jquery.min.js",
+        "inputFiles": [
+            "wwwroot/lib/jquery/jquery.js",
+            "wwwroot/lib/jquery-ajax-unobtrusive/jquery-ajax-unobtrusive.min.js",
+            "wwwroot/lib/jquery-validate/jquery.validate.js",
+            "wwwroot/lib/jquery-validate/localization/messages_hu.js",
+            "wwwroot/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"
+        ],
+        "minify": {
+            "enabled": true,
+            "renameLocals": true,
+            "commentMode": "hacks"
+        },
+        "sourceMap": false
+    },
+    {
+        "outputFileName": "wwwroot/js/site.min.js",
+        "inputFiles": [
+            "wwwroot/js/main.js"
+        ],
+        "minify": {
+            "enabled": true,
+            "renameLocals": true,
+            "commentMode": "hacks"
+        },
+        "sourceMap": false
+    }
+]

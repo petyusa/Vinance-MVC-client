@@ -1,5 +1,11 @@
 ﻿@model IEnumerable<Vinance.Contracts.Models.Domain.Account>
-
+@{
+    var isMainPage = false;
+    if (ViewData.TryGetValue("main-page", out var data))
+    {
+        isMainPage = (bool)data;
+    }
+}
 <table class="table table-sm table-bordered table-striped" id="account-list">
     <thead class="thead-dark">
         <tr>
@@ -9,7 +15,10 @@
             <th>
                 @Html.DisplayNameFor(model => model.Balance)
             </th>
-            <th></th>
+            @if (isMainPage)
+            {
+                <th></th>
+            }
         </tr>
     </thead>
     <tbody>
@@ -20,27 +29,31 @@
                     @Html.DisplayFor(modelItem => item.Name)
                 </td>
                 <td class="text-right">
-                    @item.Balance.ToString("### ### ###")Ft
+                    @(item.Balance == 0 ? "0Ft" : item.Balance.ToString("### ### ###") + "Ft")
                 </td>
-                <td>
-                    @if (item.CanBeDeleted)
-                    {
-                        <form class="d-inline-block" 
-                              asp-controller="Account"
-                              asp-action="Delete"
-                              data-ajax-method="POST"
-                              data-ajax="true"
-                              data-ajax-update="#account-list"
-                              data-ajax-mode="replace"
-                              data-ajax-success="showAlert({message: 'Számla sikeresen törölve', class:'success'})">
-                            <input asp-for="@item.Id" class="d-none" name="accountId">
-                            <button type="submit" class="btn-table text-danger"><i data-feather="trash"></i></button>
-                        </form>
-                    }
+                @if (isMainPage)
+                {
+                    <td>
+                        @if (item.CanBeDeleted)
+                        {
+                            <form class="d-inline-block"
+                                  asp-controller="Account"
+                                  asp-action="Delete"
+                                  data-ajax-method="POST"
+                                  data-ajax="true"
+                                  data-ajax-update="#account-list"
+                                  data-ajax-mode="replace"
+                                  data-ajax-success="showAlert({message: 'Számla sikeresen törölve', class:'success'})">
+                                <input asp-for="@item.Id" class="d-none" name="accountId">
+                                <button type="submit" class="btn-table text-danger"><i data-feather="trash"></i></button>
+                            </form>
+                        }
+                    </td>
+                }
             </tr>
         }
     </tbody>
 </table>
-
-
-</td>
+<script>
+    feather.replace({ height: 20, width: 20 });
+</script>

@@ -55,10 +55,10 @@
                     <a class="d-inline-block text-warning"
                        asp-controller="Expense"
                        asp-action="Edit"
-                       asp-route-incomeId="@item.Id"
+                       asp-route-expenseId="@item.Id"
                        data-ajax="true"
                        data-ajax-method="GET"
-                       data-ajax-update="#expense-income"
+                       data-ajax-update="#edit-expense"
                        data-ajax-mode="replace"><i data-feather="edit-2"></i></a>
                 </td>
             </tr>

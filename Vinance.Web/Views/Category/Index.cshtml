@@ -1,26 +1,13 @@
 ﻿@using Vinance.Contracts.Enumerations
+@using Vinance.Web.Components.Category
 @{
     ViewData["Title"] = "Kategóriák";
 }
 
 <h4>Kategóriák</h4>
 
-<div class="row">
-    <div class="col-lg-4">
-        <div id="expense-category-list">
-            @await Component.InvokeAsync("GetAllCategory", new { type = CategoryType.Expense })
-        </div>
-    </div>
-    <div class="col-lg-4">
-        <div id="income-category-list">
-            @await Component.InvokeAsync("GetAllCategory", new { type = CategoryType.Income })
-        </div>
-    </div>
-    <div class="col-lg-4">
-        <div id="transfer-category-list">
-            @await Component.InvokeAsync("GetAllCategory", new { type = CategoryType.Transfer })
-        </div>
-    </div>
+<div id="category-tables">
+    @await Component.InvokeAsync(typeof(CategoryTables))
 </div>
 <div class="row">
     <div class="col-lg-4">

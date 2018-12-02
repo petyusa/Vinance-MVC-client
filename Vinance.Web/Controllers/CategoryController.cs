@@ -30,7 +30,7 @@ namespace Vinance.Web.Controllers
         public async Task<IActionResult> Create(Category category)
         {
             var success = await _categoryApi.Create(category);
-            return RedirectToAction("GetAll");
+            return ViewComponent(typeof(CategoryTables));
         }
 
         [HttpGet]
@@ -54,7 +54,7 @@ namespace Vinance.Web.Controllers
         public async Task<IActionResult> Delete(int categoryId)
         {
             await _categoryApi.Delete(categoryId);
-            return RedirectToAction("GetAll");
+            return ViewComponent(typeof(CategoryTables));
         }
     }
 }

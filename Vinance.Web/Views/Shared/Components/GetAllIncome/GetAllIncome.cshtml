@@ -51,15 +51,15 @@
                           data-ajax-mode="replace"
                           data-ajax-success="showAlert({message: 'Income successfully deleted', class:'success'})">
                         <input asp-for="@item.Id" class="d-none" name="incomeId">
-                        <button type="submit" class="btn-table delete"><i data-feather="trash"></i></button>
+                        <button type="submit" class="btn-table text-danger"><i data-feather="trash"></i></button>
                     </form>
-                    <a class="d-inline-block"
+                    <a class="d-inline-block text-warning"
                        asp-controller="Income"
                        asp-action="Edit"
                        asp-route-incomeId="@item.Id"
                        data-ajax="true"
                        data-ajax-method="GET"
-                       data-ajax-update="#create-income"
+                       data-ajax-update="#edit-income"
                        data-ajax-mode="replace"><i data-feather="edit-2"></i></a>
                 </td>
             </tr>

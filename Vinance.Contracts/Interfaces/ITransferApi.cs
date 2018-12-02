@@ -8,6 +8,7 @@ namespace Vinance.Contracts.Interfaces
     public interface ITransferApi
     {
         Task<IEnumerable<Transfer>> GetAll();
+        Task<Transfer> Get(int transferId);
         Task<bool> Create(Transfer transfer);
         Task<bool> Delete(int transferId);
         Task<bool> Update(Transfer transfer);

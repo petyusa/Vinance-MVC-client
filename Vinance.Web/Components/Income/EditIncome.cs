@@ -1,8 +1,8 @@
-﻿using AutoMapper;
+﻿using System.Linq;
+using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Vinance.Web.Components.Income
 {
@@ -27,10 +27,12 @@ namespace Vinance.Web.Components.Income
 
         public async Task<IViewComponentResult> InvokeAsync(int incomeId)
         {
-            var income = await _incomeApi.Get(incomeId);
             var accounts = await _accountApi.GetAll();
             var categories = await _categoryApi.GetCategories(CategoryType.Income);
+
+            var income = await _incomeApi.Get(incomeId);
             var model = _mapper.Map<CreateIncomeViewmodel>(income);
+
             model.AccountList = accounts.Select(a => new SelectListItem(a.Name, a.Id.ToString()));
             model.CategoryList = categories.Select(c => new SelectListItem(c.Name, c.Id.ToString()));
 
