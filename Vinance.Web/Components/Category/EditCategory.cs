@@ -1,6 +1,5 @@
-﻿using AutoMapper;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
 
 namespace Vinance.Web.Components.Category
 {
@@ -9,18 +8,16 @@ namespace Vinance.Web.Components.Category
     public class EditCategory : ViewComponent
     {
         private readonly ICategoryApi _categoryApi;
-        private readonly IMapper _mapper;
 
-        public EditCategory(ICategoryApi categoryApi, IMapper mapper)
+        public EditCategory(ICategoryApi categoryApi)
         {
             _categoryApi = categoryApi;
-            _mapper = mapper;
         }
 
         public async Task<IViewComponentResult> InvokeAsync(int categoryId)
         {
             var category = await _categoryApi.Get(categoryId);
-            return View("EditCategory", category);
+            return View("EditCategory2", category);
         }
     }
 }

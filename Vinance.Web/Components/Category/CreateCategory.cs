@@ -2,11 +2,18 @@
 
 namespace Vinance.Web.Components.Category
 {
+    using Contracts.Enumerations;
+    using Contracts.Models.Domain;
+
     public class CreateCategory : ViewComponent
     {
-        public IViewComponentResult Invoke()
+        public IViewComponentResult Invoke(CategoryType type)
         {
-            return View("CreateCategory");
+            var model = new Category
+            {
+                Type = type
+            };
+            return View("CreateCategory", model);
         }
     }
 }

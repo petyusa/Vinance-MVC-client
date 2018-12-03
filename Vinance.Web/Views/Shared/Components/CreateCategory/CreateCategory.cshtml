@@ -1,26 +1,56 @@
 ﻿@using Vinance.Contracts.Enumerations
 @model Vinance.Contracts.Models.Domain.Category
 
-<div class="form-container">
-    <form asp-controller="Category"
+@*<div class="form-container mb-3">
+    <h5>Új hozzáadása</h5>
+    <form class="form-inline justify-content-between"
+          asp-controller="Category"
           asp-action="Create"
           data-ajax="true"
           data-ajax-method="POST"
           data-ajax-update="#category-tables"
           data-ajax-mode="replace"
           data-ajax-success="showAlert({message:'Kategória létrehozva', class: 'success'})">
-        <div class="form-group">
-            <label asp-for="Name"></label>
-            <input asp-for="Name" class="form-control" />
-        </div>
-        <div class="form-group">
-            <label asp-for="Type"></label>
-            <select asp-for="Type" asp-items="Html.GetEnumSelectList<CategoryType>()" class="custom-select"></select>
-        </div>
-        <div class="form-group">
-            <label asp-for="MonthlyLimit"></label>
-            <input asp-for="MonthlyLimit" class="form-control" />
-        </div>
-        <input type="submit" value="Hozzáadás" class="btn btn-primary" />
+        <label asp-for="Name"></label>
+        <input asp-for="Name" class="form-control form-control-sm"/>
+        <label asp-for="Type"></label>
+        <select asp-for="Type" asp-items="Html.GetEnumSelectList<CategoryType>()" class="custom-select">
+            <option value="" selected disabled>Válassz típust</option>
+        </select>
+        <label asp-for="MonthlyLimit"></label>
+        <input asp-for="MonthlyLimit" class="form-control"/>
+        <input type="submit" value="Hozzáadás" class="btn btn-primary"/>
     </form>
-</div>
+</div>*@
+
+<tr>
+    <form asp-controller="Category"
+          asp-action="Create"
+          data-ajax="true"
+          data-ajax-method="POST"
+          data-ajax-update="#category-tables"
+          data-ajax-mode="replace"
+          data-ajax-success="showAlert({message:'Kategória módosítva', class: 'success'})">
+        <td>
+            <input asp-for="Name" class="table-input"/>
+        </td>
+        <td>
+            <input asp-for="Type" class="d-none"/>
+        </td>
+        @if (Model.Type == CategoryType.Expense)
+        {
+            <td colspan="2">
+                <input asp-for="MonthlyLimit" class="table-input"/>
+            </td>
+        }
+        else
+        {
+            <td class="d-none">
+                <input asp-for="MonthlyLimit" class="table-input" />
+            </td>
+        }
+        <td class="text-center">
+            <button type="submit" class="btn-table text-success"><i data-feather="plus-circle"></i></button>
+        </td>
+    </form>
+</tr>

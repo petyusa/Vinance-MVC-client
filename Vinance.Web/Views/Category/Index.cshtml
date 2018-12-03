@@ -5,14 +5,15 @@
 }
 
 <h4>Kategóriák</h4>
-
+<div class="row">
+    <div class="col-lg-12">
+        @*@await Component.InvokeAsync("CreateCategory")*@
+    </div>
+</div>
 <div id="category-tables">
     <div class="row">
-        <div class="col-lg-8">
+        <div class="col-12">
             @await Component.InvokeAsync(typeof(CategoryTables))
-        </div>
-        <div class="col-lg-4">
-            @await Component.InvokeAsync("CreateCategory")
         </div>
     </div>
 </div>

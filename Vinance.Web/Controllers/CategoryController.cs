@@ -42,6 +42,13 @@ namespace Vinance.Web.Controllers
 
         [HttpGet]
         [Route("edit")]
+        public IActionResult Edit(int categoryId)
+        {
+            return ViewComponent(typeof(EditCategory), categoryId);
+        }
+
+        [HttpPost]
+        [Route("edit")]
         public async Task<IActionResult> Edit(Category category)
         {
             await _categoryApi.Update(category);

@@ -1,4 +1,5 @@
 ﻿@using Vinance.Contracts.Enumerations
+@using Vinance.Web.Components.Category
 @model IEnumerable<CategoryViewmodel>
 @{
     var type = Model.FirstOrDefault()?.Type;
@@ -33,7 +34,9 @@
             </th>
             @if (type == CategoryType.Expense)
             {
-                <th></th>
+                <th colspan="2">
+                    @Html.DisplayNameFor(model => model.MonthlyLimit)
+                </th>
             }
             @if (ViewBag.Editable)
             {
@@ -76,10 +79,13 @@
                             <div style="width: @item.MonthlyLimitUsed%; height: 100%; background-color: @color;"></div>
                         </div>
                     </td>
+                    <td>
+                        @(item.MonthlyLimit == 0 ? "0Ft" : item.MonthlyLimit.ToString("### ### ###") + "Ft")
+                    </td>
                 }
                 @if (ViewBag.Editable)
                 {
-                    <td>
+                    <td class="text-right" style="width: 60px">
                         @if (item.CanBeDeleted)
                         {
                             <form class="d-inline-block"
@@ -93,19 +99,21 @@
                                 <input asp-for="@item.Id" class="d-none" name="categoryId">
                                 <button type="submit" class="btn-table text-danger"><i data-feather="trash"></i></button>
                             </form>
-                            <a class="d-inline-block text-warning"
-                               asp-controller="Category"
-                               asp-action="Edit"
-                               asp-route-categoryId="@item.Id"
-                               data-ajax="true"
-                               data-ajax-method="GET"
-                               data-ajax-update="#edit-category"
-                               data-ajax-mode="replace"><i data-feather="edit-2"></i></a>
                         }
+                        <a class="d-inline-block text-warning"
+                           asp-controller="Category"
+                           asp-action="Edit"
+                           asp-route-categoryId="@item.Id"
+                           data-ajax="true"
+                           data-ajax-method="GET"
+                           data-ajax-update="#edit-category"
+                           data-ajax-mode="replace"><i data-feather="edit-2"></i></a>
                     </td>
                 }
             </tr>
         }
+
+        @await Component.InvokeAsync(typeof(CreateCategory), new { type = type })
     </tbody>
 </table>
 <script>

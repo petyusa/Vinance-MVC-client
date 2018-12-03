@@ -1,0 +1,26 @@
+﻿@using Vinance.Contracts.Enumerations
+@model Vinance.Contracts.Models.Domain.Category
+
+<tr>
+    <form asp-controller="Category"
+          asp-action="Edit"
+          data-ajax="true"
+          data-ajax-method="POST"
+          data-ajax-update="#category-tables"
+          data-ajax-mode="replace"
+          data-ajax-success="showAlert({message:'Kategória módosítva', class: 'success'})">
+        <input asp-for="Id" class="d-none" />
+        <td>
+                <input asp-for="Name" class="table-input"/>
+        </td>
+        <td colspan="2">
+                
+        </td>
+        <td>
+                <input asp-for="MonthlyLimit" class="table-input"/>
+        </td>
+        <td class="text-center">
+            <button type="submit" class="btn-table text-success"><i data-feather="plus-circle"></i></button>
+        </td>
+    </form>
+</tr>
