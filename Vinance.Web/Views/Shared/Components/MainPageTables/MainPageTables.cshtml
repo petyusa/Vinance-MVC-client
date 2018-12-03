@@ -9,12 +9,12 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-12">
+            <div class="col-12 d-none d-sm-none d-md-block">
                 @await Component.InvokeAsync(typeof(CategoryChart))
             </div>
         </div>
     </div>
     <div class="col-lg-6">
-        @await Component.InvokeAsync(typeof(GetAllCategory), new { editable = false, type = CategoryType.Expense })
+            @await Component.InvokeAsync(typeof(GetAllCategory), new {editable = false, type = CategoryType.Expense})
     </div>
 </div>

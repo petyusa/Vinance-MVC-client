@@ -45,7 +45,7 @@ namespace Vinance.Web.Controllers
         public async Task<IActionResult> Edit(Category category)
         {
             await _categoryApi.Update(category);
-            return RedirectToAction("GetAll");
+            return ViewComponent(typeof(CategoryTables));
         }
 
         [HttpPost]

@@ -9,6 +9,7 @@ namespace Vinance.Contracts.Interfaces
     public interface ICategoryApi
     {
         Task<IEnumerable<Category>> GetCategories(CategoryType? type = null);
+        Task<Category> Get(int categoryId);
         Task<bool> Create(Category category);
         Task<bool> Update(Category category);
         Task<bool> Delete(int categoryId);

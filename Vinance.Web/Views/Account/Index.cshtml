@@ -6,7 +6,6 @@
     <div id="account-list" class="col-lg-8">
         @await Component.InvokeAsync("GetAllAccount", new { editable = true })
     </div>
-    <div id="create-account" class="col-lg-4">
-        @await Component.InvokeAsync("CreateAccount")
+    <div id="edit-account" class="col-lg-4">
     </div>
 </div>

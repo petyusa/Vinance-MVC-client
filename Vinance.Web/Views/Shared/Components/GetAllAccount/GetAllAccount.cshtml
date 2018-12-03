@@ -41,6 +41,14 @@
                                 <input asp-for="@item.Id" class="d-none" name="accountId">
                                 <button type="submit" class="btn-table text-danger"><i data-feather="trash"></i></button>
                             </form>
+                            <a class="d-inline-block text-warning"
+                               asp-controller="Account"
+                               asp-action="Edit"
+                               asp-route-accountId="@item.Id"
+                               data-ajax="true"
+                               data-ajax-method="GET"
+                               data-ajax-update="#edit-account"
+                               data-ajax-mode="replace"><i data-feather="edit-2"></i></a>
                         }
                     </td>
                 }

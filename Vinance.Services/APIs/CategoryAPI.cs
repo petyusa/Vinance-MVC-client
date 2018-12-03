@@ -43,6 +43,14 @@ namespace Vinance.Services.APIs
             return categories.OrderBy(c => c.Name);
         }
 
+        public async Task<Category> Get(int categoryId)
+        {
+            var client = _factory.CreateClient(Constants.AuthenticatedClient);
+            var response = await client.GetAsync($"categories/{categoryId}");
+
+            return await _responseHandler.HandleAsync<Category>(response);
+        }
+
         public async Task<bool> Create(Category category)
         {
             var client = _factory.CreateClient(Constants.AuthenticatedClient);

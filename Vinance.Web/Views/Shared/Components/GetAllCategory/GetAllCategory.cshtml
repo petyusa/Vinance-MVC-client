@@ -21,7 +21,7 @@
     }
 }
 
-<h4>@title</h4>
+<h5>@title</h5>
 <table class="table table-bordered table-sm table-striped">
     <thead class="thead-dark form-group">
         <tr>
@@ -93,6 +93,14 @@
                                 <input asp-for="@item.Id" class="d-none" name="categoryId">
                                 <button type="submit" class="btn-table text-danger"><i data-feather="trash"></i></button>
                             </form>
+                            <a class="d-inline-block text-warning"
+                               asp-controller="Category"
+                               asp-action="Edit"
+                               asp-route-categoryId="@item.Id"
+                               data-ajax="true"
+                               data-ajax-method="GET"
+                               data-ajax-update="#edit-category"
+                               data-ajax-mode="replace"><i data-feather="edit-2"></i></a>
                         }
                     </td>
                 }

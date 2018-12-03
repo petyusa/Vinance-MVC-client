@@ -47,12 +47,19 @@ namespace Vinance.Web.Controllers
             return ViewComponent(typeof(GetAllAccount));
         }
 
+        [HttpGet]
+        [Route("edit")]
+        public IActionResult Edit(int accountId)
+        {
+            return ViewComponent(typeof(EditAccount), accountId);
+        }
+
         [HttpPost]
         [Route("edit")]
         public async Task<IActionResult> Edit(Account account)
         {
             await _accountApi.Update(account);
-            return RedirectToAction("GetAll");
+            return ViewComponent(typeof(GetAllAccount), new {editable = true});
         }
     }
 }

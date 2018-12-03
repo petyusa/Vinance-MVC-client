@@ -2,9 +2,9 @@
     {
         "outputFileName": "wwwroot/css/site.min.css",
         "inputFiles": [
-            "wwwroot/css/site.css",
             "wwwroot/lib/tempus-dominus-bootstrap-4/css/tempusdominus-bootstrap-4.css",
-            "wwwroot/lib/twitter-bootstrap/css/bootstrap.css"
+            "wwwroot/lib/twitter-bootstrap/css/bootstrap.css",
+            "wwwroot/css/site.css"
         ],
         "minify": {
             "enabled": true,
