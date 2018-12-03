@@ -1,11 +1,5 @@
 ﻿@model IEnumerable<Vinance.Contracts.Models.Domain.Account>
-@{
-    var isMainPage = false;
-    if (ViewData.TryGetValue("main-page", out var data))
-    {
-        isMainPage = (bool)data;
-    }
-}
+
 <table class="table table-sm table-bordered table-striped" id="account-list">
     <thead class="thead-dark">
         <tr>
@@ -15,7 +9,7 @@
             <th>
                 @Html.DisplayNameFor(model => model.Balance)
             </th>
-            @if (!isMainPage)
+            @if (ViewBag.Editable)
             {
                 <th></th>
             }
@@ -31,7 +25,7 @@
                 <td class="text-right">
                     @(item.Balance == 0 ? "0Ft" : item.Balance.ToString("### ### ###") + "Ft")
                 </td>
-                @if (!isMainPage)
+                @if (ViewBag.Editable)
                 {
                     <td>
                         @if (item.CanBeDeleted)

@@ -19,11 +19,6 @@
         default:
             throw new ArgumentOutOfRangeException();
     }
-    var isMainPage = false;
-    if (ViewData.TryGetValue("main-page", out var data))
-    {
-        isMainPage = (bool)data;
-    }
 }
 
 <h4>@title</h4>
@@ -40,7 +35,7 @@
             {
                 <th></th>
             }
-            @if (!isMainPage)
+            @if (ViewBag.Editable)
             {
                 <th></th>
             }
@@ -82,7 +77,7 @@
                         </div>
                     </td>
                 }
-                @if (!isMainPage)
+                @if (ViewBag.Editable)
                 {
                     <td>
                         @if (item.CanBeDeleted)

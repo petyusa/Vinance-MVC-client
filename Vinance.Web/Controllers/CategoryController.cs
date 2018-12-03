@@ -21,7 +21,6 @@ namespace Vinance.Web.Controllers
         [Route("")]
         public IActionResult Index(Category category)
         {
-            ViewData["main-page"] = false;
             return View();
         }
 

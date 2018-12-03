@@ -1,14 +1,12 @@
 ﻿@{
     ViewData["Title"] = "Számlák";
 }
-
 <h2>Számlák</h2>
 <div class="row">
     <div id="account-list" class="col-lg-8">
-        @await Component.InvokeAsync("GetAllAccount")
+        @await Component.InvokeAsync("GetAllAccount", new { editable = true })
     </div>
-
-    <div id="create-account" class="col-lg-4" >
+    <div id="create-account" class="col-lg-4">
         @await Component.InvokeAsync("CreateAccount")
     </div>
 </div>

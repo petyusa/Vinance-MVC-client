@@ -20,10 +20,11 @@ namespace Vinance.Web.Components.Category
             _mapper = mapper;
         }
 
-        public async Task<IViewComponentResult> InvokeAsync(CategoryType? type = null)
+        public async Task<IViewComponentResult> InvokeAsync(bool editable, CategoryType? type = null)
         {
             var categories = await _categoryApi.GetCategories(type);
             var model = _mapper.Map<IEnumerable<CategoryViewmodel>>(categories);
+            ViewBag.Editable = editable;
             return View("GetAllCategory", model);
         }
     }

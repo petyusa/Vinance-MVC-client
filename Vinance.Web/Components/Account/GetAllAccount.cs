@@ -14,9 +14,10 @@ namespace Vinance.Web.Components.Account
             _accountApi = accountApi;
         }
 
-        public async Task<IViewComponentResult> InvokeAsync()
+        public async Task<IViewComponentResult> InvokeAsync(bool editable)
         {
             var accounts = await _accountApi.GetAll();
+            ViewBag.Editable = editable;
             return View("GetAllAccount", accounts);
         }
     }

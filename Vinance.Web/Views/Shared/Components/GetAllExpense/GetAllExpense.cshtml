@@ -9,13 +9,13 @@
             <th>
                 @Html.DisplayNameFor(model => model.Amount)
             </th>
-            <th>
+            <th class="d-none d-sm-table-cell">
                 @Html.DisplayNameFor(model => model.FromName)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.CategoryName)
             </th>
-            <th class="mr-auto">
+            <th class="mr-auto d-none d-sm-table-cell">
                 @Html.DisplayNameFor(model => model.Comment)
             </th>
             <th></th>
@@ -31,13 +31,13 @@
                 <td class="text-right">
                     @item.Amount.ToString("### ### ###")Ft
                 </td>
-                <td>
+                <td class="d-none d-sm-table-cell">
                     @Html.DisplayFor(modelItem => item.FromName)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.CategoryName)
                 </td>
-                <td>
+                <td class="d-none d-sm-table-cell">
                     @Html.DisplayFor(modelItem => item.Comment)
                 </td>
                 <td class="text-center">

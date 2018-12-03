@@ -2,13 +2,13 @@
 
 <div class="row">
     <div class="col-lg-4">
-        @await Component.InvokeAsync("GetAllCategory", new { type = CategoryType.Expense })
+        @await Component.InvokeAsync("GetAllCategory", new { editable = true, type = CategoryType.Expense })
     </div>
     <div class="col-lg-4">
-        @await Component.InvokeAsync("GetAllCategory", new { type = CategoryType.Income })
+        @await Component.InvokeAsync("GetAllCategory", new { editable = true, type = CategoryType.Income })
     </div>
     <div class="col-lg-4">
-        @await Component.InvokeAsync("GetAllCategory", new { type = CategoryType.Transfer })
+        @await Component.InvokeAsync("GetAllCategory", new { editable = true, type = CategoryType.Transfer })
     </div>
 </div>
 <script>
