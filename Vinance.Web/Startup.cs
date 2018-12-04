@@ -7,13 +7,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Net.Http;
-using System.Security.Claims;
-using Microsoft.Extensions.Logging;
-using NLog;
-using Vinance.Services.Services;
-using Vinance.Web.Helpers;
 
 namespace Vinance.Web
 {
@@ -31,15 +24,12 @@ namespace Vinance.Web
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddAutoMapper(opt =>
-            {
-                opt.CreateMissingTypeMaps = true;
-            });
+            services.AddAutoMapper();
             services.AddHttpContextAccessor();
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(opt =>
                 {
-                    CookieMiddleware.UseVinanceCookie(opt, Configuration);
+                    CookieMiddleware.RefreshTokenHandler(opt, Configuration);
                 });
 
             services.AddEmailSender(Configuration);

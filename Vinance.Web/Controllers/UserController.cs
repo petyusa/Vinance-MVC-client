@@ -53,12 +53,14 @@ namespace Vinance.Web.Controllers
             claimsIdentity.AddClaim(new Claim("refresh_token", tokenResult.RefreshToken));
             var principal = new ClaimsPrincipal(claimsIdentity);
 
-            var authOpt = new AuthenticationProperties
+            var authOpt = new AuthenticationProperties();
+            if (login.RememberMe)
             {
-                IsPersistent = login.RememberMe,
-                AllowRefresh = true,
-                ExpiresUtc =  DateTimeOffset.FromUnixTimeSeconds(long.Parse(claimsIdentity.FindFirst("exp").Value))
-            };
+                authOpt.IsPersistent = true;
+                authOpt.ExpiresUtc = DateTime.Now.AddSeconds(tokenResult.RefreshTokenExpiresIn);
+                authOpt.AllowRefresh = true;
+            }
+
             await HttpContext.SignInAsync(principal, authOpt);
 
             if (!string.IsNullOrWhiteSpace(login.ReturnUrl) && Url.IsLocalUrl(login.ReturnUrl))

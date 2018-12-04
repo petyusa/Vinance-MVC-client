@@ -1,9 +1,9 @@
 ﻿using System;
+using System.Net.Http;
+using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
-using System.Net.Http;
-using System.Security.Claims;
 
 namespace Vinance.Web.Middlewares
 {
@@ -14,14 +14,14 @@ namespace Vinance.Web.Middlewares
     {
         private static readonly HttpClient Client = new HttpClient();
 
-        public static void UseVinanceCookie(CookieAuthenticationOptions opt, IConfiguration configuration)
+        public static void RefreshTokenHandler(CookieAuthenticationOptions opt, IConfiguration configuration)
         {
             opt.LoginPath = "/login";
             opt.Events = new CookieAuthenticationEvents
             {
-                OnValidatePrincipal = async x =>
+                OnValidatePrincipal = async context =>
                 {
-                    var identity = (ClaimsIdentity)x.Principal.Identity;
+                    var identity = (ClaimsIdentity)context.Principal.Identity;
                     var accessTokenExp = DateTimeOffset.FromUnixTimeSeconds(int.Parse(identity.FindFirst("exp").Value));
 
                     if (accessTokenExp < DateTimeOffset.FromUnixTimeSeconds(60))
@@ -41,11 +41,11 @@ namespace Vinance.Web.Middlewares
 
                         identity.AddClaims(new[]
                         {
-                                    new Claim("access_token", result.AccessToken),
-                                    new Claim("refresh_token", result.RefreshToken)
-                                });
+                            new Claim("access_token", result.AccessToken),
+                            new Claim("refresh_token", result.RefreshToken)
+                        });
 
-                        x.ShouldRenew = true;
+                        context.ShouldRenew = true;
                     }
                 }
             };
