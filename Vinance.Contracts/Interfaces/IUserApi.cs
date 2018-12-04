@@ -7,7 +7,8 @@ namespace Vinance.Contracts.Interfaces
 
     public interface IUserApi
     {
-        Task<TokenResult> GetToken(LoginModel loginModel);
+        Task<AuthToken> GetToken(LoginModel loginModel);
+        Task<AuthToken> GetToken(string refreshToken);
         Task<TokenResult> Register(RegisterModel registerModel);
         Task<VinanceUser> GetUser();
         Task<bool> ConfirmEmail(string email, string token);

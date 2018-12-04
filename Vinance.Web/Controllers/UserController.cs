@@ -7,7 +7,6 @@ using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Identity;
 
 namespace Vinance.Web.Controllers
 {
@@ -48,20 +47,17 @@ namespace Vinance.Web.Controllers
             var tokenResult = await _userApi.GetToken(loginModel);
 
             var tokenHandler = new JwtSecurityTokenHandler();
-            var result = tokenHandler.ReadJwtToken(tokenResult.Token);
+            var result = tokenHandler.ReadJwtToken(tokenResult.AccessToken);
             var claimsIdentity = new ClaimsIdentity(result.Claims, CookieAuthenticationDefaults.AuthenticationScheme);
-            claimsIdentity.AddClaim(new Claim("access_token", tokenResult.Token));
+            claimsIdentity.AddClaim(new Claim("access_token", tokenResult.AccessToken));
+            claimsIdentity.AddClaim(new Claim("refresh_token", tokenResult.RefreshToken));
             var principal = new ClaimsPrincipal(claimsIdentity);
-
-            DateTime? validTo;
-            if (login.RememberMe)
-                validTo = result.ValidTo;
-            else
-                validTo = null;
 
             var authOpt = new AuthenticationProperties
             {
-                IsPersistent = login.RememberMe
+                IsPersistent = login.RememberMe,
+                AllowRefresh = true,
+                ExpiresUtc =  DateTimeOffset.FromUnixTimeSeconds(long.Parse(claimsIdentity.FindFirst("exp").Value))
             };
             await HttpContext.SignInAsync(principal, authOpt);
 

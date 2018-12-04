@@ -19,12 +19,22 @@ namespace Vinance.Services.APIs
             _responseHandler = responseHandler;
         }
 
-        public async Task<TokenResult> GetToken(LoginModel loginModel)
+        public async Task<AuthToken> GetToken(LoginModel loginModel)
         {
             var client = _factory.CreateClient("not-authenticated-client");
 
             var response = await client.PostAsJsonAsync("users/token", loginModel);
-            var tokenResult = await _responseHandler.HandleWithErrorAsync<TokenResult>(response);
+            var tokenResult = await _responseHandler.HandleWithErrorAsync<AuthToken>(response);
+
+            return tokenResult;
+        }
+
+        public async Task<AuthToken> GetToken(string refreshToken)
+        {
+            var client = _factory.CreateClient("not-authenticated-client");
+
+            var response = await client.PostAsJsonAsync("users/token/refresh", refreshToken);
+            var tokenResult = await _responseHandler.HandleWithErrorAsync<AuthToken>(response);
 
             return tokenResult;
         }
