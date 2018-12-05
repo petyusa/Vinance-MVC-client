@@ -23,8 +23,7 @@ namespace Vinance.Web.Middlewares
                 {
                     var identity = (ClaimsIdentity)context.Principal.Identity;
                     var accessTokenExp = DateTimeOffset.FromUnixTimeSeconds(int.Parse(identity.FindFirst("exp").Value));
-
-                    if (accessTokenExp < DateTimeOffset.FromUnixTimeSeconds(60))
+                    if (accessTokenExp < DateTime.UtcNow.AddMinutes(1))
                     {
                         var accessTokenClaim = identity.FindFirst("access_token");
                         var refreshTokenClaim = identity.FindFirst("refresh_token");
