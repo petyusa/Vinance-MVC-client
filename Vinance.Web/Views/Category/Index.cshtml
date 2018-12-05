@@ -1,5 +1,4 @@
-﻿@using Vinance.Contracts.Enumerations
-@using Vinance.Web.Components.Category
+﻿@using Vinance.Web.Components.Category
 @{
     ViewData["Title"] = "Kategóriák";
 }
@@ -7,12 +6,5 @@
 <h4>Kategóriák</h4>
 
 <div id="category-tables">
-    <div class="row">
-        <div class="col-lg-8">
-            @await Component.InvokeAsync(typeof(CategoryTables))
-        </div>
-        <div class="col-lg-4">
-            @await Component.InvokeAsync("CreateCategory")
-        </div>
-    </div>
+    @await Component.InvokeAsync(typeof(CategoryTables))
 </div>

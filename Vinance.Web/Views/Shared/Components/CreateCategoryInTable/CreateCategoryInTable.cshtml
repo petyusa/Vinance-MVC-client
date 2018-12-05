@@ -1,0 +1,38 @@
+﻿@using Vinance.Contracts.Enumerations
+@model CategoryViewmodel
+@{
+    var type = Model.Type;
+    var formId = $"create-{type}-form";
+}
+<form id="@formId"
+          asp-controller="Category"
+          asp-action="Create"
+          data-ajax="true"
+          data-ajax-method="POST"
+          data-ajax-update="#category-tables"
+          data-ajax-mode="replace"
+          data-ajax-success="showAlert({message:'Kategória létrehozva', class: 'success'})">
+    </form>
+<tr>
+        <td class="input-th">
+            <input asp-for="Name" value="" placeholder="Név" class="table-input" form="@formId"/>
+        </td>
+        @if (type == CategoryType.Expense)
+        {
+            <td class="input-th">
+                <input asp-for="MonthlyLimit" value="" placeholder="Havi limit" class="table-input" form="@formId"/>
+            </td>
+        }
+        else
+        {
+            <td class="d-none">
+                <input asp-for="MonthlyLimit" form="@formId" value="0"/>
+            </td>
+        }
+        <td>
+            <input class="d-none" asp-for="Type" form="@formId" />
+        </td>
+        <td class="text-right">
+            <button type="submit" class="btn-table text-success" form="@formId"><i data-feather="plus-circle"></i></button>
+        </td>
+</tr>

@@ -1,4 +1,5 @@
 ﻿@using Vinance.Contracts.Enumerations
+@using Vinance.Web.Components.Category
 @model IEnumerable<CategoryViewmodel>
 @{
     var type = Model.FirstOrDefault()?.Type;
@@ -19,9 +20,12 @@
         default:
             throw new ArgumentOutOfRangeException();
     }
+    var createFormId = $"create-{type}-form-container";
 }
 
-<h5>@title</h5>
+<div class="m-0 text-white p-1" style="background-color: #212529">
+    <h5 class="mb-0">@title</h5>
+</div>
 <table class="table table-bordered table-sm table-striped">
     <thead class="thead-dark form-group">
         <tr>
@@ -37,75 +41,85 @@
             }
             @if (ViewBag.Editable)
             {
-                <th></th>
+                <th class="text-right">
+                    <a class="d-inline-block text-success"
+                       asp-controller="Category"
+                       asp-action="CreateInTable"
+                       asp-route-type="@type"
+                       data-ajax="true"
+                       data-ajax-method="GET"
+                       data-ajax-update="#@createFormId"
+                       data-ajax-mode="replace"><i data-feather="plus-circle"></i></a>
+                </th>
             }
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Name)
-                </td>
-                <td class="text-right">
-                    @(item.Balance == 0 ? "0Ft" : item.Balance.ToString("### ### ###") + "Ft")
-                </td>
-                @if (type == CategoryType.Expense)
+    <tr class="" id="@createFormId"></tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td class="text-right">
+                @(item.Balance == 0 ? "0Ft" : item.Balance.ToString("### ### ###") + "Ft")
+            </td>
+            @if (type == CategoryType.Expense)
+            {
+                var color = "";
+                if (item.MonthlyLimitUsed >= 100)
                 {
-                    var color = "";
-                    if (item.MonthlyLimitUsed >= 100)
-                    {
-                        item.MonthlyLimitUsed = 100;
-                    }
-                    if (item.MonthlyLimitUsed < Math.Floor((DateTime.Now.Day / 30d) * 100) * 0.8)
-                    {
-                        color = "#2AA198";
-                    }
-                    else if (item.MonthlyLimitUsed < Math.Floor((DateTime.Now.Day / 30d) * 100))
-                    {
-                        color = "#CB4B16";
-                    }
-                    else
-                    {
-                        color = "#D33682";
-                    }
+                    item.MonthlyLimitUsed = 100;
+                }
+                if (item.MonthlyLimitUsed < Math.Floor((DateTime.Now.Day / 30d) * 100) * 0.8)
+                {
+                    color = "#2AA198";
+                }
+                else if (item.MonthlyLimitUsed < Math.Floor((DateTime.Now.Day / 30d) * 100))
+                {
+                    color = "#CB4B16";
+                }
+                else
+                {
+                    color = "#D33682";
+                }
 
-                    <td style="width: 100px;">
-                        <div style="width: 100%; overflow: hidden; height: 23px; background-color: grey; border: 1px solid black; border-radius: 4px;" data-toggle="tooltip" data-original-title="Monthly Limit: @item.MonthlyLimit, used: @item.MonthlyLimitUsed%">
-                            <div style="width: @item.MonthlyLimitUsed%; height: 100%; background-color: @color;"></div>
-                        </div>
-                    </td>
-                }
-                @if (ViewBag.Editable)
-                {
-                    <td>
-                        @if (item.CanBeDeleted)
-                        {
-                            <form class="d-inline-block"
-                                  asp-controller="Category"
-                                  asp-action="Delete"
-                                  data-ajax-method="POST"
-                                  data-ajax="true"
-                                  data-ajax-update="#category-tables"
-                                  data-ajax-mode="replace"
-                                  data-ajax-success="showAlert({message: 'Kategória sikeresen törölve', class:'success'})">
-                                <input asp-for="@item.Id" class="d-none" name="categoryId">
-                                <button type="submit" class="btn-table text-danger"><i data-feather="trash"></i></button>
-                            </form>
-                            <a class="d-inline-block text-warning"
-                               asp-controller="Category"
-                               asp-action="Edit"
-                               asp-route-categoryId="@item.Id"
-                               data-ajax="true"
-                               data-ajax-method="GET"
-                               data-ajax-update="#edit-category"
-                               data-ajax-mode="replace"><i data-feather="edit-2"></i></a>
-                        }
-                    </td>
-                }
-            </tr>
-        }
+                <td style="width: 100px;">
+                    <div style="width: 100%; overflow: hidden; height: 23px; background-color: grey; border: 1px solid black; border-radius: 4px;" data-toggle="tooltip" data-original-title="Monthly Limit: @item.MonthlyLimit, used: @item.MonthlyLimitUsed%">
+                        <div style="width: @item.MonthlyLimitUsed%; height: 100%; background-color: @color;"></div>
+                    </div>
+                </td>
+            }
+            @if (ViewBag.Editable)
+            {
+                <td class="text-right">
+                    @if (item.CanBeDeleted)
+                    {
+                        <form class="d-inline-block"
+                              asp-controller="Category"
+                              asp-action="Delete"
+                              data-ajax-method="POST"
+                              data-ajax="true"
+                              data-ajax-update="#category-tables"
+                              data-ajax-mode="replace"
+                              data-ajax-success="showAlert({message: 'Kategória sikeresen törölve', class:'success'})">
+                            <input asp-for="@item.Id" class="d-none" name="categoryId">
+                            <button type="submit" class="btn-table text-danger"><i data-feather="trash"></i></button>
+                        </form>
+                    }
+                    <a class="d-inline-block text-warning"
+                       asp-controller="Category"
+                       asp-action="Edit"
+                       asp-route-categoryId="@item.Id"
+                       data-ajax="true"
+                       data-ajax-method="GET"
+                       data-ajax-update="#edit-category"
+                       data-ajax-mode="replace"><i data-feather="edit-2"></i></a>
+                </td>
+            }
+        </tr>
+    }
     </tbody>
 </table>
 <script>

@@ -1,15 +1,19 @@
 ﻿@using Vinance.Contracts.Enumerations
 <div class="row">
-    <div class="col-lg-6">
+    <div class="col-lg-7">
         @await Component.InvokeAsync("GetAllCategory", new { editable = true, type = CategoryType.Expense })
     </div>
-    <div class="col-lg-6">
-        @await Component.InvokeAsync("GetAllCategory", new { editable = true, type = CategoryType.Income })
-    </div>
-</div>
-<div class="row">
-    <div class="col-lg-6">
-        @await Component.InvokeAsync("GetAllCategory", new { editable = true, type = CategoryType.Transfer })
+    <div class="col-lg-5">
+        <div class="row">
+            <div class="col-12">
+                @await Component.InvokeAsync("GetAllCategory", new { editable = true, type = CategoryType.Transfer })
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                @await Component.InvokeAsync("GetAllCategory", new { editable = true, type = CategoryType.Income })
+            </div>
+        </div>
     </div>
 </div>
 <script>

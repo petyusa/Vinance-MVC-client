@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
+using Vinance.Contracts.Enumerations;
 
 namespace Vinance.Web.Controllers
 {
@@ -30,6 +31,13 @@ namespace Vinance.Web.Controllers
         {
             var success = await _categoryApi.Create(category);
             return ViewComponent(typeof(CategoryTables));
+        }
+
+        [HttpGet]
+        [Route("create-table")]
+        public IActionResult CreateInTable(CategoryType type)
+        {
+            return ViewComponent(typeof(CreateCategoryInTable), new{type});
         }
 
         [HttpGet]

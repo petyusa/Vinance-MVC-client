@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net;
 using System.Net.Http;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -32,6 +33,11 @@ namespace Vinance.Web.Middlewares
 
                         var url = configuration["Vinance-API-url"];
                         var response = await Client.PostAsJsonAsync($"{url}users/token/refresh", new { Token = refreshToken });
+                        if (response.StatusCode == HttpStatusCode.Unauthorized)
+                        {
+                            context.RejectPrincipal();
+                            return;
+                        }
                         var json = await response.Content.ReadAsStringAsync();
                         var result = JsonConvert.DeserializeObject<Response<AuthToken>>(json).Data;
 

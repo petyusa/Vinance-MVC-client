@@ -86,6 +86,9 @@
     <div id="alert-div" class="alert-container"></div>
     <script>
         feather.replace({ width: 20, height: 20 });
+        $( document ).ajaxComplete(function() {
+            feather.replace({ width: 20, height: 20 });
+        });
     </script>
     @RenderSection("Scripts", required: false)
 </body>

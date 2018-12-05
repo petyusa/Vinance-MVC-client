@@ -62,3 +62,13 @@ input::-webkit-inner-spin-button {
 .transfer-row > td:nth-last-child(2) {
     width: 50%;
 }
+
+.table-input {
+    height: 33px;
+    width: 100%;
+    border: 0;
+}
+
+.table-sm td.input-th {
+    padding: 0;
+}
