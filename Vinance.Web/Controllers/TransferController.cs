@@ -45,10 +45,16 @@ namespace Vinance.Web.Controllers
 
         [HttpPost]
         [Route("create")]
-        public async Task<IActionResult> Create(Transfer transfer)
+        public async Task<IActionResult> Create(CreateTransferViewmodel transfer)
         {
-            await _transferApi.Create(transfer);
-            return ViewComponent(typeof(MainPageTables));
+            if (ModelState.IsValid)
+            {
+                var model = _mapper.Map<Transfer>(transfer);
+                await _transferApi.Create(model);
+                return ViewComponent(typeof(MainPageTables));
+            }
+
+            return BadRequest();
         }
 
         [HttpGet]
@@ -62,9 +68,14 @@ namespace Vinance.Web.Controllers
         [Route("edit")]
         public async Task<IActionResult> Edit(CreateTransferViewmodel transfer)
         {
-            var model = _mapper.Map<Transfer>(transfer);
-            await _transferApi.Update(model);
-            return ViewComponent(typeof(GetAllTransfer));
+            if (ModelState.IsValid)
+            {
+                var model = _mapper.Map<Transfer>(transfer);
+                await _transferApi.Update(model);
+                return ViewComponent(typeof(GetAllTransfer));
+            }
+
+            return BadRequest();
         }
 
         [HttpPost]

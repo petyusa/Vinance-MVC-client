@@ -14,12 +14,12 @@
           data-ajax-success="showAlert({message:'Kategória létrehozva', class: 'success'})">
     </form>
 <tr>
-        <td class="input-th">
+        <td class="input-td">
             <input asp-for="Name" value="" placeholder="Név" class="table-input" form="@formId"/>
         </td>
         @if (type == CategoryType.Expense)
         {
-            <td class="input-th">
+            <td class="input-td">
                 <input asp-for="MonthlyLimit" value="" placeholder="Havi limit" class="table-input" form="@formId"/>
             </td>
         }
@@ -33,6 +33,6 @@
             <input class="d-none" asp-for="Type" form="@formId" />
         </td>
         <td class="text-right">
-            <button type="submit" class="btn-table text-success" form="@formId"><i data-feather="plus-circle"></i></button>
+            <button type="submit" class="btn-table text-success" form="@formId"><i data-feather="check"></i></button>
         </td>
 </tr>

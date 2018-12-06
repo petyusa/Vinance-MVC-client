@@ -1,7 +1,8 @@
 ﻿@model CreateIncomeViewmodel
 
 <div class="form-container">
-    <form asp-controller="Income"
+    <form id="create-income-form" 
+          asp-controller="Income"
           asp-action="Create"
           data-ajax="true"
           data-ajax-method="POST"
@@ -45,5 +46,6 @@
     </form>
 </div>
 <script type="text/javascript">
-        initializeDatetimepicker("income-datetimepicker");
+    initializeDatetimepicker("income-datetimepicker");
+    $.validator.unobtrusive.parse('#create-income-form');
 </script>

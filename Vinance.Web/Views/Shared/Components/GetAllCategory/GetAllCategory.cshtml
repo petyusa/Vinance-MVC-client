@@ -7,7 +7,7 @@
     switch (type)
     {
         case CategoryType.Expense:
-            title = "Költségek";
+            title = "Kiadások";
             break;
         case CategoryType.Income:
             title = "Bevételek";
@@ -37,11 +37,13 @@
             </th>
             @if (type == CategoryType.Expense)
             {
-                <th></th>
+            <th>
+                @Html.DisplayNameFor(model => model.MonthlyLimit)
+            </th>
             }
             @if (ViewBag.Editable)
             {
-                <th class="text-right">
+                <th class="text-right" style="width: 65px">
                     <a class="d-inline-block text-success"
                        asp-controller="Category"
                        asp-action="CreateInTable"
@@ -59,7 +61,7 @@
     @foreach (var item in Model)
     {
         var rowId = $"category-{item.Id}";
-        <tr class="@rowId">
+        <tr id="@rowId">
             <td>
                 @Html.DisplayFor(modelItem => item.Name)
             </td>

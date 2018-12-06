@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
+using AutoMapper;
 using Vinance.Contracts.Enumerations;
 
 namespace Vinance.Web.Controllers
@@ -7,15 +8,18 @@ namespace Vinance.Web.Controllers
     using Components.Category;
     using Contracts.Interfaces;
     using Contracts.Models.Domain;
+    using Models;
 
     [Route("categories")]
     public class CategoryController : Controller
     {
         private readonly ICategoryApi _categoryApi;
+        private readonly IMapper _mapper;
 
-        public CategoryController(ICategoryApi categoryApi)
+        public CategoryController(ICategoryApi categoryApi, IMapper mapper)
         {
             _categoryApi = categoryApi;
+            _mapper = mapper;
         }
 
         [HttpGet]
@@ -48,11 +52,12 @@ namespace Vinance.Web.Controllers
             return ViewComponent(typeof(GetAllCategory));
         }
 
-        [HttpGet]
+        [HttpPost]
         [Route("edit")]
-        public async Task<IActionResult> Edit(Category category)
+        public async Task<IActionResult> Edit(CategoryViewmodel category)
         {
-            await _categoryApi.Update(category);
+            var model = _mapper.Map<Category>(category);
+            await _categoryApi.Update(model);
             return ViewComponent(typeof(CategoryTables));
         }
 

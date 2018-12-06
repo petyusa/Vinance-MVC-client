@@ -11,14 +11,24 @@
             </th>
             @if (ViewBag.Editable)
             {
-                <th></th>
+                <th class="text-right" style="width: 65px">
+                    <a class="d-inline-block text-success"
+                       asp-controller="Account"
+                       asp-action="CreateInTable"
+                       data-ajax="true"
+                       data-ajax-method="GET"
+                       data-ajax-update="#create-account-form-container"
+                       data-ajax-mode="replace"><i data-feather="plus-circle"></i></a>
+                </th>
             }
         </tr>
     </thead>
     <tbody>
+        <tr id="create-account-form-container"></tr>
         @foreach (var item in Model)
         {
-            <tr>
+            var rowId = $"account-{item.Id}";
+            <tr id="@rowId">
                 <td>
                     @Html.DisplayFor(modelItem => item.Name)
                 </td>
@@ -44,11 +54,11 @@
                         }
                         <a class="d-inline-block text-warning"
                            asp-controller="Account"
-                           asp-action="Edit"
+                           asp-action="EditInTable"
                            asp-route-accountId="@item.Id"
                            data-ajax="true"
                            data-ajax-method="GET"
-                           data-ajax-update="#edit-account"
+                           data-ajax-update="#@rowId"
                            data-ajax-mode="replace"><i data-feather="edit-2"></i></a>
                     </td>
                 }
@@ -56,6 +66,3 @@
         }
     </tbody>
 </table>
-<script>
-    feather.replace({ height: 20, width: 20 });
-</script>

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Linq;
+using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
 namespace Vinance.Web.Components.Account
@@ -18,6 +19,7 @@ namespace Vinance.Web.Components.Account
         {
             var accounts = await _accountApi.GetAll();
             ViewBag.Editable = editable;
+            accounts = accounts.OrderBy(a => a.Name);
             return View("GetAllAccount", accounts);
         }
     }

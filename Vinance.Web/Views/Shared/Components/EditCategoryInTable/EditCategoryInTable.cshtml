@@ -13,15 +13,15 @@
       data-ajax-mode="replace"
       data-ajax-success="showAlert({message:'Kategória módosítva', class: 'success'})">
 </form>
-<tr>
-    <td class="input-th">
+<tr class="row-form-input">
+    <td class="input-td">
         <input asp-for="Name" class="table-input" form="@formId" />
         <input asp-for="Id" type="hidden" class="table-input" form="@formId" />
     </td>
     @if (type == CategoryType.Expense)
     {
-        <td class="input-th">
-            <input asp-for="MonthlyLimit" value="" placeholder="Havi limit" class="table-input" form="@formId"/>
+        <td class="input-td" colspan="2">
+            <input asp-for="MonthlyLimit" placeholder="Havi limit" class="table-input text-right" form="@formId"/>
         </td>
     }
     else
@@ -29,11 +29,12 @@
         <td class="d-none">
             <input asp-for="MonthlyLimit" form="@formId" value="0"/>
         </td>
+        <td></td>
     }
-    <td>
+    <td class="d-none">
         <input class="d-none" asp-for="Type" form="@formId" />
     </td>
     <td class="text-right">
-        <button type="submit" class="btn-table text-success" form="@formId"><i data-feather="plus-check"></i></button>
+        <button type="submit" class="btn-table text-success" form="@formId"><i data-feather="check"></i></button>
     </td>
 </tr>

@@ -9,22 +9,23 @@ namespace Vinance.Web.Models
     {
         public int Id { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Kérlek add meg a dátumot.")]
         [Display(Name = "Dátum")]
         public DateTime Date { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Kérlek add meg az összeget.")]
+        [Range(1, int.MaxValue, ErrorMessage = "Az összeg nem lehet kisebb, mint 1.")]
         [Display(Name = "Összeg")]
         public int Amount { get; set; }
 
         [Display(Name = "Komment")]
         public string Comment { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Kérlek válassz számlát.")]
         [Display(Name = "Honnan")]
         public int FromId { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Kérlek válassz kategóriát.")]
         [Display(Name = "Kategória")]
         public int CategoryId { get; set; }
 

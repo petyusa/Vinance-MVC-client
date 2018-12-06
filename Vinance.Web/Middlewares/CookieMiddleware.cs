@@ -23,7 +23,9 @@ namespace Vinance.Web.Middlewares
                 OnValidatePrincipal = async context =>
                 {
                     var identity = (ClaimsIdentity)context.Principal.Identity;
-                    var accessTokenExp = DateTimeOffset.FromUnixTimeSeconds(int.Parse(identity.FindFirst("exp").Value));
+                    var expClaim = identity.FindFirst("exp");
+                    var accessTokenExp = DateTimeOffset.FromUnixTimeSeconds(int.Parse(expClaim.Value));
+
                     if (accessTokenExp < DateTime.UtcNow.AddMinutes(1))
                     {
                         var accessTokenClaim = identity.FindFirst("access_token");
@@ -41,11 +43,13 @@ namespace Vinance.Web.Middlewares
                         var json = await response.Content.ReadAsStringAsync();
                         var result = JsonConvert.DeserializeObject<Response<AuthToken>>(json).Data;
 
+                        identity.RemoveClaim(expClaim);
                         identity.RemoveClaim(accessTokenClaim);
                         identity.RemoveClaim(refreshTokenClaim);
 
                         identity.AddClaims(new[]
                         {
+                            new Claim("exp", ((DateTimeOffset)result.Expires).ToUnixTimeSeconds().ToString()), 
                             new Claim("access_token", result.AccessToken),
                             new Claim("refresh_token", result.RefreshToken)
                         });

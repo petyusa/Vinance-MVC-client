@@ -1,5 +1,5 @@
-﻿using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace Vinance.Web.Controllers
 {
@@ -29,7 +29,14 @@ namespace Vinance.Web.Controllers
         public async Task<IActionResult> Create(Account model)
         {
             await _accountApi.Create(model);
-            return RedirectToAction("GetAll");
+            return ViewComponent(typeof(GetAllAccount), new { editable = true });
+        }
+
+        [HttpGet]
+        [Route("create-in-table")]
+        public IActionResult CreateInTable()
+        {
+            return ViewComponent(typeof(CreateAccountInTable));
         }
 
         [HttpPost]
@@ -37,7 +44,7 @@ namespace Vinance.Web.Controllers
         public async Task<IActionResult> Delete([FromForm]int accountId)
         {
             await _accountApi.Delete(accountId);
-            return RedirectToAction("GetAll");
+            return ViewComponent(typeof(GetAllAccount), new { editable = true });
         }
 
         [HttpGet]
@@ -54,12 +61,22 @@ namespace Vinance.Web.Controllers
             return ViewComponent(typeof(EditAccount), accountId);
         }
 
+        [HttpGet]
+        [Route("edit-in-table")]
+        public IActionResult EditInTable(int accountId)
+        {
+            return ViewComponent(typeof(EditAccountInTable), accountId);
+        }
+
         [HttpPost]
         [Route("edit")]
         public async Task<IActionResult> Edit(Account account)
         {
-            await _accountApi.Update(account);
-            return ViewComponent(typeof(GetAllAccount), new {editable = true});
+            if (ModelState.IsValid)
+            {
+                await _accountApi.Update(account);
+            }
+            return ViewComponent(typeof(GetAllAccount), new { editable = true });
         }
     }
 }
