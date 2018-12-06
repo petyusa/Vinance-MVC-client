@@ -58,7 +58,8 @@
     <tr class="" id="@createFormId"></tr>
     @foreach (var item in Model)
     {
-        <tr>
+        var rowId = $"category-{item.Id}";
+        <tr class="@rowId">
             <td>
                 @Html.DisplayFor(modelItem => item.Name)
             </td>
@@ -110,11 +111,11 @@
                     }
                     <a class="d-inline-block text-warning"
                        asp-controller="Category"
-                       asp-action="Edit"
+                       asp-action="EditInTable"
                        asp-route-categoryId="@item.Id"
                        data-ajax="true"
                        data-ajax-method="GET"
-                       data-ajax-update="#edit-category"
+                       data-ajax-update="#@rowId"
                        data-ajax-mode="replace"><i data-feather="edit-2"></i></a>
                 </td>
             }

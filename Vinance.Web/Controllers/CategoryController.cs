@@ -56,6 +56,13 @@ namespace Vinance.Web.Controllers
             return ViewComponent(typeof(CategoryTables));
         }
 
+        [HttpGet]
+        [Route("edit-in-table")]
+        public IActionResult EditInTable(int categoryId)
+        {
+            return ViewComponent(typeof(EditCategoryInTable), new {categoryId});
+        }
+
         [HttpPost]
         [Route("delete")]
         public async Task<IActionResult> Delete(int categoryId)
