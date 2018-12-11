@@ -1,11 +1,11 @@
 ﻿using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using Vinance.Web.Models;
 
 namespace Vinance.Web.Components.Category
 {
     using Contracts.Interfaces;
+    using Models;
 
     public class EditCategoryInTable : ViewComponent
     {

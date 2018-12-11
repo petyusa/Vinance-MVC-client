@@ -1,20 +1,24 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Vinance.Web.Controllers
 {
     using Components.Account;
     using Contracts.Interfaces;
     using Contracts.Models.Domain;
+    using Models;
 
     [Route("accounts")]
     public class AccountController : Controller
     {
         private readonly IAccountApi _accountApi;
+        private readonly IMapper _mapper;
 
-        public AccountController(IAccountApi accountApi)
+        public AccountController(IAccountApi accountApi, IMapper mapper)
         {
             _accountApi = accountApi;
+            _mapper = mapper;
         }
 
         [HttpGet]
@@ -22,29 +26,6 @@ namespace Vinance.Web.Controllers
         public IActionResult Index()
         {
             return View();
-        }
-
-        [HttpPost]
-        [Route("create")]
-        public async Task<IActionResult> Create(Account model)
-        {
-            await _accountApi.Create(model);
-            return ViewComponent(typeof(GetAllAccount), new { editable = true });
-        }
-
-        [HttpGet]
-        [Route("create-in-table")]
-        public IActionResult CreateInTable()
-        {
-            return ViewComponent(typeof(CreateAccountInTable));
-        }
-
-        [HttpPost]
-        [Route("delete")]
-        public async Task<IActionResult> Delete([FromForm]int accountId)
-        {
-            await _accountApi.Delete(accountId);
-            return ViewComponent(typeof(GetAllAccount), new { editable = true });
         }
 
         [HttpGet]
@@ -55,14 +36,46 @@ namespace Vinance.Web.Controllers
         }
 
         [HttpGet]
-        [Route("edit")]
-        public IActionResult Edit(int accountId)
+        [Route("create")]
+        public IActionResult CreateInTable()
         {
-            return ViewComponent(typeof(EditAccount), accountId);
+            return ViewComponent(typeof(CreateAccountInTable));
+        }
+
+        [HttpPost]
+        [Route("create")]
+        public async Task<IActionResult> Create(CreateAccountViewmodel account)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+
+            var model = _mapper.Map<Account>(account);
+            var success = await _accountApi.Create(model);
+            if (success)
+            {
+                return ViewComponent(typeof(GetAllAccount), new { editable = true });
+            }
+            return BadRequest();
+        }
+
+        [HttpPost]
+        [Route("delete")]
+        public async Task<IActionResult> Delete([FromForm]int accountId)
+        {
+            var success = await _accountApi.Delete(accountId);
+
+            if (success)
+            {
+                return ViewComponent(typeof(GetAllAccount), new { editable = true });
+            }
+
+            return BadRequest();
         }
 
         [HttpGet]
-        [Route("edit-in-table")]
+        [Route("edit")]
         public IActionResult EditInTable(int accountId)
         {
             return ViewComponent(typeof(EditAccountInTable), accountId);
@@ -70,13 +83,20 @@ namespace Vinance.Web.Controllers
 
         [HttpPost]
         [Route("edit")]
-        public async Task<IActionResult> Edit(Account account)
+        public async Task<IActionResult> Edit(CreateAccountViewmodel account)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                await _accountApi.Update(account);
+                return BadRequest();
             }
-            return ViewComponent(typeof(GetAllAccount), new { editable = true });
+
+            var model = _mapper.Map<Account>(account);
+            var success = await _accountApi.Update(model);
+            if (success)
+            {
+                return ViewComponent(typeof(GetAllAccount), new { editable = true });
+            }
+            return BadRequest();
         }
     }
 }

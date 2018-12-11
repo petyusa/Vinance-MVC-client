@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Vinance.Contracts.Enumerations;
 
 namespace Vinance.Web.Components.Category
 {
+    using Contracts.Enumerations;
     using Models;
 
     public class CreateCategoryInTable : ViewComponent

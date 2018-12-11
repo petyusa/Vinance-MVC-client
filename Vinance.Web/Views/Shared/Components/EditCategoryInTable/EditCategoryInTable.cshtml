@@ -1,5 +1,5 @@
 ﻿@using Vinance.Contracts.Enumerations
-@model CategoryViewmodel
+@model Vinance.Web.Models.CategoryViewmodel
 @{
     var type = Model.Type;
     var formId = $"edit-{type}-form";
@@ -11,9 +11,9 @@
       data-ajax-method="POST"
       data-ajax-update="#category-tables"
       data-ajax-mode="replace"
-      data-ajax-success="showAlert({message:'Kategória módosítva', class: 'success'})">
+      data-ajax-success="vinance.showAlert({message:'Kategória módosítva', class: 'success'})">
 </form>
-<tr class="row-form-input">
+<tr>
     <td class="input-td">
         <input asp-for="Name" class="table-input" form="@formId" />
         <input asp-for="Id" type="hidden" class="table-input" form="@formId" />

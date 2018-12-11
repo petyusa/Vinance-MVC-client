@@ -2,12 +2,13 @@
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using Vinance.Contracts.Enumerations;
-using Vinance.Contracts.Interfaces;
-using Vinance.Web.Models;
 
 namespace Vinance.Web.Components.Category
 {
+    using Contracts.Enumerations;
+    using Contracts.Interfaces;
+    using Models;
+
     public class CategoryChart : ViewComponent
     {
         private readonly ICategoryApi _categoryApi;

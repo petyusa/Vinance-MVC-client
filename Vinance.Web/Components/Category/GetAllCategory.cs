@@ -1,13 +1,13 @@
 ﻿using System.Collections.Generic;
-using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using AutoMapper;
-using Vinance.Contracts.Enumerations;
-using Vinance.Web.Models;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Vinance.Web.Components.Category
 {
+    using Contracts.Enumerations;
     using Contracts.Interfaces;
+    using Models;
 
     public class GetAllCategory : ViewComponent
     {
@@ -20,11 +20,12 @@ namespace Vinance.Web.Components.Category
             _mapper = mapper;
         }
 
-        public async Task<IViewComponentResult> InvokeAsync(bool editable, CategoryType? type = null)
+        public async Task<IViewComponentResult> InvokeAsync(bool editable, CategoryType type)
         {
             var categories = await _categoryApi.GetCategories(type);
             var model = _mapper.Map<IEnumerable<CategoryViewmodel>>(categories);
             ViewBag.Editable = editable;
+            ViewBag.Type = type;
             return View("GetAllCategory", model);
         }
     }

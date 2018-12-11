@@ -1,51 +1,44 @@
-﻿@model CreateTransferViewmodel
+﻿@model Vinance.Web.Models.CreateTransferViewmodel
 
 <div class="form-container">
-    <form id="create-transfer-form" 
+    <form id="create-transfer-form"
           asp-controller="Transfer"
           asp-action="Create"
           data-ajax="true"
           data-ajax-method="POST"
           data-ajax-mode="replace"
           data-ajax-update="#main-page-tables"
-          data-ajax-success="showAlert({message: 'Pénzmozgás hozzáadva.', class: 'success'})"
-          data-ajax-failure="showAlert({message: 'Hiba történt.', class: 'danger'})">
-        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+          data-ajax-success="vinance.showAlert({message: 'Pénzmozgás hozzáadva.', class: 'success'})"
+          data-ajax-failure="vinance.showAlert({message: 'Hiba történt.', class: 'danger'})">
         <div class="form-group">
             <label asp-for="Date"></label>
             <input asp-for="Date" type="text" class="form-control text-right" autocomplete="off" id="transfer-datetimepicker" data-toggle="datetimepicker" data-target="#transfer-datetimepicker" value="@DateTime.Now.ToString("yyyy-MM-dd")" />
-            <span asp-validation-for="Date" class="text-danger"></span>
         </div>
         <div class="form-group">
             <label asp-for="Amount"></label>
-            <input asp-for="Amount" class="form-control text-right"/>
-            <span asp-validation-for="Amount" class="text-danger"></span>
+            <input asp-for="Amount" class="form-control text-right" />
         </div>
         <div class="form-group">
             <label asp-for="Comment"></label>
             <input asp-for="Comment" class="form-control" />
-            <span asp-validation-for="Comment" class="text-danger"></span>
         </div>
         <div class="form-group">
             <label asp-for="FromId"></label>
             <select asp-for="FromId" asp-items="Model.AccountList" class="custom-select">
                 <option value="" disabled selected>Válassz számlát</option>
             </select>
-            <span asp-validation-for="FromId" class="text-danger"></span>
         </div>
         <div class="form-group">
             <label asp-for="ToId"></label>
             <select asp-for="ToId" asp-items="Model.AccountList" class="custom-select">
                 <option value="" disabled selected>Válassz számlát</option>
             </select>
-            <span asp-validation-for="ToId" class="text-danger"></span>
         </div>
         <div class="form-group">
             <label asp-for="CategoryId"></label>
             <select asp-for="CategoryId" asp-items="Model.CategoryList" class="custom-select">
                 <option value="" disabled selected>Válassz kategóriát</option>
             </select>
-            <span asp-validation-for="CategoryId" class="text-danger"></span>
         </div>
         <div class="form-group">
             <input type="submit" value="Hozzáadás" class="btn btn-primary" />
@@ -53,22 +46,6 @@
     </form>
 </div>
 <script type="text/javascript">
-    jQuery.validator.addMethod("not-equal", function (value, element, params) {
-        console.log(params);
-        console.log(params[0]);
-        console.log(params[1]);
-            if (value == params[0]) {
-                return false;
-            }
-            else {
-                return true;
-            }
-        });
-
-    jQuery.validator.unobtrusive.adapters.addBool("not-equal");
-
-
-
-    initializeDatetimepicker("transfer-datetimepicker");
+    vinance.initDatePicker("transfer-datetimepicker");
     $.validator.unobtrusive.parse('#create-transfer-form');
 </script>

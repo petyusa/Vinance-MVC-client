@@ -1,4 +1,4 @@
-﻿@model Vinance.Contracts.Models.Domain.Account
+﻿@model Vinance.Web.Models.CreateAccountViewmodel
 
 <form id="edit-account-form"
       asp-controller="Account"
@@ -7,8 +7,8 @@
       data-ajax-method="POST"
       data-ajax-update="#account-list"
       data-ajax-mode="replace"
-      data-ajax-success="showAlert({message:'Számla módosítva', class: 'success'})"
-      data-ajac-fail="showAlert({message:'Hiba történt', class: 'danger'})"></form>
+      data-ajax-success="vinance.showAlert({message:'Számla módosítva', class: 'success'})"
+      data-ajac-fail="vinance.showAlert({message:'Hiba történt', class: 'danger'})"></form>
 <tr>
     <td class="input-td" colspan="2">
         <input asp-for="Name" placeholder="Név" class="table-input" form="edit-account-form" />

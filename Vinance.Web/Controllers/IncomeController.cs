@@ -1,7 +1,6 @@
 ﻿using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using Vinance.Web.Models;
 
 namespace Vinance.Web.Controllers
 {
@@ -9,6 +8,7 @@ namespace Vinance.Web.Controllers
     using Components.MainPage;
     using Contracts.Interfaces;
     using Contracts.Models.Domain;
+    using Models;
 
     [Route("incomes")]
     public class IncomeController : Controller
@@ -45,10 +45,21 @@ namespace Vinance.Web.Controllers
 
         [HttpPost]
         [Route("create")]
-        public async Task<IActionResult> Create(Income income)
+        public async Task<IActionResult> Create(CreateIncomeViewmodel income)
         {
-            await _incomeApi.Create(income);
-            return ViewComponent(typeof(MainPageTables));
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+
+
+            var model = _mapper.Map<Income>(income);
+            var success = await _incomeApi.Create(model);
+            if (success)
+            {
+                return ViewComponent(typeof(MainPageTables));
+            }
+            return BadRequest();
         }
 
         [HttpGet]
@@ -62,17 +73,32 @@ namespace Vinance.Web.Controllers
         [Route("edit")]
         public async Task<IActionResult> Edit(CreateIncomeViewmodel income)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+
             var model = _mapper.Map<Income>(income);
-            await _incomeApi.Update(model);
-            return ViewComponent(typeof(GetAllIncome));
+            var success = await _incomeApi.Update(model);
+            if (success)
+            {
+                return ViewComponent(typeof(GetAllIncome));
+            }
+
+            return BadRequest();
         }
 
         [HttpPost]
         [Route("delete")]
         public async Task<IActionResult> Delete(int incomeId)
         {
-            await _incomeApi.Delete(incomeId);
-            return ViewComponent(typeof(GetAllIncome));
+            var success = await _incomeApi.Delete(incomeId);
+            if (success)
+            {
+                return ViewComponent(typeof(GetAllIncome));
+            }
+
+            return BadRequest();
         }
     }
 }

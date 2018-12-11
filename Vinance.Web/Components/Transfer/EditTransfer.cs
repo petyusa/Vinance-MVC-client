@@ -3,12 +3,13 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Vinance.Contracts.Enumerations;
-using Vinance.Contracts.Interfaces;
-using Vinance.Web.Models;
 
 namespace Vinance.Web.Components.Transfer
 {
+    using Contracts.Enumerations;
+    using Contracts.Interfaces;
+    using Models;
+
     public class EditTransfer : ViewComponent
     {
         private readonly IAccountApi _accountApi;

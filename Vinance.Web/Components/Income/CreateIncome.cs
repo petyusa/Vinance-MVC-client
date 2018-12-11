@@ -1,8 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
-using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Vinance.Web.Components.Income
 {
@@ -14,13 +13,11 @@ namespace Vinance.Web.Components.Income
     {
         private readonly IAccountApi _accountApi;
         private readonly ICategoryApi _categoryApi;
-        private readonly IIncomeApi _incomeApi;
 
-        public CreateIncome(IAccountApi accountApi, ICategoryApi categoryApi, IIncomeApi incomeApi)
+        public CreateIncome(IAccountApi accountApi, ICategoryApi categoryApi)
         {
             _accountApi = accountApi;
             _categoryApi = categoryApi;
-            _incomeApi = incomeApi;
         }
 
         public async Task<IViewComponentResult> InvokeAsync()

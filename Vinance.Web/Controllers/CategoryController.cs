@@ -1,11 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using AutoMapper;
-using Vinance.Contracts.Enumerations;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Vinance.Web.Controllers
 {
     using Components.Category;
+    using Contracts.Enumerations;
     using Contracts.Interfaces;
     using Contracts.Models.Domain;
     using Models;
@@ -29,21 +29,6 @@ namespace Vinance.Web.Controllers
             return View();
         }
 
-        [HttpPost]
-        [Route("create")]
-        public async Task<IActionResult> Create(Category category)
-        {
-            var success = await _categoryApi.Create(category);
-            return ViewComponent(typeof(CategoryTables));
-        }
-
-        [HttpGet]
-        [Route("create-table")]
-        public IActionResult CreateInTable(CategoryType type)
-        {
-            return ViewComponent(typeof(CreateCategoryInTable), new{type});
-        }
-
         [HttpGet]
         [Route("all")]
         public async Task<IActionResult> GetAll()
@@ -52,28 +37,67 @@ namespace Vinance.Web.Controllers
             return ViewComponent(typeof(GetAllCategory));
         }
 
+        [HttpGet]
+        [Route("create")]
+        public IActionResult CreateInTable(CategoryType type)
+        {
+            return ViewComponent(typeof(CreateCategoryInTable), new { type });
+        }
+
+        [HttpPost]
+        [Route("create")]
+        public async Task<IActionResult> Create(CategoryViewmodel category)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+
+            var model = _mapper.Map<Category>(category);
+            var success = await _categoryApi.Create(model);
+            if (success)
+            {
+                return ViewComponent(typeof(CategoryTables));
+            }
+            return BadRequest();
+        }
+
+        [HttpGet]
+        [Route("edit")]
+        public IActionResult EditInTable(int categoryId)
+        {
+            return ViewComponent(typeof(EditCategoryInTable), new { categoryId });
+        }
+
         [HttpPost]
         [Route("edit")]
         public async Task<IActionResult> Edit(CategoryViewmodel category)
         {
-            var model = _mapper.Map<Category>(category);
-            await _categoryApi.Update(model);
-            return ViewComponent(typeof(CategoryTables));
-        }
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
 
-        [HttpGet]
-        [Route("edit-in-table")]
-        public IActionResult EditInTable(int categoryId)
-        {
-            return ViewComponent(typeof(EditCategoryInTable), new {categoryId});
+            var model = _mapper.Map<Category>(category);
+            var success = await _categoryApi.Update(model);
+            if (success)
+            {
+                return ViewComponent(typeof(CategoryTables));
+            }
+            return BadRequest();
         }
 
         [HttpPost]
         [Route("delete")]
         public async Task<IActionResult> Delete(int categoryId)
         {
-            await _categoryApi.Delete(categoryId);
-            return ViewComponent(typeof(CategoryTables));
+            var success = await _categoryApi.Delete(categoryId);
+            if (success)
+            {
+                return ViewComponent(typeof(CategoryTables));
+            }
+
+            return BadRequest();
         }
     }
 }

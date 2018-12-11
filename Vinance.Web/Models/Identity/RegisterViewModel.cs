@@ -4,32 +4,32 @@ namespace Vinance.Web.Models.Identity
 {
     public class RegisterViewmodel
     {
-        [Required]
-        [Display(Name = "User name")]
+        [Required(ErrorMessage = "Kérlek add meg a felhasználóneved.")]
+        [Display(Name = "Felhasználónév")]
         public string UserName { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Kérlek add meg a jelszavad.")]
         [DataType(DataType.Password)]
-        [Display(Name = "Password")]
+        [Display(Name = "Jelszó")]
         public string Password { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Kérlek add meg a jelszavad.")]
         [DataType(DataType.Password)]
-        [Compare("Password")]
-        [Display(Name = "Confirm password")]
+        [Compare("Password", ErrorMessage = "Nem egyezik a jelszóval.")]
+        [Display(Name = "Jelszó megerősítése")]
         public string ConfirmPassword { get; set; }
 
-        [Required]
-        [DataType(DataType.EmailAddress)]
-        [Display(Name = "Email address")]
+        [Required(ErrorMessage = "Kérlek add meg az email címed.")]
+        [DataType(DataType.EmailAddress, ErrorMessage = "Kérlek egy valós email címet adj meg.")]
+        [Display(Name = "Email cím")]
         public string Email { get; set; }
 
-        [Required]
-        [Display(Name = "First name")]
-        public string FirstName { get; set; }
-
-        [Required]
-        [Display(Name = "Last name")]
+        [Required(ErrorMessage = "Kérlek írd be a vezetékneved.")]
+        [Display(Name = "Vezetéknév")]
         public string LastName { get; set; }
+
+        [Required(ErrorMessage = "Kérlek írd be a keresztneved.")]
+        [Display(Name = "Keresztnév")]
+        public string FirstName { get; set; }
     }
 }

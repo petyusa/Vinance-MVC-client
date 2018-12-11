@@ -30,6 +30,13 @@ namespace Vinance.Web.Controllers
         }
 
         [HttpGet]
+        [Route("all")]
+        public IActionResult GetAll()
+        {
+            return ViewComponent(typeof(GetAllExpense));
+        }
+
+        [HttpGet]
         [Route("create")]
         public IActionResult Create()
         {
@@ -40,16 +47,17 @@ namespace Vinance.Web.Controllers
         [Route("create")]
         public async Task<IActionResult> Create(Expense expense)
         {
-            var success = await _expenseApi.Create(expense);
-            return ViewComponent(typeof(MainPageTables));
-        }
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
 
-        [HttpPost]
-        [Route("delete")]
-        public async Task<IActionResult> Delete(int expenseId)
-        {
-            await _expenseApi.Delete(expenseId);
-            return ViewComponent(typeof(GetAllExpense));
+            var success = await _expenseApi.Create(expense);
+            if (success)
+            {
+                return ViewComponent(typeof(MainPageTables));
+            }
+            return BadRequest();
         }
 
         [HttpGet]
@@ -63,16 +71,31 @@ namespace Vinance.Web.Controllers
         [Route("edit")]
         public async Task<IActionResult> Edit(CreateExpenseViewmodel expense)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+
             var model = _mapper.Map<Expense>(expense);
-            await _expenseApi.Update(model);
-            return ViewComponent(typeof(GetAllExpense));
+            var success = await _expenseApi.Update(model);
+            if (success)
+            {
+                return ViewComponent(typeof(GetAllExpense));
+            }
+            return BadRequest();
         }
 
-        [HttpGet]
-        [Route("all")]
-        public IActionResult GetAll()
+        [HttpPost]
+        [Route("delete")]
+        public async Task<IActionResult> Delete(int expenseId)
         {
-            return ViewComponent(typeof(GetAllExpense));
+            var success = await _expenseApi.Delete(expenseId);
+            if (success)
+            {
+                return ViewComponent(typeof(GetAllExpense));
+            }
+
+            return BadRequest();
         }
     }
 }

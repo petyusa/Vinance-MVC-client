@@ -1,0 +1,22 @@
+﻿@using Vinance.Web.Components.Category
+@{
+    ViewData["Title"] = "Manage";
+}
+
+<h2>Manage</h2>
+
+<h4>Számlák</h4>
+<div class="row">
+    <div id="account-list" class="col-lg-8">
+        @await Component.InvokeAsync("GetAllAccount", new { editable = true })
+    </div>
+</div>
+
+<h4>Kategóriák</h4>
+<div class="row">
+    <div class="col-12">
+        <div id="category-tables">
+            @await Component.InvokeAsync(typeof(CategoryTables))
+        </div>
+    </div>
+</div>

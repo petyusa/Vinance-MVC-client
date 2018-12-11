@@ -1,6 +1,6 @@
 ﻿using System.Linq;
-using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Vinance.Web.Components.Account
 {

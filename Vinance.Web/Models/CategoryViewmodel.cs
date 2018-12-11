@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Vinance.Web.Attributes;
 
 namespace Vinance.Web.Models
 {
@@ -9,18 +10,18 @@ namespace Vinance.Web.Models
         public int Id { get; set; }
 
         [Display(Name = "Név")]
-        [Required]
+        [Required(ErrorMessage = "Kérlek add meg a kategória nevét.")]
         public string Name { get; set; }
 
         [Display(Name = "Egyenleg")]
         public int Balance { get; set; }
 
         [Display(Name = "Típus")]
-        [Required]
+        [Required(ErrorMessage = "Kérel add meg a kategória típusát.")]
         public CategoryType Type { get; set; }
 
         [Display(Name = "Havi limit")]
-        [Range(1, int.MaxValue, ErrorMessage = "A havi limit nem lehet kisebb, mint 0.")]
+        [RangeByOther("Type", 1, int.MaxValue, ErrorMessage = "A havi limit nem lehet kisebb, mint 1.")]
         public int MonthlyLimit { get; set; }
 
         public int MonthlyLimitUsed { get; set; }

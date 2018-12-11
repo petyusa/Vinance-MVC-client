@@ -4,16 +4,16 @@ namespace Vinance.Web.Models.Identity
 {
     public class LoginViewmodel
     {
-        [Required]
-        [Display(Name = "User name")]
+        [Required(ErrorMessage = "Kérlek add meg a felhasználóneved.")]
+        [Display(Name = "Felhasználónév")]
         public string UserName { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Kérlek add meg a jelszavad")]
         [DataType(DataType.Password)]
-        [Display(Name = "Password")]
+        [Display(Name = "Jelszó")]
         public string Password { get; set; }
 
-        [Display(Name = "Remember me")]
+        [Display(Name = "Emlékezz rám")]
         public bool RememberMe { get; set; }
 
         public string ReturnUrl { get; set; }

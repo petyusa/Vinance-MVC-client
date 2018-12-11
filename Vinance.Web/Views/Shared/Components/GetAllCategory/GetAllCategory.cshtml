@@ -1,21 +1,18 @@
 ﻿@using Vinance.Contracts.Enumerations
-@using Vinance.Web.Components.Category
 @model IEnumerable<CategoryViewmodel>
 @{
-    var type = Model.FirstOrDefault()?.Type;
-    var title = "";
+    var type = (CategoryType)ViewBag.Type;
+    string title;
     switch (type)
     {
         case CategoryType.Expense:
-            title = "Kiadások";
+            title = "Kiadás-kategóriák";
             break;
         case CategoryType.Income:
-            title = "Bevételek";
+            title = "Bevétel-kategóriák";
             break;
         case CategoryType.Transfer:
-            title = "Pénzmozgások";
-            break;
-        case null:
+            title = "Pénzmozgás-kategóriák";
             break;
         default:
             throw new ArgumentOutOfRangeException();
@@ -23,8 +20,8 @@
     var createFormId = $"create-{type}-form-container";
 }
 
-<div class="m-0 text-white p-1" style="background-color: #212529">
-    <h5 class="mb-0">@title</h5>
+<div class="table-title" style="background-color: #212529">
+    @title
 </div>
 <table class="table table-bordered table-sm table-striped">
     <thead class="thead-dark form-group">
@@ -106,7 +103,7 @@
                               data-ajax="true"
                               data-ajax-update="#category-tables"
                               data-ajax-mode="replace"
-                              data-ajax-success="showAlert({message: 'Kategória sikeresen törölve', class:'success'})">
+                              data-ajax-success="vinance.showAlert({message: 'Kategória sikeresen törölve', class:'success'})">
                             <input asp-for="@item.Id" class="d-none" name="categoryId">
                             <button type="submit" class="btn-table text-danger"><i data-feather="trash"></i></button>
                         </form>

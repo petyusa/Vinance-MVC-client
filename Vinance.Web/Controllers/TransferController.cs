@@ -1,7 +1,6 @@
 ﻿using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using Vinance.Web.Models;
 
 namespace Vinance.Web.Controllers
 {
@@ -9,6 +8,7 @@ namespace Vinance.Web.Controllers
     using Components.Transfer;
     using Contracts.Interfaces;
     using Contracts.Models.Domain;
+    using Models;
 
     [Route("transfers")]
     public class TransferController : Controller
@@ -47,10 +47,15 @@ namespace Vinance.Web.Controllers
         [Route("create")]
         public async Task<IActionResult> Create(CreateTransferViewmodel transfer)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                var model = _mapper.Map<Transfer>(transfer);
-                await _transferApi.Create(model);
+                return BadRequest();
+            }
+
+            var model = _mapper.Map<Transfer>(transfer);
+            var success = await _transferApi.Create(model);
+            if (success)
+            {
                 return ViewComponent(typeof(MainPageTables));
             }
 
@@ -68,10 +73,15 @@ namespace Vinance.Web.Controllers
         [Route("edit")]
         public async Task<IActionResult> Edit(CreateTransferViewmodel transfer)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                var model = _mapper.Map<Transfer>(transfer);
-                await _transferApi.Update(model);
+                return BadRequest();
+            }
+
+            var model = _mapper.Map<Transfer>(transfer);
+            var success = await _transferApi.Update(model);
+            if (success)
+            {
                 return ViewComponent(typeof(GetAllTransfer));
             }
 
@@ -82,8 +92,13 @@ namespace Vinance.Web.Controllers
         [Route("delete")]
         public async Task<IActionResult> Delete(int transferId)
         {
-            await _transferApi.Delete(transferId);
-            return ViewComponent(typeof(GetAllTransfer));
+            var success = await _transferApi.Delete(transferId);
+            if (success)
+            {
+                return ViewComponent(typeof(GetAllTransfer));
+            }
+
+            return BadRequest();
         }
     }
 }

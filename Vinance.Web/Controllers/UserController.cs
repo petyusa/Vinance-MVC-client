@@ -1,12 +1,12 @@
-﻿using AutoMapper;
+﻿using System;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Threading.Tasks;
 
 namespace Vinance.Web.Controllers
 {
@@ -34,7 +34,7 @@ namespace Vinance.Web.Controllers
         [Route("login")]
         public IActionResult Login(string returnUrl = "")
         {
-            var model = new LoginViewmodel{ReturnUrl = returnUrl};
+            var model = new LoginViewmodel { ReturnUrl = returnUrl };
             return View("Login", model);
         }
 
@@ -43,6 +43,11 @@ namespace Vinance.Web.Controllers
         [Route("login")]
         public async Task<IActionResult> Login(LoginViewmodel login)
         {
+            if (!ModelState.IsValid)
+            {
+                return View("Login", login);
+            }
+
             var loginModel = _mapper.Map<LoginModel>(login);
             var tokenResult = await _userApi.GetToken(loginModel);
 
@@ -104,7 +109,7 @@ namespace Vinance.Web.Controllers
             }
             await _emailSender.SendEmail(registerViewmodel.UserName, registerViewmodel.Email, token.Token);
 
-            return View("Login");
+            return View("Registered");
         }
 
         [HttpGet]

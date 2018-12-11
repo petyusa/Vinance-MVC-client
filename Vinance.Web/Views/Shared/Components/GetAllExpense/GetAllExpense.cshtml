@@ -48,7 +48,7 @@
                           data-ajax="true"
                           data-ajax-update="#expense-list"
                           data-ajax-mode="replace"
-                          data-ajax-success="showAlert({message: 'Expense successfully deleted', class:'success'})">
+                          data-ajax-success="vinance.showAlert({message: 'Expense successfully deleted', class:'success'})">
                         <input asp-for="@item.Id" class="d-none" name="expenseId">
                         <button type="submit" class="btn-table text-danger"><i data-feather="trash"></i></button>
                     </form>
