@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Vinance.Contracts.Models;
 
 namespace Vinance.Services.APIs
 {
@@ -20,11 +22,18 @@ namespace Vinance.Services.APIs
             _responseHandler = responseHandler;
         }
 
-        public async Task<IEnumerable<Expense>> GetAll()
+        public async Task<PagedList<Expense>> GetAll(DateTime? from, DateTime? to, int page = 1, int pageSize = 20, string order = "date_desc")
         {
+            if (!from.HasValue || !to.HasValue)
+            {
+                to = DateTime.Now;
+                from = to.Value.Subtract(TimeSpan.FromDays(30));
+            }
+            var query = $"?from={from.Value:MM-dd-yyyy}&to={to.Value:MM-dd-yyyy}&order={order}&page={page}&pageSize={pageSize}";
+
             var client = _factory.CreateClient(Constants.AuthenticatedClient);
-            var response = await client.GetAsync("expenses");
-            return await _responseHandler.HandleAsync<IEnumerable<Expense>>(response);
+            var response = await client.GetAsync($"expenses{query}");
+            return await _responseHandler.HandleAsync<PagedList<Expense>>(response);
         }
 
         public async Task<Expense> Get(int expenseId)

@@ -1,67 +1,73 @@
-﻿@model IEnumerable<Vinance.Contracts.Models.Domain.Expense>
+﻿@using Vinance.Contracts.Models.Domain
+@model Vinance.Contracts.Models.PagedList<Vinance.Contracts.Models.Domain.Expense>
+@{
+    Expense dummy = null;
+}
 
 <table class="table table-bordered table-sm table-striped">
     <thead class="thead-dark">
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Date)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Amount)
-            </th>
-            <th class="d-none d-sm-table-cell">
-                @Html.DisplayNameFor(model => model.FromName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CategoryName)
-            </th>
-            <th class="mr-auto d-none d-sm-table-cell">
-                @Html.DisplayNameFor(model => model.Comment)
-            </th>
-            <th></th>
-        </tr>
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => dummy.Date)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => dummy.Amount)
+        </th>
+        <th class="d-none d-sm-table-cell">
+            @Html.DisplayNameFor(model => dummy.FromName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => dummy.CategoryName)
+        </th>
+        <th class="mr-auto d-none d-sm-table-cell">
+            @Html.DisplayNameFor(model => dummy.Comment)
+        </th>
+        <th></th>
+    </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model)
-        {
-            <tr class="transfer-row">
-                <td>
-                    @item.Date.ToString("MM/dd")
-                </td>
-                <td class="text-right">
-                    @item.Amount.ToString("### ### ###")Ft
-                </td>
-                <td class="d-none d-sm-table-cell">
-                    @Html.DisplayFor(modelItem => item.FromName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.CategoryName)
-                </td>
-                <td class="d-none d-sm-table-cell">
-                    @Html.DisplayFor(modelItem => item.Comment)
-                </td>
-                <td class="text-center">
-                    <form class="d-inline-block"
-                          asp-controller="Expense"
-                          asp-action="Delete"
-                          data-ajax-method="POST"
-                          data-ajax="true"
-                          data-ajax-update="#expense-list"
-                          data-ajax-mode="replace"
-                          data-ajax-success="vinance.showAlert({message: 'Expense successfully deleted', class:'success'})">
-                        <input asp-for="@item.Id" class="d-none" name="expenseId">
-                        <button type="submit" class="btn-table text-danger"><i data-feather="trash"></i></button>
-                    </form>
-                    <a class="d-inline-block text-warning"
-                       asp-controller="Expense"
-                       asp-action="Edit"
-                       asp-route-expenseId="@item.Id"
-                       data-ajax="true"
-                       data-ajax-method="GET"
-                       data-ajax-update="#edit-expense"
-                       data-ajax-mode="replace"><i data-feather="edit-2"></i></a>
-                </td>
-            </tr>
-        }
+    @foreach (var item in Model.Items)
+    {
+        <tr class="transfer-row">
+            <td>
+                @item.Date.ToString("MM/dd")
+            </td>
+            <td class="text-right">
+                @item.Amount.ToString("### ### ###")Ft
+            </td>
+            <td class="d-none d-sm-table-cell">
+                @Html.DisplayFor(modelItem => item.FromName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CategoryName)
+            </td>
+            <td class="d-none d-sm-table-cell">
+                @Html.DisplayFor(modelItem => item.Comment)
+            </td>
+            <td class="text-center">
+                <form class="d-inline-block"
+                      asp-controller="Expense"
+                      asp-action="Delete"
+                      data-ajax-method="POST"
+                      data-ajax="true"
+                      data-ajax-update="#expense-list"
+                      data-ajax-mode="replace"
+                      data-ajax-success="vinance.showAlert({message: 'Expense successfully deleted', class:'success'})">
+                    <input asp-for="@item.Id" class="d-none" name="expenseId">
+                    <button type="submit" class="btn-table text-danger"><i data-feather="trash"></i></button>
+                </form>
+                <a class="d-inline-block text-warning"
+                   asp-controller="Expense"
+                   asp-action="Edit"
+                   asp-route-expenseId="@item.Id"
+                   data-ajax="true"
+                   data-ajax-method="GET"
+                   data-ajax-update="#edit-expense"
+                   data-ajax-mode="replace"><i data-feather="edit-2"></i></a>
+            </td>
+        </tr>
+    }
     </tbody>
 </table>
+    
+<a asp-controller="Expense" asp-action="GetAll" asp-route-page="2">HAHA</a>

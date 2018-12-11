@@ -1,5 +1,6 @@
-﻿using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Threading.Tasks;
 
 namespace Vinance.Web.Components.Expense
 {
@@ -14,9 +15,9 @@ namespace Vinance.Web.Components.Expense
             _expenseApi = expenseApi;
         }
 
-        public async Task<IViewComponentResult> InvokeAsync()
+        public async Task<IViewComponentResult> InvokeAsync(DateTime? from = null, DateTime? to = null, string order = "date_desc", int page = 1, int pageSize = 20)
         {
-            var expenses = await _expenseApi.GetAll();
+            var expenses = await _expenseApi.GetAll(from, to, page, pageSize, order);
             return View("GetAllExpense", expenses);
         }
     }

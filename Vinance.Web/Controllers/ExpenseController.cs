@@ -1,6 +1,7 @@
-﻿using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Threading.Tasks;
 
 namespace Vinance.Web.Controllers
 {
@@ -31,9 +32,9 @@ namespace Vinance.Web.Controllers
 
         [HttpGet]
         [Route("all")]
-        public IActionResult GetAll()
+        public IActionResult GetAll(DateTime? from = null, DateTime? to = null, string order = "date_desc", int page = 1, int pageSize = 20)
         {
-            return ViewComponent(typeof(GetAllExpense));
+            return ViewComponent(typeof(GetAllExpense), new { from, to, order, page, pageSize });
         }
 
         [HttpGet]
