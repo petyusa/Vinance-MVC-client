@@ -1,73 +1,151 @@
-﻿@using Vinance.Contracts.Models.Domain
+﻿@using Vinance.Contracts.Enumerations
+@using Vinance.Contracts.Models.Domain
+@using Vinance.Web.Components.Category
+@using Vinance.Web.Helpers
 @model Vinance.Contracts.Models.PagedList<Vinance.Contracts.Models.Domain.Expense>
 @{
     Expense dummy = null;
+    var filters = ViewBag.Filters as Filters;
 }
+
+<form class="form-inline mb-3" asp-action="GetAll"
+      asp-controller="Expense"
+      asp-route-page="1"
+      asp-route-order="@filters?.Order"
+      asp-route-type="@filters?.CategoryId"
+      data-ajax-method="GET"
+      data-ajax="true"
+      data-ajax-update="#expense-list"
+      data-ajax-mode="replace">
+    <input type="text" autocomplete="off" name="from" class="form-control text-right mr-2" id="from-datetimepicker" data-toggle="datetimepicker" data-target="#from-datetimepicker" value="@filters?.From?.ToString("yyyy-MM-dd")" />
+    <input type="text" autocomplete="off" name="to" class="form-control text-right mr-2" id="to-datetimepicker" data-toggle="datetimepicker" data-target="#to-datetimepicker" value="@filters?.To?.ToString("yyyy-MM-dd")" />
+    @await Component.InvokeAsync(typeof(CategorySelectList), new { type = CategoryType.Expense, selected = filters?.CategoryId })
+    <select name="pagesize" class="custom-select mr-2">
+        <option value="20" selected="@(Model.PageSize == 20)">20</option>
+        <option value="50" selected="@(Model.PageSize == 50)">50</option>
+        <option value="100" selected="@(Model.PageSize == 100)">100</option>
+    </select>
+    <button type="submit" class="btn-table"><i data-feather="filter"></i></button>
+</form>
 
 <table class="table table-bordered table-sm table-striped">
     <thead class="thead-dark">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => dummy.Date)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => dummy.Amount)
-        </th>
-        <th class="d-none d-sm-table-cell">
-            @Html.DisplayNameFor(model => dummy.FromName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => dummy.CategoryName)
-        </th>
-        <th class="mr-auto d-none d-sm-table-cell">
-            @Html.DisplayNameFor(model => dummy.Comment)
-        </th>
-        <th></th>
-    </tr>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => dummy.Date)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => dummy.Amount)
+            </th>
+            <th class="d-none d-sm-table-cell">
+                @Html.DisplayNameFor(model => dummy.FromName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => dummy.CategoryName)
+            </th>
+            <th class="mr-auto d-none d-sm-table-cell">
+                @Html.DisplayNameFor(model => dummy.Comment)
+            </th>
+            <th></th>
+        </tr>
     </thead>
     <tbody>
-    @foreach (var item in Model.Items)
-    {
-        <tr class="transfer-row">
-            <td>
-                @item.Date.ToString("MM/dd")
-            </td>
-            <td class="text-right">
-                @item.Amount.ToString("### ### ###")Ft
-            </td>
-            <td class="d-none d-sm-table-cell">
-                @Html.DisplayFor(modelItem => item.FromName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CategoryName)
-            </td>
-            <td class="d-none d-sm-table-cell">
-                @Html.DisplayFor(modelItem => item.Comment)
-            </td>
-            <td class="text-center">
-                <form class="d-inline-block"
-                      asp-controller="Expense"
-                      asp-action="Delete"
-                      data-ajax-method="POST"
-                      data-ajax="true"
-                      data-ajax-update="#expense-list"
-                      data-ajax-mode="replace"
-                      data-ajax-success="vinance.showAlert({message: 'Expense successfully deleted', class:'success'})">
-                    <input asp-for="@item.Id" class="d-none" name="expenseId">
-                    <button type="submit" class="btn-table text-danger"><i data-feather="trash"></i></button>
-                </form>
-                <a class="d-inline-block text-warning"
-                   asp-controller="Expense"
-                   asp-action="Edit"
-                   asp-route-expenseId="@item.Id"
-                   data-ajax="true"
-                   data-ajax-method="GET"
-                   data-ajax-update="#edit-expense"
-                   data-ajax-mode="replace"><i data-feather="edit-2"></i></a>
-            </td>
-        </tr>
-    }
+        @foreach (var item in Model.Items)
+        {
+            <tr class="transfer-row">
+                <td>
+                    @item.Date.ToString("MM/dd")
+                </td>
+                <td class="text-right">
+                    @item.Amount.ToString("### ### ###")Ft
+                </td>
+                <td class="d-none d-sm-table-cell">
+                    @Html.DisplayFor(modelItem => item.FromName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CategoryName)
+                </td>
+                <td class="d-none d-sm-table-cell">
+                    @Html.DisplayFor(modelItem => item.Comment)
+                </td>
+                <td class="text-center">
+                    <form class="d-inline-block"
+                          asp-controller="Expense"
+                          asp-action="Delete"
+                          data-ajax-method="POST"
+                          data-ajax="true"
+                          data-ajax-update="#expense-list"
+                          data-ajax-mode="replace"
+                          data-ajax-success="vinance.showAlert({message: 'Expense successfully deleted', class:'success'})">
+                        <input asp-for="@item.Id" class="d-none" name="expenseId">
+                        <button type="submit" class="btn-table text-danger"><i data-feather="trash"></i></button>
+                    </form>
+                    <a class="d-inline-block text-warning"
+                       asp-controller="Expense"
+                       asp-action="Edit"
+                       asp-route-expenseId="@item.Id"
+                       data-ajax="true"
+                       data-ajax-method="GET"
+                       data-ajax-update="#edit-expense"
+                       data-ajax-mode="replace"><i data-feather="edit-2"></i></a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
-    
-<a asp-controller="Expense" asp-action="GetAll" asp-route-page="2">HAHA</a>
+
+
+<a asp-controller="Expense"
+   asp-action="GetAll"
+   asp-route-page="1"
+   asp-route-from="@filters?.From"
+   asp-route-to="@filters?.To"
+   asp-route-order="@filters?.Order"
+   asp-route-categoryId="@filters?.CategoryId"
+   asp-route-pageSize="@Model.PageSize"
+   data-ajax-method="GET"
+   data-ajax="true"
+   data-ajax-update="#expense-list"
+   data-ajax-mode="replace"><i data-feather="chevrons-left"></i></a>
+<a asp-controller="Expense"
+   asp-action="GetAll"
+   asp-route-page="@(Model.Page == 1 ? 1 : Model.Page - 1)"
+   asp-route-from="@filters?.From"
+   asp-route-to="@filters?.To"
+   asp-route-order="@filters?.Order"
+   asp-route-categoryId="@filters?.CategoryId"
+   asp-route-pageSize="@Model.PageSize"
+   data-ajax-method="GET"
+   data-ajax="true"
+   data-ajax-update="#expense-list"
+   data-ajax-mode="replace"><i data-feather="chevron-left"></i></a>
+<a asp-controller="Expense"
+   asp-action="GetAll"
+   asp-route-page="@(Model.Page == Model.TotalPages ? Model.TotalPages : Model.Page + 1)"
+   asp-route-from="@filters?.From"
+   asp-route-to="@filters?.To"
+   asp-route-order="@filters?.Order"
+   asp-route-categoryId="@filters?.CategoryId"
+   asp-route-pageSize="@Model.PageSize"
+   data-ajax-method="GET"
+   data-ajax="true"
+   data-ajax-update="#expense-list"
+   data-ajax-mode="replace"><i data-feather="chevron-right"></i></a>
+<a asp-controller="Expense"
+   asp-action="GetAll"
+   asp-route-page="@Model.TotalPages"
+   asp-route-from="@filters?.From"
+   asp-route-to="@filters?.To"
+   asp-route-order="@filters?.Order"
+   asp-route-categoryId="@filters?.CategoryId"
+   asp-route-pageSize="@Model.PageSize"
+   data-ajax-method="GET"
+   data-ajax="true"
+   data-ajax-update="#expense-list"
+   data-ajax-mode="replace"><i data-feather="chevrons-right"></i></a>
+
+
+<script>
+    vinance.initDatePicker("from-datetimepicker");
+    vinance.initDatePicker("to-datetimepicker");
+</script>

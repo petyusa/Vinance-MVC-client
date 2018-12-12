@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
+using Vinance.Contracts.Enumerations;
 
 namespace Vinance.Web.Controllers
 {
@@ -32,9 +33,9 @@ namespace Vinance.Web.Controllers
 
         [HttpGet]
         [Route("all")]
-        public IActionResult GetAll(DateTime? from = null, DateTime? to = null, string order = "date_desc", int page = 1, int pageSize = 20)
+        public IActionResult GetAll(int categoryId, DateTime? from = null, DateTime? to = null, string order = "date_desc", int page = 1, int pageSize = 20)
         {
-            return ViewComponent(typeof(GetAllExpense), new { from, to, order, page, pageSize });
+            return ViewComponent(typeof(GetAllExpense), new { categoryId, from, to, order, page, pageSize });
         }
 
         [HttpGet]
