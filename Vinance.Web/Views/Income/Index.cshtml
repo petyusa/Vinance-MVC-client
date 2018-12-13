@@ -4,11 +4,13 @@
 <h2>Bevételek</h2>
 
 <div class="row">
-    <div class="col-lg-8">
+    <div class="col-lg-12">
         <div id="income-list">
             @await Component.InvokeAsync("GetAllIncome")
         </div>
     </div>
+</div>
+<div class="row">
     <div class="col-lg-4">
         <div id="edit-income"></div>
     </div>

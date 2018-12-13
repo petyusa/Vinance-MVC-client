@@ -23,23 +23,27 @@ namespace Vinance.Services.APIs
             _responseHandler = responseHandler;
         }
 
-        public async Task<IEnumerable<Category>> GetCategories(CategoryType? type = null)
+        public async Task<IEnumerable<Category>> GetCategories(CategoryType? type = null, DateTime? from = null, DateTime? to = null)
         {
-            var client = _factory.CreateClient(Constants.AuthenticatedClient);
+            if (!from.HasValue || !to.HasValue)
+            {
+                var date = DateTime.Now;
+                from = new DateTime(date.Year, date.Month, 1);
+                to = from.Value.AddMonths(1).AddDays(-1);
+            }
 
             var query = "?";
+            query += $"from={from:MM-dd-yyyy}&to={to:MM-dd-yyyy}";
             if (type != null)
             {
-                query += $"type={type}&";
+                query += $"&type={type}";
 
             }
-            var date = DateTime.Now;
-            var firstDayOfMonth = new DateTime(date.Year, date.Month, 1);
-            var lastDayOfMonth = firstDayOfMonth.AddMonths(1).AddDays(-1);
-            query += $"from={firstDayOfMonth:MM-dd-yyyy}&to={lastDayOfMonth:MM-dd-yyyy}";
-            var response = await client.GetAsync($"categories{query}");
 
+            var client = _factory.CreateClient(Constants.AuthenticatedClient);
+            var response = await client.GetAsync($"categories{query}");
             var categories = await _responseHandler.HandleAsync<IEnumerable<Category>>(response);
+
             return categories.OrderBy(c => c.Name);
         }
 

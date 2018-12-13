@@ -1,32 +1,35 @@
-﻿@model IEnumerable<Vinance.Contracts.Models.Domain.Transfer>
-
+﻿@using Vinance.Contracts.Models.Domain
+@model Vinance.Contracts.Models.PagedList<Vinance.Contracts.Models.Domain.Transfer>
+@{
+    Transfer dummy = null;
+}
 <table class="table table-bordered table-sm table-striped">
     <thead class="thead-dark">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Date)
+            @Html.DisplayNameFor(model => dummy.Date)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Amount)
+            @Html.DisplayNameFor(model => dummy.Amount)
         </th>
         <th class="d-none d-sm-table-cell">
-            @Html.DisplayNameFor(model => model.FromName)
+            @Html.DisplayNameFor(model => dummy.FromName)
         </th>
         <th class="d-none d-sm-table-cell">
-            @Html.DisplayNameFor(model => model.ToName)
+            @Html.DisplayNameFor(model => dummy.ToName)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.CategoryName)
+            @Html.DisplayNameFor(model => dummy.CategoryName)
         </th>
         <th class="d-none d-sm-table-cell">
-            @Html.DisplayNameFor(model => model.Comment)
+            @Html.DisplayNameFor(model => dummy.Comment)
         </th>
         <th>
         </th>
     </tr>
     </thead>
     <tbody>
-    @foreach (var item in Model)
+    @foreach (var item in Model.Items)
     {
         <tr class="transfer-row">
             <td>

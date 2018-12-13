@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Vinance.Contracts.Interfaces
@@ -8,7 +9,7 @@ namespace Vinance.Contracts.Interfaces
 
     public interface ICategoryApi
     {
-        Task<IEnumerable<Category>> GetCategories(CategoryType? type = null);
+        Task<IEnumerable<Category>> GetCategories(CategoryType? type = null, DateTime? from = null, DateTime? to = null);
         Task<Category> Get(int categoryId);
         Task<bool> Create(Category category);
         Task<bool> Update(Category category);
