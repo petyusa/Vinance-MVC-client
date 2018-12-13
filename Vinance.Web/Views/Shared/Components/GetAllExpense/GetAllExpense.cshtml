@@ -1,25 +1,23 @@
-﻿@using Vinance.Contracts.Enumerations
-@using Vinance.Contracts.Models.Domain
-@using Vinance.Web.Components.Category
-@using Vinance.Web.Helpers
-@model Vinance.Contracts.Models.PagedList<Vinance.Contracts.Models.Domain.Expense>
+﻿@using Vinance.Contracts.Models.Domain
+@model Vinance.Contracts.Models.PagedList<Expense>
 @{
     Expense dummy = null;
-    var filters = ViewBag.Filters as Filters;
 }
 
 <form class="form-inline mb-3" asp-action="GetAll"
       asp-controller="Expense"
       asp-route-page="1"
-      asp-route-order="@filters?.Order"
-      asp-route-type="@filters?.CategoryId"
+      asp-route-order="@Model.Order"
+      asp-route-type="@Model.CategoryId"
       data-ajax-method="GET"
       data-ajax="true"
       data-ajax-update="#expense-list"
       data-ajax-mode="replace">
-    <input type="text" autocomplete="off" name="from" class="form-control text-right mr-2" id="from-datetimepicker" data-toggle="datetimepicker" data-target="#from-datetimepicker" value="@filters?.From?.ToString("yyyy-MM-dd")" />
-    <input type="text" autocomplete="off" name="to" class="form-control text-right mr-2" id="to-datetimepicker" data-toggle="datetimepicker" data-target="#to-datetimepicker" value="@filters?.To?.ToString("yyyy-MM-dd")" />
-    @await Component.InvokeAsync(typeof(CategorySelectList), new { type = CategoryType.Expense, selected = filters?.CategoryId })
+    <input type="text" autocomplete="off" name="from" class="form-control text-right mr-2" id="from-datetimepicker" data-toggle="datetimepicker" data-target="#from-datetimepicker" value="@Model.From?.ToString("yyyy-MM-dd")" />
+    <input type="text" autocomplete="off" name="to" class="form-control text-right mr-2" id="to-datetimepicker" data-toggle="datetimepicker" data-target="#to-datetimepicker" value="@Model.To?.ToString("yyyy-MM-dd")" />
+    <select name="categoryId" asp-items="@Model.Categories" class="custom-select mr-2">
+        <option value=""></option>
+    </select>
     <select name="pagesize" class="custom-select mr-2">
         <option value="20" selected="@(Model.PageSize == 20)">20</option>
         <option value="50" selected="@(Model.PageSize == 50)">50</option>
@@ -98,10 +96,10 @@
 <a asp-controller="Expense"
    asp-action="GetAll"
    asp-route-page="1"
-   asp-route-from="@filters?.From"
-   asp-route-to="@filters?.To"
-   asp-route-order="@filters?.Order"
-   asp-route-categoryId="@filters?.CategoryId"
+   asp-route-from="@Model.From"
+   asp-route-to="@Model.To"
+   asp-route-order="@Model.Order"
+   asp-route-categoryId="@Model.CategoryId"
    asp-route-pageSize="@Model.PageSize"
    data-ajax-method="GET"
    data-ajax="true"
@@ -110,10 +108,10 @@
 <a asp-controller="Expense"
    asp-action="GetAll"
    asp-route-page="@(Model.Page == 1 ? 1 : Model.Page - 1)"
-   asp-route-from="@filters?.From"
-   asp-route-to="@filters?.To"
-   asp-route-order="@filters?.Order"
-   asp-route-categoryId="@filters?.CategoryId"
+   asp-route-from="@Model.From"
+   asp-route-to="@Model.To"
+   asp-route-order="@Model.Order"
+   asp-route-categoryId="@Model.CategoryId"
    asp-route-pageSize="@Model.PageSize"
    data-ajax-method="GET"
    data-ajax="true"
@@ -122,10 +120,10 @@
 <a asp-controller="Expense"
    asp-action="GetAll"
    asp-route-page="@(Model.Page == Model.TotalPages ? Model.TotalPages : Model.Page + 1)"
-   asp-route-from="@filters?.From"
-   asp-route-to="@filters?.To"
-   asp-route-order="@filters?.Order"
-   asp-route-categoryId="@filters?.CategoryId"
+   asp-route-from="@Model.From"
+   asp-route-to="@Model.To"
+   asp-route-order="@Model.Order"
+   asp-route-categoryId="@Model.CategoryId"
    asp-route-pageSize="@Model.PageSize"
    data-ajax-method="GET"
    data-ajax="true"
@@ -134,10 +132,10 @@
 <a asp-controller="Expense"
    asp-action="GetAll"
    asp-route-page="@Model.TotalPages"
-   asp-route-from="@filters?.From"
-   asp-route-to="@filters?.To"
-   asp-route-order="@filters?.Order"
-   asp-route-categoryId="@filters?.CategoryId"
+   asp-route-from="@Model.From"
+   asp-route-to="@Model.To"
+   asp-route-order="@Model.Order"
+   asp-route-categoryId="@Model.CategoryId"
    asp-route-pageSize="@Model.PageSize"
    data-ajax-method="GET"
    data-ajax="true"

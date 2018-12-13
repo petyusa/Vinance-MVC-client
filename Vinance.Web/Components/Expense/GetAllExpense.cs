@@ -1,20 +1,23 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System;
+﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
-using Vinance.Web.Helpers;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Vinance.Contracts.Enumerations;
 
 namespace Vinance.Web.Components.Expense
 {
-    using Contracts.Enumerations;
     using Contracts.Interfaces;
 
     public class GetAllExpense : ViewComponent
     {
         private readonly IExpenseApi _expenseApi;
+        private readonly ICategoryApi _categoryApi;
 
-        public GetAllExpense(IExpenseApi expenseApi)
+        public GetAllExpense(IExpenseApi expenseApi, ICategoryApi categoryApi)
         {
             _expenseApi = expenseApi;
+            _categoryApi = categoryApi;
         }
 
         public async Task<IViewComponentResult> InvokeAsync(int? categoryId = null, DateTime? from = null, DateTime? to = null, string order = "date_desc", int page = 1, int pageSize = 20)
@@ -25,15 +28,15 @@ namespace Vinance.Web.Components.Expense
                 from = to.Value.Subtract(TimeSpan.FromDays(30));
             }
 
-            var filters = new Filters
-            {
-                CategoryId = categoryId,
-                From = from,
-                To = to,
-                Order = order
-            };
-            ViewBag.Filters = filters;
             var expenses = await _expenseApi.GetAll(categoryId, from, to, page, pageSize, order);
+            var categories = await _categoryApi.GetCategories(CategoryType.Expense);
+
+            expenses.CategoryId = categoryId;
+            expenses.From = from;
+            expenses.To = to;
+            expenses.Order = order;
+            expenses.Categories = categories.Select(c => new SelectListItem(c.Name, c.Id.ToString(), categoryId.HasValue && categoryId.Value == c.Id));
+
             return View("GetAllExpense", expenses);
         }
     }
