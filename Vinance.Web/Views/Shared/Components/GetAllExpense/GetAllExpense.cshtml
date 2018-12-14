@@ -6,46 +6,6 @@
     Expense dummy = null;
 }
 
-@*<div class="row">
-        <div class="col-6">
-            <form asp-action="GetAll"
-                  asp-controller="Expense"
-                  asp-route-page="1"
-                  asp-route-order="@Model.Order"
-                  asp-route-type="@Model.CategoryId"
-                  data-ajax-method="GET"
-                  data-ajax="true"
-                  data-ajax-update="#expense-list"
-                  data-ajax-mode="replace">
-                <div class="form-group">
-                    <label for="from-datetimepicker">From</label>
-                    <input type="text" autocomplete="off" name="from" class="form-control text-right" id="from-datetimepicker" data-toggle="datetimepicker" data-target="#from-datetimepicker" value="@Model.From?.ToString("yyyy-MM-dd")" />
-                </div>
-                <div class="form-group">
-                    <label for="to-datetimepicker">To</label>
-                    <input type="text" autocomplete="off" name="to" class="form-control text-right" id="to-datetimepicker" data-toggle="datetimepicker" data-target="#to-datetimepicker" value="@Model.To?.ToString("yyyy-MM-dd")" />
-                </div>
-                <div class="form-group">
-                    <label for="categoryId">Category</label>
-                    <select name="categoryId" id="categoryId" asp-items="@Model.Categories" class="custom-select">
-                        <option value=""></option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="pagesize">To</label>
-                    <select name="pagesize" id="pagesize" class="custom-select">
-                        <option value="20" selected="@(Model.PageSize == 20)">20</option>
-                        <option value="50" selected="@(Model.PageSize == 50)">50</option>
-                        <option value="100" selected="@(Model.PageSize == 100)">100</option>
-                    </select>
-                </div>
-                <button type="submit" class="btn-table"><i data-feather="filter"></i></button>
-            </form>
-        </div>
-        <div class="col-6">
-            @await Component.InvokeAsync(typeof(GetAllCategory), new { type = CategoryType.Expense, from = Model.From, to = Model.To })
-        </div>
-    </div>*@
 <div class="row">
     <div class="col-12">
         <form class="form-inline mb-3"
@@ -72,7 +32,6 @@
         </form>
     </div>
 </div>
-
 <div class="row">
     <div class="col-7">
         <div class="row">

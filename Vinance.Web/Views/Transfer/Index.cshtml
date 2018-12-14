@@ -5,12 +5,14 @@
 <h2>Pénzmozgások</h2>
 
 <div class="row">
-    <div class="col-lg-8">
+    <div class="col-12">
         <div id="transfer-list">
             @await Component.InvokeAsync("GetAllTransfer")
         </div>
     </div>
-    <div class="col-lg-4">
+</div>
+<div class="row">
+    <div class="col-4">
         <div id="edit-transfer"></div>
     </div>
 </div>

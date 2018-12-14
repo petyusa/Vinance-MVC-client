@@ -1,148 +1,127 @@
-﻿@using Vinance.Contracts.Models.Domain
+﻿@using Vinance.Contracts.Enumerations
+@using Vinance.Contracts.Models.Domain
+@using Vinance.Web.Components.Category
 @model Vinance.Contracts.Models.PagedList<Vinance.Contracts.Models.Domain.Income>
 @{
     Income dummy = null;
 }
 
-<form class="form-inline mb-3" asp-action="GetAll"
-      asp-controller="Income"
-      asp-route-page="1"
-      asp-route-order="@Model.Order"
-      asp-route-type="@Model.CategoryId"
-      data-ajax-method="GET"
-      data-ajax="true"
-      data-ajax-update="#income-list"
-      data-ajax-mode="replace">
-    <input type="text" autocomplete="off" name="from" class="form-control text-right mr-2" id="from-datetimepicker" data-toggle="datetimepicker" data-target="#from-datetimepicker" value="@Model.From?.ToString("yyyy-MM-dd")" />
-    <input type="text" autocomplete="off" name="to" class="form-control text-right mr-2" id="to-datetimepicker" data-toggle="datetimepicker" data-target="#to-datetimepicker" value="@Model.To?.ToString("yyyy-MM-dd")" />
-    <select name="categoryId" asp-items="@Model.Categories" class="custom-select mr-2">
-        <option value=""></option>
-    </select>
-    <select name="pagesize" class="custom-select mr-2">
-        <option value="20" selected="@(Model.PageSize == 20)">20</option>
-        <option value="50" selected="@(Model.PageSize == 50)">50</option>
-        <option value="100" selected="@(Model.PageSize == 100)">100</option>
-    </select>
-    <button type="submit" class="btn-table"><i data-feather="filter"></i></button>
-</form>
-
-<table class="table table-bordered table-sm table-striped">
-    <thead class="thead-dark">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => dummy.Date)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => dummy.Amount)
-        </th>
-        <th class="d-none d-sm-table-cell">
-            @Html.DisplayNameFor(model => dummy.ToName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => dummy.CategoryName)
-        </th>
-        <th class="d-none d-sm-table-cell">
-            @Html.DisplayNameFor(model => dummy.Comment)
-        </th>
-        <th>
-        </th>
-    </tr>
-    </thead>
-    <tbody>
-    @foreach (var item in Model.Items)
-    {
-        <tr class="transfer-row">
-            <td>
-                @item.Date.ToString("MM/dd")
-            </td>
-            <td class="text-right">
-                @item.Amount.ToString("### ### ###")Ft
-            </td>
-            <td class="d-none d-sm-table-cell">
-                @Html.DisplayFor(modelItem => item.ToName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CategoryName)
-            </td>
-            <td class="d-none d-sm-table-cell">
-                @Html.DisplayFor(modelItem => item.Comment)
-            </td>
-            <td class="text-center">
-                <form class="d-inline-block"
-                      asp-controller="Income"
-                      asp-action="Delete"
-                      data-ajax-method="POST"
-                      data-ajax="true"
-                      data-ajax-update="#income-list"
-                      data-ajax-mode="replace"
-                      data-ajax-success="vinance.showAlert({message: 'Income successfully deleted', class:'success'})">
-                    <input asp-for="@item.Id" class="d-none" name="incomeId">
-                    <button type="submit" class="btn-table text-danger"><i data-feather="trash"></i></button>
-                </form>
-                <a class="d-inline-block text-warning"
-                   asp-controller="Income"
-                   asp-action="Edit"
-                   asp-route-incomeId="@item.Id"
-                   data-ajax="true"
-                   data-ajax-method="GET"
-                   data-ajax-update="#edit-income"
-                   data-ajax-mode="replace"><i data-feather="edit-2"></i></a>
-            </td>
-        </tr>
-    }
-    </tbody>
-</table>
-    
-<a asp-controller="Income"
-   asp-action="GetAll"
-   asp-route-page="1"
-   asp-route-from="@Model.From"
-   asp-route-to="@Model.To"
-   asp-route-order="@Model.Order"
-   asp-route-categoryId="@Model.CategoryId"
-   asp-route-pageSize="@Model.PageSize"
-   data-ajax-method="GET"
-   data-ajax="true"
-   data-ajax-update="#income-list"
-   data-ajax-mode="replace"><i data-feather="chevrons-left"></i></a>
-<a asp-controller="Income"
-   asp-action="GetAll"
-   asp-route-page="@(Model.Page == 1 ? 1 : Model.Page - 1)"
-   asp-route-from="@Model.From"
-   asp-route-to="@Model.To"
-   asp-route-order="@Model.Order"
-   asp-route-categoryId="@Model.CategoryId"
-   asp-route-pageSize="@Model.PageSize"
-   data-ajax-method="GET"
-   data-ajax="true"
-   data-ajax-update="#income-list"
-   data-ajax-mode="replace"><i data-feather="chevron-left"></i></a>
-<a asp-controller="Income"
-   asp-action="GetAll"
-   asp-route-page="@(Model.Page == Model.TotalPages ? Model.TotalPages : Model.Page + 1)"
-   asp-route-from="@Model.From"
-   asp-route-to="@Model.To"
-   asp-route-order="@Model.Order"
-   asp-route-categoryId="@Model.CategoryId"
-   asp-route-pageSize="@Model.PageSize"
-   data-ajax-method="GET"
-   data-ajax="true"
-   data-ajax-update="#income-list"
-   data-ajax-mode="replace"><i data-feather="chevron-right"></i></a>
-<a asp-controller="Income"
-   asp-action="GetAll"
-   asp-route-page="@Model.TotalPages"
-   asp-route-from="@Model.From"
-   asp-route-to="@Model.To"
-   asp-route-order="@Model.Order"
-   asp-route-categoryId="@Model.CategoryId"
-   asp-route-pageSize="@Model.PageSize"
-   data-ajax-method="GET"
-   data-ajax="true"
-   data-ajax-update="#income-list"
-   data-ajax-mode="replace"><i data-feather="chevrons-right"></i></a>
-
-
+<div class="row">
+    <div class="col-12">
+        <form class="form-inline mb-3"
+              asp-action="GetAll"
+              asp-controller="Income"
+              asp-route-page="1"
+              asp-route-order="@Model.Order"
+              asp-route-type="@Model.CategoryId"
+              data-ajax-method="GET"
+              data-ajax="true"
+              data-ajax-update="#income-list"
+              data-ajax-mode="replace">
+            <input type="text" autocomplete="off" name="from" class="form-control text-right mr-2" id="from-datetimepicker" data-toggle="datetimepicker" data-target="#from-datetimepicker" value="@Model.From?.ToString("yyyy-MM-dd")" />
+            <input type="text" autocomplete="off" name="to" class="form-control text-right mr-2" id="to-datetimepicker" data-toggle="datetimepicker" data-target="#to-datetimepicker" value="@Model.To?.ToString("yyyy-MM-dd")" />
+            <select name="categoryId" id="categoryId" asp-items="@Model.Categories" class="custom-select mr-2">
+                <option value=""></option>
+            </select>
+            <select name="pagesize" id="pagesize" class="custom-select mr-2">
+                <option value="20" selected="@(Model.PageSize == 20)">20</option>
+                <option value="50" selected="@(Model.PageSize == 50)">50</option>
+                <option value="100" selected="@(Model.PageSize == 100)">100</option>
+            </select>
+            <button type="submit" class="btn-table"><i data-feather="filter"></i></button>
+        </form>
+    </div>
+</div>
+<div class="row">
+    <div class="col-7">
+        <div class="row">
+            <div class="col-12">
+                <table class="table table-bordered table-sm table-striped">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th>
+                                @Html.DisplayNameFor(model => dummy.Date)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => dummy.Amount)
+                            </th>
+                            <th class="d-none d-sm-table-cell">
+                                @Html.DisplayNameFor(model => dummy.ToName)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => dummy.CategoryName)
+                            </th>
+                            <th class="d-none d-sm-table-cell">
+                                @Html.DisplayNameFor(model => dummy.Comment)
+                            </th>
+                            <th>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.Items)
+                        {
+                            <tr class="transfer-row">
+                                <td>
+                                    @item.Date.ToString("MM/dd")
+                                </td>
+                                <td class="text-right">
+                                    @item.Amount.ToString("### ### ###")Ft
+                                </td>
+                                <td class="d-none d-sm-table-cell">
+                                    @Html.DisplayFor(modelItem => item.ToName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.CategoryName)
+                                </td>
+                                <td class="d-none d-sm-table-cell">
+                                    @Html.DisplayFor(modelItem => item.Comment)
+                                </td>
+                                <td class="text-center">
+                                    <form class="d-inline-block"
+                                          asp-controller="Income"
+                                          asp-action="Delete"
+                                          data-ajax-method="POST"
+                                          data-ajax="true"
+                                          data-ajax-update="#income-list"
+                                          data-ajax-mode="replace"
+                                          data-ajax-success="vinance.showAlert({message: 'Income successfully deleted', class:'success'})">
+                                        <input asp-for="@item.Id" class="d-none" name="incomeId">
+                                        <button type="submit" class="btn-table text-danger"><i data-feather="trash"></i></button>
+                                    </form>
+                                    <a class="d-inline-block text-warning"
+                                       asp-controller="Income"
+                                       asp-action="Edit"
+                                       asp-route-incomeId="@item.Id"
+                                       data-ajax="true"
+                                       data-ajax-method="GET"
+                                       data-ajax-update="#edit-income"
+                                       data-ajax-mode="replace"><i data-feather="edit-2"></i></a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <pagination-ajax route="/incomes/all"
+                                 pagesize="@Model.PageSize"
+                                 from="@Model.From"
+                                 to="@Model.To"
+                                 sort-order="@Model.Order"
+                                 category-id="@Model.CategoryId"
+                                 page="@Model.Page"
+                                 target-id="income-list"
+                                 total-pages="@Model.TotalPages"></pagination-ajax>
+            </div>
+        </div>
+    </div>
+    <div class="col-5">
+        @await Component.InvokeAsync(typeof(GetAllCategory), new { type = CategoryType.Income, from = Model.From, to = Model.To })
+    </div>
+</div>
 <script>
     vinance.initDatePicker("from-datetimepicker");
     vinance.initDatePicker("to-datetimepicker");
