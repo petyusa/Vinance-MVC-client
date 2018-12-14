@@ -3,11 +3,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Vinance.Contracts.Enumerations;
 
 namespace Vinance.Web.Components.Expense
 {
     using Contracts.Interfaces;
+    using Contracts.Enumerations;   
 
     public class GetAllExpense : ViewComponent
     {

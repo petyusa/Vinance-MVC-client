@@ -77,127 +77,84 @@
     <div class="col-7">
         <div class="row">
             <div class="col-12">
-
-
                 <table class="table table-bordered table-sm table-striped">
                     <thead class="thead-dark">
-                    <tr>
-                        <th>
-                            @Html.DisplayNameFor(model => dummy.Date)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => dummy.Amount)
-                        </th>
-                        <th class="d-none d-sm-table-cell">
-                            @Html.DisplayNameFor(model => dummy.FromName)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => dummy.CategoryName)
-                        </th>
-                        <th class="mr-auto d-none d-sm-table-cell">
-                            @Html.DisplayNameFor(model => dummy.Comment)
-                        </th>
-                        <th></th>
-                    </tr>
+                        <tr>
+                            <th>
+                                @Html.DisplayNameFor(model => dummy.Date)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => dummy.Amount)
+                            </th>
+                            <th class="d-none d-sm-table-cell">
+                                @Html.DisplayNameFor(model => dummy.FromName)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => dummy.CategoryName)
+                            </th>
+                            <th class="mr-auto d-none d-sm-table-cell">
+                                @Html.DisplayNameFor(model => dummy.Comment)
+                            </th>
+                            <th></th>
+                        </tr>
                     </thead>
                     <tbody>
-                    @foreach (var item in Model.Items)
-                    {
-                        <tr class="transfer-row">
-                            <td>
-                                @item.Date.ToString("MM/dd")
-                            </td>
-                            <td class="text-right">
-                                @item.Amount.ToString("### ### ###")Ft
-                            </td>
-                            <td class="d-none d-sm-table-cell">
-                                @Html.DisplayFor(modelItem => item.FromName)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.CategoryName)
-                            </td>
-                            <td class="d-none d-sm-table-cell">
-                                @Html.DisplayFor(modelItem => item.Comment)
-                            </td>
-                            <td class="text-center">
-                                <form class="d-inline-block"
-                                      asp-controller="Expense"
-                                      asp-action="Delete"
-                                      data-ajax-method="POST"
-                                      data-ajax="true"
-                                      data-ajax-update="#expense-list"
-                                      data-ajax-mode="replace"
-                                      data-ajax-success="vinance.showAlert({message: 'Expense successfully deleted', class:'success'})">
-                                    <input asp-for="@item.Id" class="d-none" name="expenseId">
-                                    <button type="submit" class="btn-table text-danger"><i data-feather="trash"></i></button>
-                                </form>
-                                <a class="d-inline-block text-warning"
-                                   asp-controller="Expense"
-                                   asp-action="Edit"
-                                   asp-route-expenseId="@item.Id"
-                                   data-ajax="true"
-                                   data-ajax-method="GET"
-                                   data-ajax-update="#edit-expense"
-                                   data-ajax-mode="replace"><i data-feather="edit-2"></i></a>
-                            </td>
-                        </tr>
-                    }
+                        @foreach (var item in Model.Items)
+                        {
+                            <tr class="transfer-row">
+                                <td>
+                                    @item.Date.ToString("MM/dd")
+                                </td>
+                                <td class="text-right">
+                                    @item.Amount.ToString("### ### ###")Ft
+                                </td>
+                                <td class="d-none d-sm-table-cell">
+                                    @Html.DisplayFor(modelItem => item.FromName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.CategoryName)
+                                </td>
+                                <td class="d-none d-sm-table-cell">
+                                    @Html.DisplayFor(modelItem => item.Comment)
+                                </td>
+                                <td class="text-center">
+                                    <form class="d-inline-block"
+                                          asp-controller="Expense"
+                                          asp-action="Delete"
+                                          data-ajax-method="POST"
+                                          data-ajax="true"
+                                          data-ajax-update="#expense-list"
+                                          data-ajax-mode="replace"
+                                          data-ajax-success="vinance.showAlert({message: 'Expense successfully deleted', class:'success'})">
+                                        <input asp-for="@item.Id" class="d-none" name="expenseId">
+                                        <button type="submit" class="btn-table text-danger"><i data-feather="trash"></i></button>
+                                    </form>
+                                    <a class="d-inline-block text-warning"
+                                       asp-controller="Expense"
+                                       asp-action="Edit"
+                                       asp-route-expenseId="@item.Id"
+                                       data-ajax="true"
+                                       data-ajax-method="GET"
+                                       data-ajax-update="#edit-expense"
+                                       data-ajax-mode="replace"><i data-feather="edit-2"></i></a>
+                                </td>
+                            </tr>
+                        }
                     </tbody>
                 </table>
             </div>
         </div>
         <div class="row">
             <div class="col-12">
-                <div>
-                    <a asp-controller="Expense"
-                       asp-action="GetAll"
-                       asp-route-page="1"
-                       asp-route-from="@Model.From"
-                       asp-route-to="@Model.To"
-                       asp-route-order="@Model.Order"
-                       asp-route-categoryId="@Model.CategoryId"
-                       asp-route-pageSize="@Model.PageSize"
-                       data-ajax-method="GET"
-                       data-ajax="true"
-                       data-ajax-update="#expense-list"
-                       data-ajax-mode="replace"><i data-feather="chevrons-left"></i></a>
-                    <a asp-controller="Expense"
-                       asp-action="GetAll"
-                       asp-route-page="@(Model.Page == 1 ? 1 : Model.Page - 1)"
-                       asp-route-from="@Model.From"
-                       asp-route-to="@Model.To"
-                       asp-route-order="@Model.Order"
-                       asp-route-categoryId="@Model.CategoryId"
-                       asp-route-pageSize="@Model.PageSize"
-                       data-ajax-method="GET"
-                       data-ajax="true"
-                       data-ajax-update="#expense-list"
-                       data-ajax-mode="replace"><i data-feather="chevron-left"></i></a>
-                    <a asp-controller="Expense"
-                       asp-action="GetAll"
-                       asp-route-page="@(Model.Page == Model.TotalPages ? Model.TotalPages : Model.Page + 1)"
-                       asp-route-from="@Model.From"
-                       asp-route-to="@Model.To"
-                       asp-route-order="@Model.Order"
-                       asp-route-categoryId="@Model.CategoryId"
-                       asp-route-pageSize="@Model.PageSize"
-                       data-ajax-method="GET"
-                       data-ajax="true"
-                       data-ajax-update="#expense-list"
-                       data-ajax-mode="replace"><i data-feather="chevron-right"></i></a>
-                    <a asp-controller="Expense"
-                       asp-action="GetAll"
-                       asp-route-page="@Model.TotalPages"
-                       asp-route-from="@Model.From"
-                       asp-route-to="@Model.To"
-                       asp-route-order="@Model.Order"
-                       asp-route-categoryId="@Model.CategoryId"
-                       asp-route-pageSize="@Model.PageSize"
-                       data-ajax-method="GET"
-                       data-ajax="true"
-                       data-ajax-update="#expense-list"
-                       data-ajax-mode="replace"><i data-feather="chevrons-right"></i></a>
-                </div>
+                <pagination-ajax route="/expenses/all"
+                                 pagesize="@Model.PageSize"
+                                 from="@Model.From"
+                                 to="@Model.To"
+                                 sort-order="@Model.Order"
+                                 category-id="@Model.CategoryId"
+                                 page="@Model.Page"
+                                 target-id="expense-list"
+                                 total-pages="@Model.TotalPages"></pagination-ajax>
             </div>
         </div>
     </div>
@@ -205,9 +162,6 @@
         @await Component.InvokeAsync(typeof(GetAllCategory), new { type = CategoryType.Expense, from = Model.From, to = Model.To })
     </div>
 </div>
-
-<pagination route="/expenses/all" pagesize="50"></pagination>
-
 
 <script>
     vinance.initDatePicker("from-datetimepicker");
