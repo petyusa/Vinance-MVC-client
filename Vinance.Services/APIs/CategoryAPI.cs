@@ -9,6 +9,7 @@ namespace Vinance.Services.APIs
     using Contracts;
     using Contracts.Enumerations;
     using Contracts.Interfaces;
+    using Contracts.Models;
     using Contracts.Models.Domain;
     using Extensions;
 
@@ -45,6 +46,25 @@ namespace Vinance.Services.APIs
             var categories = await _responseHandler.HandleAsync<IEnumerable<Category>>(response);
 
             return categories.OrderBy(c => c.Name);
+        }
+
+        public async Task<IEnumerable<CategoryStatistics>> GetStats(CategoryType type = CategoryType.Expense, DateTime? from = null, DateTime? to = null, string by = null)
+        {
+            if (!from.HasValue || !to.HasValue)
+            {
+                var date = DateTime.Now;
+                from = new DateTime(date.Year, 1, 1);
+                to = from.Value.AddYears(1).AddDays(-1);
+            }
+            var query = "?";
+            query += $"from={from:MM-dd-yyyy}&to={to:MM-dd-yyyy}";
+            query += $"&type={type}";
+
+
+            var client = _factory.CreateClient(Constants.AuthenticatedClient);
+            var response = await client.GetAsync($"categories/average{query}");
+
+            return await _responseHandler.HandleAsync<IEnumerable<CategoryStatistics>>(response);
         }
 
         public async Task<Category> Get(int categoryId)

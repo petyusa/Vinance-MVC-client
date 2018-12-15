@@ -24,6 +24,22 @@
         });
     }
 
+    const backgroundColors = [
+        "#B58900",
+        "#6610f2",
+        "#D33682",
+        "#fd7e14",
+        "#20c997",
+        "#839496",
+        "#268BD2",
+        "#CB4B16",
+        "#FDF6E3",
+        "#2AA198",
+        "#073642",
+        "#6f42c1",
+        "#e83e8c"
+    ];
+
     function createChart(chartId, labels, amounts) {
         const canvasDiv = document.getElementById(chartId);
         canvasDiv.height = 400;
@@ -32,21 +48,7 @@
             labels: labels,
             datasets: [{
                 data: amounts,
-                backgroundColor: [
-                    "#B58900",
-                    "#6610f2",
-                    "#D33682",
-                    "#fd7e14",
-                    "#20c997",
-                    "#839496",
-                    "#268BD2",
-                    "#CB4B16",
-                    "#FDF6E3",
-                    "#2AA198",
-                    "#073642",
-                    "#6f42c1",
-                    "#e83e8c"
-                ]
+                backgroundColor: backgroundColors
             }]
         };
         const options = {
@@ -58,10 +60,73 @@
         });
     }
 
+    function createStackedChart(chartId, labels, arr) {
+        const canvasDiv = document.getElementById(chartId);
+        canvasDiv.height = 400;
+        const ctx = canvasDiv.getContext('2d');
+        const data = {
+            labels: labels,
+            datasets: getDataSets(arr, labels)
+        };
+        const myPieChart = new Chart(ctx,
+            {
+                type: 'bar',
+                data: data,
+                options: {
+                    scales: {
+                        xAxes: [{
+                            stacked: true
+                        }],
+                        yAxes: [{
+                            stacked: true
+                        }]
+                    }
+                }
+            });
+    }
+
+    function getDataSets(arr) {
+        const labels = getLabels(arr);
+        const dataSets = [];
+        for (let i = 0; i < labels.length; i++) {
+            dataSets.push({
+                stack: "Stack",
+                label: labels[i],
+                data: getDataForCategory(arr, labels[i]),
+                backgroundColor: backgroundColors[i]
+            });
+        }
+    }
+
+    function getLabels(arr) {
+        const labels = [];
+        for (let i = 0; i < arr.length; i++) {
+            for (let j = 0; j < arr[i].length; j++) {
+                if (!labels.includes(arr[i][j].Name)) {
+                    labels.push(arr[i][j].Name);
+                }
+            }
+        }
+        return labels;
+    }
+
+    function getDataForCategory(arr, categoryName) {
+        const data = [];
+        for (let i = 0; i < arr.length; i++) {
+            for (let j = 0; j < arr[i].length; j++) {
+                if (arr[i][j].Name === categoryName) {
+                    data.push(arr[i][j].Balance);
+                }
+            }
+        }
+        return data;
+    }
+    
     return {
         showAlert: showAlert,
         initDatePicker: initializeDatetimepicker,
-        createChart: createChart
+        createChart: createChart,
+        createStackedChart: createStackedChart
     };
 })();
 

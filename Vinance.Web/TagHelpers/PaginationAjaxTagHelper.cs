@@ -1,19 +1,29 @@
-﻿using System;
-using System.Text;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Routing;
+using Microsoft.AspNetCore.Mvc.TagHelpers;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.Razor.TagHelpers;
+using Microsoft.AspNetCore.Routing;
+using System;
+using System.Text;
 
 namespace Vinance.Web.TagHelpers
 {
-    public class PaginationAjaxTagHelper : TagHelper
+    public class PaginationAjaxTagHelper : AnchorTagHelper
     {
+        private readonly IUrlHelperFactory _urlHelperFactory;
+        public PaginationAjaxTagHelper(IHtmlGenerator generator, IUrlHelperFactory urlHelperFactory) : base(generator)
+        {
+            _urlHelperFactory = urlHelperFactory;
+        }
+
         public int TotalPages { get; set; }
         public int? Pagesize { get; set; }
         public DateTime? From { get; set; }
         public DateTime? To { get; set; }
         public string SortOrder { get; set; }
         public int? CategoryId { get; set; }
-        public string Route { get; set; }
-        public int Page { get; set; }
+        public int PageNumber { get; set; }
         public string TargetId { get; set; }
 
         public override void Process(TagHelperContext context, TagHelperOutput output)
@@ -25,52 +35,38 @@ namespace Vinance.Web.TagHelpers
 
         private void AddContent(TagHelperOutput output)
         {
-            var sb = new StringBuilder(Route);
-            sb.Append("?");
-            if (From.HasValue && To.HasValue)
+            var rootValues = new RouteValueDictionary
             {
-                sb.Append($"from={From}&to={To}");
-                sb.Append("&");
-            }
+                {"from", From},
+                {"to", To},
+                {"categoryId", CategoryId},
+                {"sortorder", SortOrder},
+                {"pagesize", Pagesize}
+            };
 
-            if (CategoryId.HasValue)
-            {
-                sb.Append($"categoryId={CategoryId}");
-                sb.Append("&");
-            }
-
-            if (!string.IsNullOrWhiteSpace(SortOrder))
-            {
-                sb.Append($"order={SortOrder}");
-                sb.Append("&");
-            }
-
-            if (Pagesize.HasValue)
-            {
-                sb.Append($"pagesize={Pagesize}");
-                sb.Append("&");
-            }
+            var urlHelper = _urlHelperFactory.GetUrlHelper(ViewContext);
+            var rootUrl = urlHelper.Action(Action, Controller, rootValues);
             
             var firstPage = $@"<a class='page-link'
-                    href='{sb}page=1' 
+                    href='{rootUrl}&page=1' 
                     data-ajax-method='GET'
                     data-ajax='true'
                     data-ajax-update='#{TargetId}'
                     data-ajax-mode='replace'><i data-feather='chevrons-left'></i></a>";
             var previousPage = $@"<a class='page-link'
-                    href='{sb}page={Page - 1}' 
+                    href='{rootUrl}&page={PageNumber - 1}' 
                     data-ajax-method='GET'
                     data-ajax='true'
                     data-ajax-update='#{TargetId}'
                     data-ajax-mode='replace'><i data-feather='chevron-left'></i></a>";
             var nextPage = $@"<a class='page-link'
-                    href='{sb}page={Page + 1}' 
+                    href='{rootUrl}&page={PageNumber + 1}' 
                     data-ajax-method='GET'
                     data-ajax='true'
                     data-ajax-update='#{TargetId}'
                     data-ajax-mode='replace'><i data-feather='chevron-right'></i></a>";
-                var lastPage = $@"<a class='page-link'
-                    href='{sb}page={TotalPages}' 
+            var lastPage = $@"<a class='page-link'
+                    href='{rootUrl}&page={TotalPages}' 
                     data-ajax-method='GET'
                     data-ajax='true'
                     data-ajax-update='#{TargetId}'
@@ -89,21 +85,21 @@ namespace Vinance.Web.TagHelpers
             var htmlBuilder = new StringBuilder();
             htmlBuilder.Append(ulBegin);
 
-            htmlBuilder.Append(Page == 1 ? liDisabled : li);
+            htmlBuilder.Append(PageNumber == 1 ? liDisabled : li);
             htmlBuilder.Append(firstPage);
             htmlBuilder.Append(liEnd);
 
-            htmlBuilder.Append(Page == 1 ? liDisabled : li);
+            htmlBuilder.Append(PageNumber == 1 ? liDisabled : li);
             htmlBuilder.Append(previousPage);
             htmlBuilder.Append(liEnd);
 
-            for (var i = Page - 2; i <= Page + 2; i++)
+            for (var i = PageNumber - 2; i <= PageNumber + 2; i++)
             {
                 if (i > 0 && i <= TotalPages)
                 {
-                    htmlBuilder.Append(i == Page ? liActive : li);
+                    htmlBuilder.Append(i == PageNumber ? liActive : li);
                     htmlBuilder.Append($@"<a class='page-link'
-                        href='{sb}page={i}' 
+                        href='{rootUrl}&page={i}' 
                         data-ajax-method='GET'
                         data-ajax='true'
                         data-ajax-update='#{TargetId}'
@@ -113,11 +109,11 @@ namespace Vinance.Web.TagHelpers
 
             }
 
-            htmlBuilder.Append(Page == TotalPages ? liDisabled : li);
+            htmlBuilder.Append(PageNumber == TotalPages ? liDisabled : li);
             htmlBuilder.Append(nextPage);
             htmlBuilder.Append(liEnd);
 
-            htmlBuilder.Append(Page == TotalPages ? liDisabled : li);
+            htmlBuilder.Append(PageNumber == TotalPages ? liDisabled : li);
             htmlBuilder.Append(lastPage);
             htmlBuilder.Append(liEnd);
 

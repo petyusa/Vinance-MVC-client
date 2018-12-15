@@ -20,7 +20,7 @@ namespace Vinance.Web.Components.Expense
             _categoryApi = categoryApi;
         }
 
-        public async Task<IViewComponentResult> InvokeAsync(int? categoryId = null, DateTime? from = null, DateTime? to = null, string order = "date_desc", int page = 1, int pageSize = 20)
+        public async Task<IViewComponentResult> InvokeAsync(int? categoryId = null, DateTime? from = null, DateTime? to = null, string sortOrder = "date_desc", int page = 1, int pageSize = 20)
         {
             if (!from.HasValue || !to.HasValue)
             {
@@ -28,13 +28,13 @@ namespace Vinance.Web.Components.Expense
                 from = to.Value.Subtract(TimeSpan.FromDays(30));
             }
 
-            var expenses = await _expenseApi.GetAll(categoryId, from, to, page, pageSize, order);
+            var expenses = await _expenseApi.GetAll(categoryId, from, to, page, pageSize, sortOrder);
             var categories = await _categoryApi.GetCategories(CategoryType.Expense);
 
             expenses.CategoryId = categoryId;
             expenses.From = from;
             expenses.To = to;
-            expenses.Order = order;
+            expenses.Order = sortOrder;
             expenses.Categories = categories.Select(c => new SelectListItem(c.Name, c.Id.ToString(), categoryId.HasValue && categoryId.Value == c.Id));
 
             return View("GetAllExpense", expenses);

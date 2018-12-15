@@ -1,10 +1,12 @@
-﻿@using Vinance.Web.Components.Expense
+﻿@using Vinance.Web.Components.Category
+@using Vinance.Web.Components.Expense
 @using Vinance.Web.Components.MainPage
 @{
     ViewData["Title"] = "Főoldal";
 }
 
-<div class="row mb-4">
+@await Component.InvokeAsync(typeof(CategoryStats))
+@*<div class="row mb-4">
     <div class="col-sm-4">
         <a class="btn btn-primary btn-block"
            asp-controller="Expense"
@@ -40,4 +42,4 @@
     <div class="col-lg-4" id="create-form">
         @await Component.InvokeAsync(typeof(CreateExpense))
     </div>
-</div>
+</div>*@

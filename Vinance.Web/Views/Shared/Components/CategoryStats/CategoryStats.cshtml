@@ -1,0 +1,12 @@
+﻿@using Newtonsoft.Json;
+@model IEnumerable<Vinance.Contracts.Models.CategoryStatistics>
+@{
+    var labels = Model.Select(c => c.Date);
+}
+<canvas id="category-chart"></canvas>
+
+<script>
+    var labels = @Html.Raw(JsonConvert.SerializeObject(labels));
+    var data = @Html.Raw(JsonConvert.SerializeObject(Model.Select(c => c.Items)));
+    vinance.createStackedChart("category-chart", labels, data);
+</script>

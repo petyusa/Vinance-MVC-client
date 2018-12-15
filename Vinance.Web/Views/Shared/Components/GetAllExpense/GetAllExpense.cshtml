@@ -28,6 +28,12 @@
                 <option value="50" selected="@(Model.PageSize == 50)">50</option>
                 <option value="100" selected="@(Model.PageSize == 100)">100</option>
             </select>
+            <select name="sortorder" id="sortorder" class="custom-select mr-2">
+                <option value="date_desc" selected="@(Model.Order == "date_desc")">Legújabb elöl</option>
+                <option value="date" selected="@(Model.Order == "date")">Legrégebbi elöl</option>
+                <option value="amount_desc" selected="@(Model.Order == "amount_desc")">Legdrágább elöl</option>
+                <option value="amount" selected="@(Model.Order == "amount")">Legolcsóbb elöl</option>
+            </select>
             <button type="submit" class="btn-table"><i data-feather="filter"></i></button>
         </form>
     </div>
@@ -105,13 +111,13 @@
         </div>
         <div class="row">
             <div class="col-12">
-                <pagination-ajax route="/expenses/all"
+                <pagination-ajax asp-controller="Expense" asp-action="GetAll"
                                  pagesize="@Model.PageSize"
                                  from="@Model.From"
                                  to="@Model.To"
                                  sort-order="@Model.Order"
                                  category-id="@Model.CategoryId"
-                                 page="@Model.Page"
+                                 page-number="@Model.Page"
                                  target-id="expense-list"
                                  total-pages="@Model.TotalPages"></pagination-ajax>
             </div>

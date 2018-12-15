@@ -111,13 +111,14 @@
         </div>
         <div class="row">
             <div class="col-12">
-                <pagination-ajax route="/transfers/all"
-                                 pagesize="@Model.PageSize"
+                <pagination-ajax pagesize="@Model.PageSize"
+                                 asp-controller="Transfer"
+                                 asp-action="GetAll"
                                  from="@Model.From"
                                  to="@Model.To"
                                  sort-order="@Model.Order"
                                  category-id="@Model.CategoryId"
-                                 page="@Model.Page"
+                                 page-number="@Model.Page"
                                  target-id="transfer-list"
                                  total-pages="@Model.TotalPages"></pagination-ajax>
             </div>
