@@ -62,10 +62,12 @@
 
     function createStackedChart(chartId, labels, arr) {
         const canvasDiv = document.getElementById(chartId);
-        canvasDiv.height = 400;
+        canvasDiv.height = 200;
         const ctx = canvasDiv.getContext('2d');
         const data = {
-            labels: labels,
+            labels: labels.map((item) => {
+                return moment(new Date(item)).format("YY-MMM");
+            }),
             datasets: getDataSets(arr, labels)
         };
         const myPieChart = new Chart(ctx,
@@ -73,6 +75,7 @@
                 type: 'bar',
                 data: data,
                 options: {
+                    maintainAspectRatio: true,
                     scales: {
                         xAxes: [{
                             stacked: true
@@ -96,6 +99,7 @@
                 backgroundColor: backgroundColors[i]
             });
         }
+        return dataSets;
     }
 
     function getLabels(arr) {

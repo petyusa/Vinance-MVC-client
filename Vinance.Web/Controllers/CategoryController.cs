@@ -99,5 +99,12 @@ namespace Vinance.Web.Controllers
 
             return BadRequest();
         }
+
+        [HttpGet]
+        [Route("stats")]
+        public IActionResult Stats()
+        {
+            return View();
+        }
     }
 }

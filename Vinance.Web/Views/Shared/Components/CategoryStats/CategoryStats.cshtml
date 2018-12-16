@@ -1,12 +1,68 @@
 ﻿@using Newtonsoft.Json;
 @model IEnumerable<Vinance.Contracts.Models.CategoryStatistics>
 @{
-    var labels = Model.Select(c => c.Date);
+    var categoryNames = Model.SelectMany(m => m.Items.Select(c => c.Name)).Distinct().OrderBy(c => c);
+    var dateCount = Model.Select(m => m.Date).Count();
 }
+
+<table class="table table-bordered table-sm table-striped">
+    <thead class="thead-dark">
+        <tr>
+            <th>
+                2018
+            </th>
+            @foreach (var stat in Model)
+            {
+                <th>@stat.Date.ToString("MMM")</th>
+            }
+            <th>
+                Átlag
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var name in categoryNames)
+        {
+            <tr>
+                <th>@name</th>
+                @foreach (var item in Model)
+                {
+                    <td class="text-right">
+                        @{
+                            var expenses = item.Items.SingleOrDefault(c => c.Name == name);
+                            var balance = expenses == null ? "0" : expenses.Balance.ToString("### ### ###");
+                        }
+                        @balance
+                    </td>
+                            }
+                <td class="text-right">
+                    @((Model.SelectMany(s => s.Items.Where(c => c.Name == name)).Sum(c => c.Balance) / dateCount).ToString("### ### ###"))
+                </td>
+            </tr>
+        }
+        <tr>
+            <th>
+                Összesen
+            </th>
+            @foreach (var item in Model)
+            {
+                <td class="text-right">
+                    @item.Items.Sum(c => c.Balance)
+                </td>
+            }
+            <td class="text-right">
+                @Model.Select(m => m.Items.Sum(c => c.Balance)).Average().ToString("### ### ###")
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+
+
 <canvas id="category-chart"></canvas>
 
 <script>
-    var labels = @Html.Raw(JsonConvert.SerializeObject(labels));
+    var labels = @Html.Raw(JsonConvert.SerializeObject(Model.Select(c =>c.Date)));
     var data = @Html.Raw(JsonConvert.SerializeObject(Model.Select(c => c.Items)));
     vinance.createStackedChart("category-chart", labels, data);
 </script>
