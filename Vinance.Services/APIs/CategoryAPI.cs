@@ -60,11 +60,24 @@ namespace Vinance.Services.APIs
             query += $"from={from:MM-dd-yyyy}&to={to:MM-dd-yyyy}";
             query += $"&type={type}";
 
-
             var client = _factory.CreateClient(Constants.AuthenticatedClient);
             var response = await client.GetAsync($"categories/average{query}");
+            var result = (await _responseHandler.HandleAsync<IEnumerable<CategoryStatistics>>(response)).ToList();
 
-            return await _responseHandler.HandleAsync<IEnumerable<CategoryStatistics>>(response);
+            var categoryNames = result.SelectMany(cs => cs.Items.Select(c => c.Name)).Distinct().ToList();
+
+            foreach (var categoryStatistics in result)
+            {
+                foreach (var categoryName in categoryNames)
+                {
+                    if (categoryStatistics.Items.All(cs => cs.Name != categoryName))
+                    {
+                        categoryStatistics.Items = categoryStatistics.Items.Concat(new[] { new CategoryStatisticsItem { Name = categoryName, Balance = 0 } });
+                    }
+                }
+            }
+
+            return result;
         }
 
         public async Task<Category> Get(int categoryId)

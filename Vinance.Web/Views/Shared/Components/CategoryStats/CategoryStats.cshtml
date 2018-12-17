@@ -1,68 +1,181 @@
 ﻿@using Newtonsoft.Json;
-@model IEnumerable<Vinance.Contracts.Models.CategoryStatistics>
+@model CategoryStatisticsList
 @{
-    var categoryNames = Model.SelectMany(m => m.Items.Select(c => c.Name)).Distinct().OrderBy(c => c);
-    var dateCount = Model.Select(m => m.Date).Count();
+    var expenseCategoryNames = Model.ExpenseStats.SelectMany(m => m.Items.Select(c => c.Name)).Distinct().OrderBy(c => c);
+    var incomeCategoryNames = Model.IncomeStats.SelectMany(m => m.Items.Select(c => c.Name)).Distinct().OrderBy(c => c);
+    var pagedExpenseStats = Model.ExpenseStats.Skip((Model.Page - 1) * 6).Take(6).ToList();
+    var pagedIncomeStats = Model.IncomeStats.Skip((Model.Page - 1) * 6).Take(6).ToList();
 }
 
-<table class="table table-bordered table-sm table-striped">
-    <thead class="thead-dark">
-        <tr>
-            <th>
-                2018
-            </th>
-            @foreach (var stat in Model)
-            {
-                <th>@stat.Date.ToString("MMM")</th>
-            }
-            <th>
-                Átlag
-            </th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var name in categoryNames)
-        {
-            <tr>
-                <th>@name</th>
-                @foreach (var item in Model)
+<div class="row">
+    <div class="col-6">
+        <form class="form-inline mb-3 justify-content-between"
+              asp-action="GetExpenseStats"
+              asp-controller="Category"
+              data-ajax-method="GET"
+              data-ajax="true"
+              data-ajax-update="#stats"
+              data-ajax-mode="replace">
+            <input type="text" autocomplete="off" name="from" class="form-control text-right" style="width: 30%" id="from-datetimepicker" data-toggle="datetimepicker" data-target="#from-datetimepicker" value="@Model.From.ToString("yyyy-MM-dd")" />
+            <input type="text" autocomplete="off" name="to" class="form-control text-right" style="width: 30%" id="to-datetimepicker" data-toggle="datetimepicker" data-target="#to-datetimepicker" value="@Model.To.ToString("yyyy-MM-dd")" />
+            <button type="submit" class="btn btn-primary" style="width: 30%">Szűrés</button>
+        </form>
+    </div>
+    <div class="col-6">
+        <nav>
+            <ul class="pagination justify-content-end">
+                @for (var i = 1; i <= (Model.ExpenseStats.Count() / 6); i++)
                 {
-                    <td class="text-right">
-                        @{
-                            var expenses = item.Items.SingleOrDefault(c => c.Name == name);
-                            var balance = expenses == null ? "0" : expenses.Balance.ToString("### ### ###");
+                    var classes = Model.Page == i ? "page-item active" : "page-item";
+                    <li class="@classes">
+                        <a class="page-link"
+                           asp-controller="Category"
+                           asp-action="GetExpenseStats"
+                           asp-route-from="@Model.From"
+                           asp-route-to="@Model.To"
+                           asp-route-page="@i"
+                           data-ajax-method="GET"
+                           data-ajax="true"
+                           data-ajax-update="#stats"
+                           data-ajax-mode="replace">@i</a>
+                    </li>
+                }
+
+            </ul>
+        </nav>
+    </div>
+</div>
+<div class="row">
+    <div class="col-12">
+        <div class="table-responsive">
+            <table class="table table-bordered table-sm table-striped">
+                <thead class="thead-dark">
+                    <tr>
+                        <th></th>
+                        @foreach (var stat in pagedExpenseStats)
+                        {
+                            <th>@stat.Date.ToString("yyyy MMM")</th>
                         }
-                        @balance
-                    </td>
+                        <th>
+                            Átlag
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th colspan="8" class="text-center">
+                            Bevételek
+                        </th>
+                    </tr>
+                    @foreach (var name in incomeCategoryNames)
+                    {
+                        <tr>
+                            <th>@name</th>
+                            @foreach (var item in pagedIncomeStats)
+                            {
+                                <td class="text-right">
+                                    @{
+                                        var incomes = item.Items.Single(c => c.Name == name);
+                                        var balance = incomes.Balance == 0 ? "0 Ft" : incomes.Balance.ToString("### ### ### Ft");
+                                    }
+                                    @balance
+                                </td>
                             }
-                <td class="text-right">
-                    @((Model.SelectMany(s => s.Items.Where(c => c.Name == name)).Sum(c => c.Balance) / dateCount).ToString("### ### ###"))
-                </td>
-            </tr>
-        }
-        <tr>
-            <th>
-                Összesen
-            </th>
-            @foreach (var item in Model)
-            {
-                <td class="text-right">
-                    @item.Items.Sum(c => c.Balance)
-                </td>
-            }
-            <td class="text-right">
-                @Model.Select(m => m.Items.Sum(c => c.Balance)).Average().ToString("### ### ###")
-            </td>
-        </tr>
-    </tbody>
-</table>
+                            <th class="text-right">
+                                @Model.IncomeStats.SelectMany(s => s.Items.Where(c => c.Name == name)).Average(c => c.Balance).ToString("### ### ### Ft")
+                            </th>
+                        </tr>
+                    }
+                    <tr class="table-info">
+                        <th>
+                            Összesen
+                        </th>
+                        @foreach (var item in pagedIncomeStats)
+                        {
+                            <td class="text-right">
+                                @item.Items.Sum(c => c.Balance).ToString("### ### ### Ft")
+                            </td>
+                        }
+                        <th class="text-right">
+                            @Model.IncomeStats.Select(m => m.Items.Sum(c => c.Balance)).Average().ToString("### ### ### Ft")
+                        </th>
+                    </tr>
+                    <tr>
+                        <th colspan="8" class="text-center">
+                            Kiadások
+                        </th>
+                    </tr>
+                    @foreach (var name in expenseCategoryNames)
+                    {
+                        <tr>
+                            <th>@name</th>
+                            @foreach (var item in pagedExpenseStats)
+                            {
+                                <td class="text-right">
+                                    @{
+                                        var expenses = item.Items.Single(c => c.Name == name);
+                                        var balance = expenses.Balance == 0 ? "0 Ft" : expenses.Balance.ToString("### ### ### Ft");
+                                    }
+                                    @balance
+                                </td>
+                            }
+                            <th class="text-right">
+                                @Model.ExpenseStats.SelectMany(s => s.Items.Where(c => c.Name == name)).Average(c => c.Balance).ToString("### ### ### Ft")
+                            </th>
+                        </tr>
+                    }
+                <tr class="table-info">
+                    <th>
+                        Összesen
+                    </th>
+                    @foreach (var item in pagedExpenseStats)
+                    {
+                        <td class="text-right">
+                            @item.Items.Sum(c => c.Balance).ToString("### ### ### Ft")
+                        </td>
+                    }
+                    <th class="text-right">
+                        @Model.ExpenseStats.Select(m => m.Items.Sum(c => c.Balance)).Average().ToString("### ### ### Ft")
+                    </th>
+                </tr>
+                <tr class="table-success">
+                    <th>Egyenleg</th>
+                    @foreach (var expenseStat in pagedExpenseStats)
+                    {
+                        var expenses = expenseStat.Items.Sum(e => e.Balance);
+                        var incomes = pagedIncomeStats.SingleOrDefault(ic => ic.Date == expenseStat.Date)?.Items.Sum(i => i.Balance);
+                        var balance = incomes - expenses;
 
+                        <td class="text-right">
+                            @balance?.ToString("### ### ### Ft")
+                        </td>
+                    }
+                    <th class="text-right">
+                        @{
+                            var expenseAverage = Model.ExpenseStats.Select(m => m.Items.Sum(c => c.Balance)).Average();
+                            var incomeAverage = Model.IncomeStats.Select(m => m.Items.Sum(c => c.Balance)).Average();
+                            var balanceAverage = (incomeAverage - expenseAverage).ToString("### ### ### Ft");
+                        }
+                        @balanceAverage
+                    </th>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
 
-
-<canvas id="category-chart"></canvas>
+<div class="row">
+    <div class="col-12">
+        <canvas id="category-chart"></canvas>
+    </div>
+</div>
 
 <script>
-    var labels = @Html.Raw(JsonConvert.SerializeObject(Model.Select(c =>c.Date)));
-    var data = @Html.Raw(JsonConvert.SerializeObject(Model.Select(c => c.Items)));
-    vinance.createStackedChart("category-chart", labels, data);
+    vinance.initDatePicker("from-datetimepicker");
+    vinance.initDatePicker("to-datetimepicker");
+    var labels = @Html.Raw(JsonConvert.SerializeObject(Model.ExpenseStats.Select(c =>c.Date)));
+    var expenses = @Html.Raw(JsonConvert.SerializeObject(Model.ExpenseStats.Select(c => c.Items)));
+    var incomes = @Html.Raw(JsonConvert.SerializeObject(Model.IncomeStats.Select(c => c.Items)));
+    vinance.createStackedChart("category-chart", labels, expenses, incomes);
 </script>

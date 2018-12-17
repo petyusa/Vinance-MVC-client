@@ -60,7 +60,7 @@
         });
     }
 
-    function createStackedChart(chartId, labels, arr) {
+    function createStackedChart(chartId, labels, expenses, incomes) {
         const canvasDiv = document.getElementById(chartId);
         canvasDiv.height = 200;
         const ctx = canvasDiv.getContext('2d');
@@ -68,7 +68,7 @@
             labels: labels.map((item) => {
                 return moment(new Date(item)).format("YY-MMM");
             }),
-            datasets: getDataSets(arr, labels)
+            datasets: getDataSets(expenses, "expenses").concat(getDataSets(incomes, "incomes"))
         };
         const myPieChart = new Chart(ctx,
             {
@@ -81,19 +81,24 @@
                             stacked: true
                         }],
                         yAxes: [{
-                            stacked: true
+                            stacked: true,
+                            ticks: {
+                                callback: function (value, index, values) {
+                                    return value + " Ft";
+                                }
+                            }
                         }]
                     }
                 }
             });
     }
 
-    function getDataSets(arr) {
+    function getDataSets(arr, stack) {
         const labels = getLabels(arr);
         const dataSets = [];
         for (let i = 0; i < labels.length; i++) {
             dataSets.push({
-                stack: "Stack",
+                stack: stack,
                 label: labels[i],
                 data: getDataForCategory(arr, labels[i]),
                 backgroundColor: backgroundColors[i]
@@ -111,7 +116,7 @@
                 }
             }
         }
-        return labels;
+        return labels.sort();
     }
 
     function getDataForCategory(arr, categoryName) {
@@ -125,7 +130,7 @@
         }
         return data;
     }
-    
+
     return {
         showAlert: showAlert,
         initDatePicker: initializeDatetimepicker,

@@ -1,6 +1,7 @@
-﻿using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Threading.Tasks;
 
 namespace Vinance.Web.Controllers
 {
@@ -105,6 +106,13 @@ namespace Vinance.Web.Controllers
         public IActionResult Stats()
         {
             return View();
+        }
+
+        [HttpGet]
+        [Route("table")]
+        public IActionResult GetExpenseStats(CategoryType type = CategoryType.Expense, DateTime? from = null, DateTime? to = null, int page = 1)
+        {
+            return ViewComponent(typeof(CategoryStats), new { from, to, page });
         }
     }
 }

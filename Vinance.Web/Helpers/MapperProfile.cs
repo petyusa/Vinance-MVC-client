@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using AutoMapper;
+using Vinance.Contracts.Models;
 
 namespace Vinance.Web.Helpers
 {
@@ -36,11 +38,16 @@ namespace Vinance.Web.Helpers
                 {
                     opt.ResolveUsing(src =>
                     {
-                        var haha = (src.Balance / (double) src.MonthlyLimit)*100;
-                        var limitUsed = Math.Floor(haha);
+                        var limitUsedPercentage = (src.Balance / (double) src.MonthlyLimit)*100;
+                        var limitUsed = Math.Floor(limitUsedPercentage);
                         return (int)limitUsed;
                     });
                 });
+
+            CreateMap<CategoryStatisticsItem, CategoryStatisticsItemViewmodel>();
+            CreateMap<CategoryStatistics, CategoryStatisticsViewmodel>();
+            CreateMap<IEnumerable<CategoryStatistics>, CategoryStatisticsList>()
+                .ForMember(dest => dest.ExpenseStats, opt => opt.MapFrom(src => src));
         }
     }
 }
