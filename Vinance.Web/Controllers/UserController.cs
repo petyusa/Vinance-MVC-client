@@ -51,6 +51,12 @@ namespace Vinance.Web.Controllers
             var loginModel = _mapper.Map<LoginModel>(login);
             var tokenResult = await _userApi.GetToken(loginModel);
 
+            if (!string.IsNullOrWhiteSpace(tokenResult.Error))
+            {
+                ModelState.AddModelError("user-credentials", "Rossz felhasználónév vagy jelszó.");
+                return View("Login", login);
+            }
+
             var tokenHandler = new JwtSecurityTokenHandler();
             var result = tokenHandler.ReadJwtToken(tokenResult.AccessToken);
             var claimsIdentity = new ClaimsIdentity(result.Claims, CookieAuthenticationDefaults.AuthenticationScheme);
@@ -88,6 +94,7 @@ namespace Vinance.Web.Controllers
         [Route("register")]
         public IActionResult Register()
         {
+            ModelState.AddModelError("email", "fuck you");
             return View("Register");
         }
 
@@ -107,6 +114,20 @@ namespace Vinance.Web.Controllers
             {
                 return View(registerViewmodel);
             }
+
+            if (!string.IsNullOrWhiteSpace(token.Error))
+            {
+                if (token.Error.Contains("DuplicateEmail"))
+                {
+                    ModelState.AddModelError("duplicate-email", "Ezzel az email címmel már van regisztrált felhasználónk.");
+                }
+                if (token.Error.Contains("DuplicateUserName"))
+                {
+                    ModelState.AddModelError("duplicate-username", "Ez a felhasználónév már foglalt.");
+                }
+                return View(registerViewmodel);
+            }
+
             await _emailSender.SendEmail(registerViewmodel.UserName, registerViewmodel.Email, token.Token);
 
             return View("Registered");

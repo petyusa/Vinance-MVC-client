@@ -24,11 +24,11 @@ namespace Vinance.Services.Services
             return result.Data;
         }
 
-        public async Task<T> HandleWithErrorAsync<T>(HttpResponseMessage response)
+        public async Task<Response<T>> HandleWithErrorAsync<T>(HttpResponseMessage response)
         {
             var json = await response.Content.ReadAsStringAsync();
             var result = JsonConvert.DeserializeObject<Response<T>>(json);
-            return result.Data;
+            return result;
         }
     }
 }

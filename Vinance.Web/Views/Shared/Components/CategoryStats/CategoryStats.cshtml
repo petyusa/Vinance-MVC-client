@@ -24,7 +24,7 @@
     <div class="col-6">
         <nav>
             <ul class="pagination justify-content-end">
-                @for (var i = 1; i <= (Model.ExpenseStats.Count() / 6); i++)
+                @for (var i = 1; i <= Math.Ceiling(Model.ExpenseStats.Count() / 6d); i++)
                 {
                     var classes = Model.Page == i ? "page-item active" : "page-item";
                     <li class="@classes">
@@ -124,41 +124,41 @@
                             </th>
                         </tr>
                     }
-                <tr class="table-info">
-                    <th>
-                        Összesen
-                    </th>
-                    @foreach (var item in pagedExpenseStats)
-                    {
-                        <td class="text-right">
-                            @item.Items.Sum(c => c.Balance).ToString("### ### ### Ft")
-                        </td>
-                    }
-                    <th class="text-right">
-                        @Model.ExpenseStats.Select(m => m.Items.Sum(c => c.Balance)).Average().ToString("### ### ### Ft")
-                    </th>
-                </tr>
-                <tr class="table-success">
-                    <th>Egyenleg</th>
-                    @foreach (var expenseStat in pagedExpenseStats)
-                    {
-                        var expenses = expenseStat.Items.Sum(e => e.Balance);
-                        var incomes = pagedIncomeStats.SingleOrDefault(ic => ic.Date == expenseStat.Date)?.Items.Sum(i => i.Balance);
-                        var balance = incomes - expenses;
-
-                        <td class="text-right">
-                            @balance?.ToString("### ### ### Ft")
-                        </td>
-                    }
-                    <th class="text-right">
-                        @{
-                            var expenseAverage = Model.ExpenseStats.Select(m => m.Items.Sum(c => c.Balance)).Average();
-                            var incomeAverage = Model.IncomeStats.Select(m => m.Items.Sum(c => c.Balance)).Average();
-                            var balanceAverage = (incomeAverage - expenseAverage).ToString("### ### ### Ft");
+                    <tr class="table-info">
+                        <th>
+                            Összesen
+                        </th>
+                        @foreach (var item in pagedExpenseStats)
+                        {
+                            <td class="text-right">
+                                @item.Items.Sum(c => c.Balance).ToString("### ### ### Ft")
+                            </td>
                         }
-                        @balanceAverage
-                    </th>
-                </tr>
+                        <th class="text-right">
+                            @Model.ExpenseStats.Select(m => m.Items.Sum(c => c.Balance)).Average().ToString("### ### ### Ft")
+                        </th>
+                    </tr>
+                    <tr class="table-success">
+                        <th>Egyenleg</th>
+                        @foreach (var expenseStat in pagedExpenseStats)
+                        {
+                            var expenses = expenseStat.Items.Sum(e => e.Balance);
+                            var incomes = pagedIncomeStats.SingleOrDefault(ic => ic.Date == expenseStat.Date)?.Items.Sum(i => i.Balance);
+                            var balance = incomes - expenses;
+
+                            <td class="text-right">
+                                @balance?.ToString("### ### ### Ft")
+                            </td>
+                        }
+                        <th class="text-right">
+                            @{
+                                var expenseAverage = Model.ExpenseStats.Select(m => m.Items.Sum(c => c.Balance)).Average();
+                                var incomeAverage = Model.IncomeStats.Select(m => m.Items.Sum(c => c.Balance)).Average();
+                                var balanceAverage = (incomeAverage - expenseAverage).ToString("### ### ### Ft");
+                            }
+                            @balanceAverage
+                        </th>
+                    </tr>
                 </tbody>
             </table>
         </div>
@@ -167,15 +167,48 @@
 
 <div class="row">
     <div class="col-12">
-        <canvas id="category-chart"></canvas>
+        <div class="btn-group btn-group-toggle" data-toggle="buttons">
+            <label class="btn btn-secondary active" onclick="toggleCharts(this)">
+                <input type="radio" name="options" value="expenses" onclick="toggleCharts(this)" autocomplete="off" checked> Kiadások
+            </label>
+            <label class="btn btn-secondary" onclick="toggleCharts(this)">
+                <input type="radio" name="options" value="incomes" autocomplete="off"> Bevételek
+            </label>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-12">
+        <canvas id="expense-chart"></canvas>
+        <canvas id="income-chart" class="d-none"></canvas>
     </div>
 </div>
 
 <script>
     vinance.initDatePicker("from-datetimepicker");
     vinance.initDatePicker("to-datetimepicker");
+
     var labels = @Html.Raw(JsonConvert.SerializeObject(Model.ExpenseStats.Select(c =>c.Date)));
     var expenses = @Html.Raw(JsonConvert.SerializeObject(Model.ExpenseStats.Select(c => c.Items)));
     var incomes = @Html.Raw(JsonConvert.SerializeObject(Model.IncomeStats.Select(c => c.Items)));
-    vinance.createStackedChart("category-chart", labels, expenses, incomes);
+    vinance.createStackedChart("expense-chart", labels, expenses);
+    vinance.createStackedChart("income-chart", labels, incomes);
+
+    function toggleCharts(radioLabel) {
+        const radio = radioLabel.getElementsByTagName("input")[0];
+        console.log(radio);
+        const incomeChart = document.getElementById("income-chart");
+        const expenseChart = document.getElementById("expense-chart");
+        if (radio.value === "expenses") {
+            incomeChart.classList.remove("d-block");
+            incomeChart.classList.add("d-none");
+            expenseChart.classList.remove("d-none");
+            expenseChart.classList.add("d-block");
+        } else {
+            expenseChart.classList.remove("d-block");
+            expenseChart.classList.add("d-none");
+            incomeChart.classList.remove("d-none");
+            incomeChart.classList.add("d-block");
+        }
+    }
 </script>

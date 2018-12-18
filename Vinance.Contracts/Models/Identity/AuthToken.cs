@@ -11,5 +11,6 @@ namespace Vinance.Contracts.Models.Identity
         public string UserName { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
+        public string Error { get; set; }
     }
 }

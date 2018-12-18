@@ -25,8 +25,9 @@ namespace Vinance.Web.Components.Category
         {
             if (!from.HasValue || !to.HasValue)
             {
-                to = DateTime.Now;
-                from = new DateTime(to.Value.Year, 1, 1);
+                var now = DateTime.Now;
+                to = new DateTime(now.Year, now.Month,1).AddMonths(1);
+                from = to.Value.AddYears(-1);
             }
 
             var expenseStatistics = await _categoryApi.GetStats(CategoryType.Expense, from, to);

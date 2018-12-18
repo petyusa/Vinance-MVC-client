@@ -1,4 +1,5 @@
-﻿using System.Net.Http;
+﻿using System.Net;
+using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace Vinance.Services.APIs
@@ -24,9 +25,14 @@ namespace Vinance.Services.APIs
             var client = _factory.CreateClient("not-authenticated-client");
 
             var response = await client.PostAsJsonAsync("users/token", loginModel);
+            if (response.StatusCode == HttpStatusCode.Unauthorized)
+            {
+                var error = await _responseHandler.HandleWithErrorAsync<AuthToken>(response);
+                return new AuthToken{Error = (string) error.Error};
+            }
             var tokenResult = await _responseHandler.HandleWithErrorAsync<AuthToken>(response);
 
-            return tokenResult;
+            return tokenResult.Data;
         }
 
         public async Task<AuthToken> GetToken(string refreshToken)
@@ -36,7 +42,7 @@ namespace Vinance.Services.APIs
             var response = await client.PostAsJsonAsync("users/token/refresh", refreshToken);
             var tokenResult = await _responseHandler.HandleWithErrorAsync<AuthToken>(response);
 
-            return tokenResult;
+            return tokenResult.Data;
         }
 
         public async Task<TokenResult> Register(RegisterModel registerModel)
@@ -44,9 +50,9 @@ namespace Vinance.Services.APIs
             var client = _factory.CreateClient("not-authenticated-client");
 
             var response = await client.PostAsJsonAsync("users/register", registerModel);
-            var user = await _responseHandler.HandleWithErrorAsync<TokenResult>(response);
+            var result = await _responseHandler.HandleWithErrorAsync<TokenResult>(response);
 
-            return user;
+            return result.Data ?? (result.Data = new TokenResult {Error = (string) result.Error});
         }
 
         public async Task<VinanceUser> GetUser()
@@ -56,7 +62,7 @@ namespace Vinance.Services.APIs
             var response = await client.GetAsync("users/me");
             var user = await _responseHandler.HandleWithErrorAsync<VinanceUser>(response);
 
-            return user;
+            return user.Data;
         }
 
         public async Task<bool> ConfirmEmail(string email, string token)
