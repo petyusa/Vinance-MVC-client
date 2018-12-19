@@ -1,39 +1,76 @@
 ﻿@using Newtonsoft.Json
-@model Dictionary<DateTime, int>
+@model List<Vinance.Contracts.Models.DailyBalanceList>
 
 <canvas id="daily-balance-chart"></canvas>
 <script>
-    var labels = @Html.Raw(JsonConvert.SerializeObject(Model.Select(x => x.Key)));
-    var balances = @Html.Raw(JsonConvert.SerializeObject(Model.Select(x => x.Value)));
-
-    const backgroundColors = [
-        "#B58900",
-        "#6610f2",
-        "#D33682",
-        "#fd7e14",
-        "#20c997",
-        "#839496",
-        "#268BD2",
-        "#CB4B16",
-        "#FDF6E3",
-        "#2AA198",
-        "#073642",
-        "#6f42c1",
-        "#e83e8c"
+    var labels = @Html.Raw(JsonConvert.SerializeObject(Model.SelectMany(x => x.DailyBalances.Select(y => y.Key)).Distinct()));
+    var chartData = @Html.Raw(JsonConvert.SerializeObject(Model.Select(x => new { name = x.AccountName, balances = x.DailyBalances.Select(y => y.Value)})));
+    console.log(chartData);
+    console.log(labels);
+    const colors = [
+        {
+            fill: "#B58900",
+            stroke: "#B58900"
+        },
+        {
+            fill: "#6610f2",
+            stroke: "#6610f2"
+        },
+        {
+            fill: "#D33682",
+            stroke: "#D33682"
+        },
+        {
+            fill: "#fd7e14",
+            stroke: "#fd7e14"
+        },
+        {
+            fill: "#20c997",
+            stroke: "#20c997"
+        },
+        {
+            fill: "#839496",
+            stroke: "#839496"
+        },
+        {
+            fill: "#268BD2",
+            stroke: "#268BD2"
+        },
+        {
+            fill: "#CB4B16",
+            stroke: "#CB4B16"
+        },
+        {
+            fill: "#FDF6E3",
+            stroke: "#FDF6E3"
+        },
+        {
+            fill: "#2AA198",
+            stroke: "#2AA198"
+        },
+        {
+            fill: "#073642",
+            stroke: "#073642"
+        },
+        {
+            fill: "#6f42c1",
+            stroke: "#6f42c1"
+        },
+        {
+            fill: "#e83e8c",
+            stroke: "#e83e8c"
+        }
     ];
 
     function createChart(chartId, labels, balances) {
         const canvasDiv = document.getElementById(chartId);
-        canvasDiv.height = 400;
+        canvasDiv.height = 800;
         const ctx = canvasDiv.getContext('2d');
         const data = {
             labels: labels.map((item) => {
                 return moment(new Date(item)).format("YY-MM-DD");
             }),
-            datasets: [{
-                data: balances,
-                backgroundColor: backgroundColors
-            }]
+            datasets: createDataSets(balances)
         };
         const options = {
             maintainAspectRatio: false,
@@ -41,7 +78,16 @@
                 point: {
                     radius: 0
                 }
+            },
+            //responsive: false,
+            scales: {
+                yAxes: [
+                    {
+                        stacked: true
+                    }
+                ]
             }
+
         };
         const myPieChart = new Chart(ctx, {
             type: 'line',
@@ -50,5 +96,24 @@
         });
     }
 
-    createChart("daily-balance-chart", labels, balances);
+    function createDataSets(dataArr) {
+        const dataSets = [];
+        for (let i = 0; i < dataArr.length; i++) {
+            const data = {
+                label: dataArr[i].name,
+                fill: true,
+                backgroundColor: colors[i].fill,
+                pointBackgroundColor: colors[i].stroke,
+                borderColor: colors[i].stroke,
+                pointHighlightStroke: colors[i].stroke,
+                borderCapStyle: 'butt',
+                data: dataArr[i].balances
+            };
+            dataSets.push(data);
+        }
+
+        return dataSets;
+    }
+
+    createChart("daily-balance-chart", labels, chartData);
 </script>

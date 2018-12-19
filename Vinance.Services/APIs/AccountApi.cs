@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Vinance.Contracts.Models;
 
 namespace Vinance.Services.APIs
 {
@@ -56,7 +57,7 @@ namespace Vinance.Services.APIs
             return response.IsSuccessStatusCode;
         }
 
-        public async Task<Dictionary<DateTime, int>> GetDailyBalances(DateTime? from = null, DateTime? to = null)
+        public async Task<List<DailyBalanceList>> GetDailyBalances(DateTime? from = null, DateTime? to = null)
         {
 
             if (!from.HasValue || !to.HasValue)
@@ -71,7 +72,7 @@ namespace Vinance.Services.APIs
 
             var client = _factory.CreateClient(Constants.AuthenticatedClient);
             var response = await client.GetAsync($"accounts/daily-balances{query}");
-            return await _responseHandler.HandleAsync<Dictionary<DateTime, int>>(response);
+            return await _responseHandler.HandleAsync<List<DailyBalanceList>>(response);
         }
     }
 }

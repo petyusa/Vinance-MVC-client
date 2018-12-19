@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 
 namespace Vinance.Contracts.Interfaces
 {
+    using Models;
     using Models.Domain;
 
     public interface IAccountApi
@@ -13,6 +14,6 @@ namespace Vinance.Contracts.Interfaces
         Task<Account> GetById(int accountId);
         Task<bool> Update(Account account);
         Task<bool> Delete(int accountId);
-        Task<Dictionary<DateTime, int>> GetDailyBalances(DateTime? from = null, DateTime? to = null);
+        Task<List<DailyBalanceList>> GetDailyBalances(DateTime? from = null, DateTime? to = null);
     }
 }
