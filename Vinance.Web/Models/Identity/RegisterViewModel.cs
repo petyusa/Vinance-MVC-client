@@ -10,7 +10,7 @@ namespace Vinance.Web.Models.Identity
 
         [Required(ErrorMessage = "Kérlek add meg a jelszavad.")]
         [DataType(DataType.Password)]
-        [RegularExpression(@"^(?=.*[A-Z])(?=.*\d)[A-Za-z\d@$!%*?&]$", ErrorMessage = "A jelszónak tartalmaznia kell nagybetűt és számot.")]
+        [RegularExpression(@"^(?=.*[A-Z])(?=.*\d)[A-Za-z\d@$!%*?&]{0,}$", ErrorMessage = "A jelszónak tartalmaznia kell nagybetűt és számot.")]
         [StringLength(18, MinimumLength = 6, ErrorMessage = "A jelszónak legalább 6 karakterből kell állnia.")]
         [Display(Name = "Jelszó")]
         public string Password { get; set; }
