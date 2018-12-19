@@ -1,4 +1,5 @@
-﻿@using Vinance.Web.Components.Category
+﻿@using Vinance.Web.Components.Account
+@using Vinance.Web.Components.Category
 @using Vinance.Web.Components.Expense
 @using Vinance.Web.Components.MainPage
 @{
@@ -40,5 +41,10 @@
     </div>
     <div class="col-lg-4" id="create-form">
         @await Component.InvokeAsync(typeof(CreateExpense))
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-12">
+        @await Component.InvokeAsync(typeof(GetDailyBalances), new { from = new DateTime(2017, 1, 1), to = new DateTime(2018, 11, 1) })
     </div>
 </div>

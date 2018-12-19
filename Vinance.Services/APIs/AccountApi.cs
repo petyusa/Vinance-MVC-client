@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 
@@ -53,6 +54,24 @@ namespace Vinance.Services.APIs
             var client = _factory.CreateClient(Constants.AuthenticatedClient);
             var response = await client.DeleteAsync($"accounts/{accountId}");
             return response.IsSuccessStatusCode;
+        }
+
+        public async Task<Dictionary<DateTime, int>> GetDailyBalances(DateTime? from = null, DateTime? to = null)
+        {
+
+            if (!from.HasValue || !to.HasValue)
+            {
+                var date = DateTime.Now;
+                from = new DateTime(date.Year, date.Month, 1);
+                to = from.Value.AddMonths(1).AddDays(-1);
+            }
+
+            var query = "?";
+            query += $"from={from:MM-dd-yyyy}&to={to:MM-dd-yyyy}";
+
+            var client = _factory.CreateClient(Constants.AuthenticatedClient);
+            var response = await client.GetAsync($"accounts/daily-balances{query}");
+            return await _responseHandler.HandleAsync<Dictionary<DateTime, int>>(response);
         }
     }
 }

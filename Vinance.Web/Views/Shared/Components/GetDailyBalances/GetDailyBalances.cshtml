@@ -1,0 +1,54 @@
+﻿@using Newtonsoft.Json
+@model Dictionary<DateTime, int>
+
+<canvas id="daily-balance-chart"></canvas>
+<script>
+    var labels = @Html.Raw(JsonConvert.SerializeObject(Model.Select(x => x.Key)));
+    var balances = @Html.Raw(JsonConvert.SerializeObject(Model.Select(x => x.Value)));
+
+    const backgroundColors = [
+        "#B58900",
+        "#6610f2",
+        "#D33682",
+        "#fd7e14",
+        "#20c997",
+        "#839496",
+        "#268BD2",
+        "#CB4B16",
+        "#FDF6E3",
+        "#2AA198",
+        "#073642",
+        "#6f42c1",
+        "#e83e8c"
+    ];
+
+    function createChart(chartId, labels, balances) {
+        const canvasDiv = document.getElementById(chartId);
+        canvasDiv.height = 400;
+        const ctx = canvasDiv.getContext('2d');
+        const data = {
+            labels: labels.map((item) => {
+                return moment(new Date(item)).format("YY-MM-DD");
+            }),
+            datasets: [{
+                data: balances,
+                backgroundColor: backgroundColors
+            }]
+        };
+        const options = {
+            maintainAspectRatio: false,
+            elements: {
+                point: {
+                    radius: 0
+                }
+            }
+        };
+        const myPieChart = new Chart(ctx, {
+            type: 'line',
+            data: data,
+            options: options
+        });
+    }
+
+    createChart("daily-balance-chart", labels, balances);
+</script>

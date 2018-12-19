@@ -13,6 +13,10 @@ namespace Vinance.Contracts.Models.Domain
         [Display(Name = "Egyenleg")]
         public int Balance { get; set; }
 
+        public bool IsActive { get; set; }
+
+        public bool IsSaving { get; set; }
+
         public bool CanBeDeleted { get; set; }
     }
 }

@@ -25,7 +25,7 @@
     </thead>
     <tbody>
         <tr id="create-account-form-container"></tr>
-        @foreach (var item in Model)
+        @foreach (var item in Model.Where(a => a.IsActive))
         {
             var rowId = $"account-{item.Id}";
             <tr id="@rowId">
@@ -64,5 +64,13 @@
                 }
             </tr>
         }
+    <tr>
+        <th>
+            Összesen
+        </th>
+        <th class="text-right">
+            @Model.Where(a => a.IsActive).Sum(x => x.Balance).ToString("### ### ### Ft")
+        </th>
+    </tr>
     </tbody>
 </table>

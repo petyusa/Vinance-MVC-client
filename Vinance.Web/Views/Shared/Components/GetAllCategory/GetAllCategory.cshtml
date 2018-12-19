@@ -68,15 +68,11 @@
                 @if (type == CategoryType.Expense)
                 {
                     var color = "";
-                    if (item.MonthlyLimitUsed >= 100)
-                    {
-                        item.MonthlyLimitUsed = 100;
-                    }
-                    if (item.MonthlyLimitUsed < Math.Floor((DateTime.Now.Day / 30d) * 100) * 0.8)
+                    if (item.MonthlyLimitUsed < 70)
                     {
                         color = "#2AA198";
                     }
-                    else if (item.MonthlyLimitUsed < Math.Floor((DateTime.Now.Day / 30d) * 100))
+                    else if (item.MonthlyLimitUsed < 80)
                     {
                         color = "#CB4B16";
                     }
@@ -87,7 +83,7 @@
 
                     <td style="width: 100px;">
                         <div style="width: 100%; overflow: hidden; height: 23px; background-color: grey; border: 1px solid black; border-radius: 4px;" data-toggle="tooltip" data-original-title="Monthly Limit: @item.MonthlyLimit, used: @item.MonthlyLimitUsed%">
-                            <div style="width: @item.MonthlyLimitUsed%; height: 100%; background-color: @color;"></div>
+                            <div style="width: @(item.MonthlyLimitUsed >= 100 ? 100 : item.MonthlyLimitUsed)%; height: 100%; background-color: @color;"></div>
                         </div>
                     </td>
                 }
@@ -122,12 +118,38 @@
         }
         @if (type == CategoryType.Expense || type == CategoryType.Income)
         {
+            var sumBalance = Model.Sum(x => x.Balance);
             <tr>
                 <th>Összesen</th>
-                <th class="text-right">@Model.Sum(x => x.Balance).ToString("### ### ### Ft")</th>
+                <th class="text-right">@sumBalance.ToString("### ### ### Ft")</th>
                 @if (type == CategoryType.Expense)
                 {
-                    <th></th>
+                    var sumLimit = Model.Sum(x => x.MonthlyLimit);
+                    var sumUsed = Math.Floor(sumBalance / (double)sumLimit * 100);
+                    var color = "";
+                    if (sumUsed < 70)
+                    {
+                        color = "#2AA198";
+                    }
+                    else if (sumUsed < 80)
+                    {
+                        color = "#CB4B16";
+                    }
+                    else
+                    {
+                        color = "#D33682";
+                    }
+
+                    <td style="width: 100px;">
+                        <div style="width: 100%; overflow: hidden; height: 23px; background-color: grey; border: 1px solid black; border-radius: 4px;" data-toggle="tooltip" data-original-title="Monthly Limit: @sumLimit, used: @sumUsed%">
+                            <div style="width: @(sumUsed >= 100 ? 100 : sumUsed)%; height: 100%; background-color: @color;"></div>
+                        </div>
+                    </td>
+
+                }
+                @if (ViewBag.Editable)
+                {
+                    <td></td>
                 }
             </tr>
         }
