@@ -26,7 +26,7 @@ namespace Vinance.Web.Components.Transfer
             var categories = await _categoryApi.GetCategories(CategoryType.Transfer);
             var model = new CreateTransferViewmodel
             {
-                AccountList = accounts.Select(a => new SelectListItem(a.Name, a.Id.ToString())),
+                AccountList = accounts.Where(a => a.IsActive).Select(a => new SelectListItem(a.Name, a.Id.ToString())),
                 CategoryList = categories.Select(c => new SelectListItem(c.Name, c.Id.ToString()))
             };
             return View("CreateTransfer", model);

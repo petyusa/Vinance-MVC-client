@@ -8,14 +8,25 @@
       data-ajax-update="#account-list"
       data-ajax-mode="replace"
       data-ajax-success="vinance.showAlert({message:'Számla létrehozva', class: 'success'})"
-      data-ajax-failure="vinance.showAlert({message:'Hiba történt', class: 'danger'})">
-</form>
+      data-ajax-failure="vinance.showAlert({message:'Hiba történt', class: 'danger'})"></form>
 
 <tr>
-    <td class="input-td" colspan="2">
-        <input asp-for="Name" placeholder="Név" class="table-input" form="create-account-form"/>
+    <td class="input-td">
+        <input asp-for="Name" placeholder="Név" class="table-input" form="create-account-form" />
+    </td>
+    <td>
+        <div class="d-flex justify-content-around">
+            <div class="custom-control custom-checkbox d-inline-block">
+                <input class="custom-control-input" asp-for="IsActive" form="create-account-form">
+                <label class="custom-control-label" asp-for="IsActive"></label>
+            </div>
+            <div class="custom-control custom-checkbox d-inline-block">
+                <input class="custom-control-input" asp-for="IsSaving" form="create-account-form">
+                <label class="custom-control-label" asp-for="IsSaving"></label>
+            </div>
+        </div>
     </td>
     <td class="text-right">
-        <button type="submit" class="btn-table text-success" form="create-account-form"><i data-feather="check"></i></button>
+        <button type="submit" class="btn-table text-success" form="create-account-form"><i class="fas fa-check"></i></button>
     </td>
 </tr>

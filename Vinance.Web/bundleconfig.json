@@ -25,7 +25,6 @@
         "outputFileName": "wwwroot/js/libs.min.js",
         "inputFiles": [
             "wwwroot/lib/Chart.js/chart.js",
-            "wwwroot/lib/feather-icons/feather.js",
             "wwwroot/lib/popper.js/esm/popper.min.js",
             "wwwroot/lib/twitter-bootstrap/js/bootstrap.js",
             "wwwroot/lib/moment.js/moment-with-locales.js",

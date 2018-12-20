@@ -4,6 +4,9 @@
 @using Vinance.Web.Components.MainPage
 @{
     ViewData["Title"] = "Főoldal";
+    var now = DateTime.Now;
+    var to = now.AddDays(1);
+    var from = to.AddMonths(-1);
 }
 
 <div class="row mb-4">
@@ -43,8 +46,13 @@
         @await Component.InvokeAsync(typeof(CreateExpense))
     </div>
 </div>
-<div class="row">
-    <div class="col-lg-12">
-        @await Component.InvokeAsync(typeof(GetDailyBalances), new { from = new DateTime(2017, 1, 1), to = new DateTime(2018, 11, 1) })
+<div class="d-none d-sm-none d-md-block">
+    <div class="row">
+        <div class="col-lg-4">
+            @await Component.InvokeAsync(typeof(CategoryChart))
+        </div>
+        <div class="col-lg-8">
+            @await Component.InvokeAsync(typeof(GetDailyBalances), new {from, to})
+        </div>
     </div>
 </div>

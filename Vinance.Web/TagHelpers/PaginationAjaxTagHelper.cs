@@ -52,25 +52,25 @@ namespace Vinance.Web.TagHelpers
                     data-ajax-method='GET'
                     data-ajax='true'
                     data-ajax-update='#{TargetId}'
-                    data-ajax-mode='replace'><i data-feather='chevrons-left'></i></a>";
+                    data-ajax-mode='replace'><i class='fas fa-angle-double-left'></i></a>";
             var previousPage = $@"<a class='page-link'
                     href='{rootUrl}&page={PageNumber - 1}' 
                     data-ajax-method='GET'
                     data-ajax='true'
                     data-ajax-update='#{TargetId}'
-                    data-ajax-mode='replace'><i data-feather='chevron-left'></i></a>";
+                    data-ajax-mode='replace'><i class='fas fa-angle-left'></i></a>";
             var nextPage = $@"<a class='page-link'
                     href='{rootUrl}&page={PageNumber + 1}' 
                     data-ajax-method='GET'
                     data-ajax='true'
                     data-ajax-update='#{TargetId}'
-                    data-ajax-mode='replace'><i data-feather='chevron-right'></i></a>";
+                    data-ajax-mode='replace'><i class='fas fa-angle-right'></i></a>";
             var lastPage = $@"<a class='page-link'
                     href='{rootUrl}&page={TotalPages}' 
                     data-ajax-method='GET'
                     data-ajax='true'
                     data-ajax-update='#{TargetId}'
-                    data-ajax-mode='replace'><i data-feather='chevrons-right'></i></a>";
+                    data-ajax-mode='replace'><i class='fas fa-angle-double-right'></i></a>";
 
             const string ulBegin = "<ul class='pagination justify-content-end'>";
 

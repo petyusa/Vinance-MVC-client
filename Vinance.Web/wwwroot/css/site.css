@@ -84,3 +84,7 @@ input::-webkit-inner-spin-button {
     color: #fff;
     background-color: black;
 }
+
+td, th {
+    white-space: nowrap;
+}

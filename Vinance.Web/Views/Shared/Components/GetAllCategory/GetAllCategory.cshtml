@@ -48,7 +48,7 @@
                        data-ajax="true"
                        data-ajax-method="GET"
                        data-ajax-update="#@createFormId"
-                       data-ajax-mode="replace"><i data-feather="plus-circle"></i></a>
+                       data-ajax-mode="replace"><i class="fas fa-plus"></i></a>
                 </th>
             }
         </tr>
@@ -101,7 +101,7 @@
                                   data-ajax-mode="replace"
                                   data-ajax-success="vinance.showAlert({message: 'Kategória sikeresen törölve', class:'success'})">
                                 <input asp-for="@item.Id" class="d-none" name="categoryId">
-                                <button type="submit" class="btn-table text-danger"><i data-feather="trash"></i></button>
+                                <button type="submit" class="btn-table text-danger"><i class="fas fa-trash-alt"></i></button>
                             </form>
                         }
                         <a class="d-inline-block text-warning"
@@ -111,7 +111,7 @@
                            data-ajax="true"
                            data-ajax-method="GET"
                            data-ajax-update="#@rowId"
-                           data-ajax-mode="replace"><i data-feather="edit-2"></i></a>
+                           data-ajax-mode="replace"><i class="fas fa-pen"></i></a>
                     </td>
                 }
             </tr>

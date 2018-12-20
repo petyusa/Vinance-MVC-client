@@ -10,11 +10,23 @@
       data-ajax-success="vinance.showAlert({message:'Számla módosítva', class: 'success'})"
       data-ajac-fail="vinance.showAlert({message:'Hiba történt', class: 'danger'})"></form>
 <tr>
-    <td class="input-td" colspan="2">
+    <td class="input-td">
         <input asp-for="Name" placeholder="Név" class="table-input" form="edit-account-form" />
         <input asp-for="Id" class="d-none" form="edit-account-form" />
     </td>
+    <td>
+        <div class="d-flex justify-content-around">
+            <div class="custom-control custom-checkbox d-inline-block">
+                <input class="custom-control-input" asp-for="IsActive" form="create-account-form">
+                <label class="custom-control-label" asp-for="IsActive"></label>
+            </div>
+            <div class="custom-control custom-checkbox d-inline-block">
+                <input class="custom-control-input" asp-for="IsSaving" form="create-account-form">
+                <label class="custom-control-label" asp-for="IsSaving"></label>
+            </div>
+        </div>
+    </td>
     <td class="text-right">
-        <button type="submit" class="btn-table text-success" form="edit-account-form"><i data-feather="check"></i></button>
+        <button type="submit" class="btn-table text-success" form="edit-account-form"><i class="fas fa-check"></i></button>
     </td>
 </tr>

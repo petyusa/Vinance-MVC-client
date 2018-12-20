@@ -1,9 +1,9 @@
 ﻿var vinance = (function () {
     function showAlert(data) {
-        const icon = data.class === "success" ? "check" : "alert-triangle";
+        const icon = data.class === "success" ? "fas fa-check" : "fas fa-exclamation-triangle";
         const alertHtml = `
             <div class="alert alert-${data.class} alert-dismissible fade show">
-                <span class="mr-2"><i data-feather="${icon}"></i></span><span>${data.message}</span>
+                <span class="mr-2"><i class="${icon}"></i></span><span>${data.message}</span>
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -33,7 +33,7 @@
         "#839496",
         "#268BD2",
         "#CB4B16",
-        "#FDF6E3",
+        "green",
         "#2AA198",
         "#073642",
         "#6f42c1",
@@ -62,7 +62,6 @@
 
     function createStackedChart(chartId, labels, transactionCategories) {
         const canvasDiv = document.getElementById(chartId);
-        canvasDiv.height = 200;
         const ctx = canvasDiv.getContext('2d');
         const data = {
             labels: labels.map((item) => {
@@ -75,7 +74,7 @@
                 type: 'bar',
                 data: data,
                 options: {
-                    maintainAspectRatio: true,
+                    responsive: true,
                     scales: {
                         xAxes: [{
                             stacked: true

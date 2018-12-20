@@ -34,10 +34,6 @@
             "destination": "wwwroot/lib/tempus-dominus-bootstrap-4/"
         },
         {
-            "library": "feather-icons@4.9.0",
-            "destination": "wwwroot/lib/feather-icons"
-        },
-        {
             "library": "moment.js@2.22.2",
             "destination": "wwwroot/lib/moment.js"
         },

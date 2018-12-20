@@ -33,7 +33,7 @@ namespace Vinance.Web.Components.Expense
             var expense = await _expenseApi.Get(expenseId);
             var model = _mapper.Map<CreateExpenseViewmodel>(expense);
 
-            model.AccountList = accounts.Select(a => new SelectListItem(a.Name, a.Id.ToString()));
+            model.AccountList = accounts.Where(a => a.IsActive).Select(a => new SelectListItem(a.Name, a.Id.ToString()));
             model.CategoryList = categories.Select(c => new SelectListItem(c.Name, c.Id.ToString()));
 
             return View("EditExpense", model);

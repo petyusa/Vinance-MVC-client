@@ -28,7 +28,7 @@
                 <option value="50" selected="@(Model.PageSize == 50)">50</option>
                 <option value="100" selected="@(Model.PageSize == 100)">100</option>
             </select>
-            <button type="submit" class="btn-table"><i data-feather="filter"></i></button>
+            <button type="submit" class="btn-table">Szűrés</button>
         </form>
     </div>
 </div>
@@ -92,7 +92,7 @@
                                           data-ajax-mode="replace"
                                           data-ajax-success="vinance.showAlert({message: 'Transfer successfully deleted', class:'success'})">
                                         <input asp-for="@item.Id" class="d-none" name="transferId">
-                                        <button type="submit" class="btn-table text-danger"><i data-feather="trash"></i></button>
+                                        <button type="submit" class="btn-table text-danger"><i class="fas fa-trash-alt"></i></button>
                                     </form>
                                     <a class="d-inline-block text-warning"
                                        asp-controller="Transfer"
@@ -101,7 +101,7 @@
                                        data-ajax="true"
                                        data-ajax-method="GET"
                                        data-ajax-update="#edit-transfer"
-                                       data-ajax-mode="replace"><i data-feather="edit-2"></i></a>
+                                       data-ajax-mode="replace"><i class="fas fa-pen"></i></a>
                                 </td>
                             </tr>
                         }

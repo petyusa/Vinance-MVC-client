@@ -33,7 +33,7 @@ namespace Vinance.Web.Components.Income
             var income = await _incomeApi.Get(incomeId);
             var model = _mapper.Map<CreateIncomeViewmodel>(income);
 
-            model.AccountList = accounts.Select(a => new SelectListItem(a.Name, a.Id.ToString()));
+            model.AccountList = accounts.Where(a => a.IsActive).Select(a => new SelectListItem(a.Name, a.Id.ToString()));
             model.CategoryList = categories.Select(c => new SelectListItem(c.Name, c.Id.ToString()));
 
             return View("EditIncome", model);

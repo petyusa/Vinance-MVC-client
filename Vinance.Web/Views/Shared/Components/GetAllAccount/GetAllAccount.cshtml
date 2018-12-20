@@ -1,4 +1,8 @@
-﻿@model IEnumerable<Vinance.Contracts.Models.Domain.Account>
+﻿@using Vinance.Contracts.Models.Domain
+@model IEnumerable<Account>
+@{
+    var accounts = ViewBag.Editable ? Model.ToList() : Model.Where(a => a.IsActive).ToList();
+}
 
 <table class="table table-sm table-bordered table-striped" id="account-list">
     <thead class="thead-dark">
@@ -18,19 +22,19 @@
                        data-ajax="true"
                        data-ajax-method="GET"
                        data-ajax-update="#create-account-form-container"
-                       data-ajax-mode="replace"><i data-feather="plus-circle"></i></a>
+                       data-ajax-mode="replace"><i class="fas fa-plus"></i></a>
                 </th>
             }
         </tr>
     </thead>
     <tbody>
         <tr id="create-account-form-container"></tr>
-        @foreach (var item in Model.Where(a => a.IsActive))
+        @foreach (var item in accounts)
         {
             var rowId = $"account-{item.Id}";
             <tr id="@rowId">
                 <td>
-                    @Html.DisplayFor(modelItem => item.Name)
+                    @Html.DisplayFor(modelItem => item.Name) @if (item.IsSaving) { <span class="text-success"><i class="fas fa-piggy-bank"></i></span>}
                 </td>
                 <td class="text-right">
                     @(item.Balance == 0 ? "0Ft" : item.Balance.ToString("### ### ###") + "Ft")
@@ -49,7 +53,7 @@
                                   data-ajax-mode="replace"
                                   data-ajax-success="vinance.showAlert({message: 'Számla sikeresen törölve', class:'success'})">
                                 <input asp-for="@item.Id" class="d-none" name="accountId">
-                                <button type="submit" class="btn-table text-danger"><i data-feather="trash"></i></button>
+                                <button type="submit" class="btn-table text-danger"><i class="fas fa-trash-alt"></i></button>
                             </form>
                         }
                         <a class="d-inline-block text-warning"
@@ -59,7 +63,7 @@
                            data-ajax="true"
                            data-ajax-method="GET"
                            data-ajax-update="#@rowId"
-                           data-ajax-mode="replace"><i data-feather="edit-2"></i></a>
+                           data-ajax-mode="replace"><i class="fas fa-pen"></i></a>
                     </td>
                 }
             </tr>
@@ -69,8 +73,12 @@
             Összesen
         </th>
         <th class="text-right">
-            @Model.Where(a => a.IsActive).Sum(x => x.Balance).ToString("### ### ### Ft")
+            @accounts.Sum(x => x.Balance).ToString("### ### ### Ft")
         </th>
+        @if (ViewBag.Editable)
+        {
+            <td></td>
+        }
     </tr>
     </tbody>
 </table>
