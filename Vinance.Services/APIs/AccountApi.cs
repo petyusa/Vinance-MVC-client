@@ -57,8 +57,14 @@ namespace Vinance.Services.APIs
             return response.IsSuccessStatusCode;
         }
 
-        public async Task<List<DailyBalanceList>> GetDailyBalances(DateTime? from = null, DateTime? to = null)
+        public async Task<List<DailyBalanceList>> GetDailyBalances(int? accountId = null, DateTime? from = null, DateTime? to = null)
         {
+            var query = "?";
+
+            if (accountId.HasValue)
+            {
+                query += $"accountId={accountId.Value}&";
+            }
 
             if (!from.HasValue || !to.HasValue)
             {
@@ -67,7 +73,6 @@ namespace Vinance.Services.APIs
                 to = from.Value.AddMonths(1).AddDays(-1);
             }
 
-            var query = "?";
             query += $"from={from:MM-dd-yyyy}&to={to:MM-dd-yyyy}";
 
             var client = _factory.CreateClient(Constants.AuthenticatedClient);

@@ -13,8 +13,10 @@ namespace Vinance.Web.Models
         [Display(Name = "Egyenleg")]
         public int Balance { get; set; }
 
+        [Display(Name = "Aktív")]
         public bool IsActive { get; set; }
 
+        [Display(Name = "Megtakarítás")]
         public bool IsSaving { get; set; }
 
         public bool CanBeDeleted { get; set; }

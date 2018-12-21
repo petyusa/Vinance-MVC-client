@@ -8,7 +8,7 @@ namespace Vinance.Contracts.Interfaces
 
     public interface IExpenseApi
     {
-        Task<PagedList<Expense>> GetAll(int? categoryId, DateTime? from = null, DateTime? to = null, int? page = null, int? pageSize = null, string order = null);
+        Task<PagedList<Expense>> GetAll(int? accountId, int? categoryId, DateTime? from = null, DateTime? to = null, int? page = null, int? pageSize = null, string order = null);
         Task<Expense> Get(int expenseId);
         Task<bool> Create(Expense expense);
         Task<bool> Delete(int expenseId);

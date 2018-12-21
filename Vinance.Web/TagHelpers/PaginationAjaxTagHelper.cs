@@ -35,6 +35,11 @@ namespace Vinance.Web.TagHelpers
 
         private void AddContent(TagHelperOutput output)
         {
+            if (TotalPages == 0)
+            {
+                return;
+            }
+
             var rootValues = new RouteValueDictionary
             {
                 {"from", From},
@@ -46,7 +51,7 @@ namespace Vinance.Web.TagHelpers
 
             var urlHelper = _urlHelperFactory.GetUrlHelper(ViewContext);
             var rootUrl = urlHelper.Action(Action, Controller, rootValues);
-            
+
             var firstPage = $@"<a class='page-link'
                     href='{rootUrl}&page=1' 
                     data-ajax-method='GET'

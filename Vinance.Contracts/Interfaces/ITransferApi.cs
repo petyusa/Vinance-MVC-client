@@ -8,7 +8,7 @@ namespace Vinance.Contracts.Interfaces
 
     public interface ITransferApi
     {
-        Task<PagedList<Transfer>> GetAll(int? categoryId, DateTime? from = null, DateTime? to = null, int? page = null, int? pageSize = null, string order = null);
+        Task<PagedList<Transfer>> GetAll(int? accountId, DateTime? from = null, DateTime? to = null, int? page = null, int? pageSize = null, string order = null);
         Task<Transfer> Get(int transferId);
         Task<bool> Create(Transfer transfer);
         Task<bool> Delete(int transferId);

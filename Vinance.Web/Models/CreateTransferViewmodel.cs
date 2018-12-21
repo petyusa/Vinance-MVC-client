@@ -1,7 +1,7 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Vinance.Web.Models
 {
@@ -32,12 +32,6 @@ namespace Vinance.Web.Models
         [NoteEqual(nameof(FromId), ErrorMessage = "A két számla nem egyezhet.")]
         public int ToId { get; set; }
 
-        [Required(ErrorMessage = "Kérlek válassz kategóriát.")]
-        [Display(Name = "Kategória")]
-        public int CategoryId { get; set; }
-
         public IEnumerable<SelectListItem> AccountList { get; set; }
-
-        public IEnumerable<SelectListItem> CategoryList { get; set; }
     }
 }

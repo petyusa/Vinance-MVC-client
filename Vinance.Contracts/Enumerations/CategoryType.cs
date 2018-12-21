@@ -8,9 +8,6 @@ namespace Vinance.Contracts.Enumerations
         Expense,
 
         [Display(Name = "Bevétel")]
-        Income,
-
-        [Display(Name = "Pénzmozgás")]
-        Transfer
+        Income
     }
 }

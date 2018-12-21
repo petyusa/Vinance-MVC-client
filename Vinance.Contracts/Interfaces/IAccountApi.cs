@@ -14,6 +14,6 @@ namespace Vinance.Contracts.Interfaces
         Task<Account> GetById(int accountId);
         Task<bool> Update(Account account);
         Task<bool> Delete(int accountId);
-        Task<List<DailyBalanceList>> GetDailyBalances(DateTime? from = null, DateTime? to = null);
+        Task<List<DailyBalanceList>> GetDailyBalances(int? accountId = null, DateTime? from = null, DateTime? to = null);
     }
 }

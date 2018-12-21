@@ -1,8 +1,8 @@
 ﻿@using Newtonsoft.Json;
 @model CategoryStatisticsList
 @{
-    var expenseCategoryNames = Model.ExpenseStats.SelectMany(m => m.Items.Select(c => c.Name)).Distinct().OrderBy(c => c);
-    var incomeCategoryNames = Model.IncomeStats.SelectMany(m => m.Items.Select(c => c.Name)).Distinct().OrderBy(c => c);
+    var expenseCategoryNames = Model.ExpenseStats.SelectMany(m => m.Items.Select(c => c.Name)).Distinct().OrderBy(c => c).ToList();
+    var incomeCategoryNames = Model.IncomeStats.SelectMany(m => m.Items.Select(c => c.Name)).Distinct().OrderBy(c => c).ToList();
     var pagedExpenseStats = Model.ExpenseStats.Skip((Model.Page - 1) * 6).Take(6).ToList();
     var pagedIncomeStats = Model.IncomeStats.Skip((Model.Page - 1) * 6).Take(6).ToList();
 }
@@ -67,77 +67,95 @@
                             Bevételek
                         </th>
                     </tr>
-                    @foreach (var name in incomeCategoryNames)
+                    @if (!incomeCategoryNames.Any())
                     {
                         <tr>
-                            <th>@name</th>
+                            <td>Még nem adtál hozzá bevételeket.</td>
+                        </tr>
+                    }
+                    else
+                    {
+                        foreach (var name in incomeCategoryNames)
+                        {
+                            <tr>
+                                <th>@name</th>
+                                @foreach (var item in pagedIncomeStats)
+                                {
+                                    <td class="text-right">
+                                        @{
+                                            var incomes = item.Items.Single(c => c.Name == name);
+                                            var balance = incomes.Balance == 0 ? "0 Ft" : incomes.Balance.ToString("### ### ### Ft");
+                                        }
+                                        @balance
+                                    </td>
+                                }
+                                <th class="text-right">
+                                    @Model.IncomeStats.SelectMany(s => s.Items.Where(c => c.Name == name)).Average(c => c.Balance).ToString("### ### ### Ft")
+                                </th>
+                            </tr>
+                        }
+                        <tr class="table-info">
+                            <th>
+                                Összesen
+                            </th>
                             @foreach (var item in pagedIncomeStats)
                             {
                                 <td class="text-right">
-                                    @{
-                                        var incomes = item.Items.Single(c => c.Name == name);
-                                        var balance = incomes.Balance == 0 ? "0 Ft" : incomes.Balance.ToString("### ### ### Ft");
-                                    }
-                                    @balance
+                                    @item.Items.Sum(c => c.Balance).ToString("### ### ### Ft")
                                 </td>
                             }
                             <th class="text-right">
-                                @Model.IncomeStats.SelectMany(s => s.Items.Where(c => c.Name == name)).Average(c => c.Balance).ToString("### ### ### Ft")
+                                @Model.IncomeStats.Select(m => m.Items.Sum(c => c.Balance)).Average().ToString("### ### ### Ft")
                             </th>
                         </tr>
                     }
-                    <tr class="table-info">
-                        <th>
-                            Összesen
-                        </th>
-                        @foreach (var item in pagedIncomeStats)
-                        {
-                            <td class="text-right">
-                                @item.Items.Sum(c => c.Balance).ToString("### ### ### Ft")
-                            </td>
-                        }
-                        <th class="text-right">
-                            @Model.IncomeStats.Select(m => m.Items.Sum(c => c.Balance)).Average().ToString("### ### ### Ft")
-                        </th>
-                    </tr>
                     <tr>
                         <th colspan="8" class="text-center">
                             Kiadások
                         </th>
                     </tr>
-                    @foreach (var name in expenseCategoryNames)
+                    @if (!expenseCategoryNames.Any())
                     {
                         <tr>
-                            <th>@name</th>
+                            <td>Még nem adtál hozzá kiadásokat.</td>
+                        </tr>
+                    }
+                    else
+                    {
+                        foreach (var name in expenseCategoryNames)
+                        {
+                            <tr>
+                                <th>@name</th>
+                                @foreach (var item in pagedExpenseStats)
+                                {
+                                    <td class="text-right">
+                                        @{
+                                            var expenses = item.Items.Single(c => c.Name == name);
+                                            var balance = expenses.Balance == 0 ? "0 Ft" : expenses.Balance.ToString("### ### ### Ft");
+                                        }
+                                        @balance
+                                    </td>
+                                }
+                                <th class="text-right">
+                                    @Model.ExpenseStats.SelectMany(s => s.Items.Where(c => c.Name == name)).Average(c => c.Balance).ToString("### ### ### Ft")
+                                </th>
+                            </tr>
+                        }
+                        <tr class="table-info">
+                            <th>
+                                Összesen
+                            </th>
                             @foreach (var item in pagedExpenseStats)
                             {
                                 <td class="text-right">
-                                    @{
-                                        var expenses = item.Items.Single(c => c.Name == name);
-                                        var balance = expenses.Balance == 0 ? "0 Ft" : expenses.Balance.ToString("### ### ### Ft");
-                                    }
-                                    @balance
+                                    @item.Items.Sum(c => c.Balance).ToString("### ### ### Ft")
                                 </td>
                             }
                             <th class="text-right">
-                                @Model.ExpenseStats.SelectMany(s => s.Items.Where(c => c.Name == name)).Average(c => c.Balance).ToString("### ### ### Ft")
+                                @Model.ExpenseStats.Select(m => m.Items.Sum(c => c.Balance)).Average().ToString("### ### ### Ft")
                             </th>
                         </tr>
                     }
-                    <tr class="table-info">
-                        <th>
-                            Összesen
-                        </th>
-                        @foreach (var item in pagedExpenseStats)
-                        {
-                            <td class="text-right">
-                                @item.Items.Sum(c => c.Balance).ToString("### ### ### Ft")
-                            </td>
-                        }
-                        <th class="text-right">
-                            @Model.ExpenseStats.Select(m => m.Items.Sum(c => c.Balance)).Average().ToString("### ### ### Ft")
-                        </th>
-                    </tr>
                     <tr class="table-success">
                         <th>Egyenleg</th>
                         @foreach (var expenseStat in pagedExpenseStats)
@@ -152,9 +170,9 @@
                         }
                         <th class="text-right">
                             @{
-                                var expenseAverage = Model.ExpenseStats.Select(m => m.Items.Sum(c => c.Balance)).Average();
-                                var incomeAverage = Model.IncomeStats.Select(m => m.Items.Sum(c => c.Balance)).Average();
-                                var balanceAverage = (incomeAverage - expenseAverage).ToString("### ### ### Ft");
+                                var expenseAverage = Model.ExpenseStats.Select(m => m.Items?.Sum(c => c.Balance)).Average();
+                                var incomeAverage = Model.IncomeStats.Select(m => m.Items?.Sum(c => c.Balance)).Average();
+                                var balanceAverage = (incomeAverage - expenseAverage)?.ToString("### ### ### Ft");
                             }
                             @balanceAverage
                         </th>

@@ -1,10 +1,10 @@
-﻿using System;
+﻿using AutoMapper;
+using System;
 using System.Collections.Generic;
-using AutoMapper;
-using Vinance.Contracts.Models;
 
 namespace Vinance.Web.Helpers
 {
+    using Contracts.Models;
     using Contracts.Models.Domain;
     using Contracts.Models.Identity;
     using Models;
@@ -29,8 +29,7 @@ namespace Vinance.Web.Helpers
             CreateMap<CreateExpenseViewmodel, Expense>();
 
             CreateMap<Transfer, CreateTransferViewmodel>()
-                .ForMember(i => i.AccountList, opt => { opt.Ignore(); })
-                .ForMember(i => i.CategoryList, opt => { opt.Ignore(); });
+                .ForMember(i => i.AccountList, opt => { opt.Ignore(); });
             CreateMap<CreateTransferViewmodel, Transfer>();
 
             CreateMap<Category, CategoryViewmodel>()
@@ -38,7 +37,7 @@ namespace Vinance.Web.Helpers
                 {
                     opt.ResolveUsing(src =>
                     {
-                        var limitUsedPercentage = (src.Balance / (double) src.MonthlyLimit)*100;
+                        var limitUsedPercentage = (src.Balance / (double)src.MonthlyLimit) * 100;
                         var limitUsed = Math.Floor(limitUsedPercentage);
                         return (int)limitUsed;
                     });

@@ -8,7 +8,7 @@
 
 <div class="row">
     <div class="col-12">
-        <form class="form-inline mb-3"
+        <form class="d-flex justify-content-around mb-3"
               asp-action="GetAll"
               asp-controller="Income"
               asp-route-page="1"
@@ -20,15 +20,24 @@
               data-ajax-mode="replace">
             <input type="text" autocomplete="off" name="from" class="form-control text-right mr-2" id="from-datetimepicker" data-toggle="datetimepicker" data-target="#from-datetimepicker" value="@Model.From?.ToString("yyyy-MM-dd")" />
             <input type="text" autocomplete="off" name="to" class="form-control text-right mr-2" id="to-datetimepicker" data-toggle="datetimepicker" data-target="#to-datetimepicker" value="@Model.To?.ToString("yyyy-MM-dd")" />
+            <select name="accountId" id="accountId" asp-items="@Model.Accounts" class="custom-select mr-2">
+                <option value="">Számla</option>
+            </select>
             <select name="categoryId" id="categoryId" asp-items="@Model.Categories" class="custom-select mr-2">
-                <option value=""></option>
+                <option value="">Kategória</option>
             </select>
             <select name="pagesize" id="pagesize" class="custom-select mr-2">
                 <option value="20" selected="@(Model.PageSize == 20)">20</option>
                 <option value="50" selected="@(Model.PageSize == 50)">50</option>
                 <option value="100" selected="@(Model.PageSize == 100)">100</option>
             </select>
-            <button type="submit" class="btn-table">Szűrés</button>
+            <select name="sortorder" id="sortorder" class="custom-select mr-2">
+                <option value="date_desc" selected="@(Model.Order == "date_desc")">Legújabb elöl</option>
+                <option value="date" selected="@(Model.Order == "date")">Legrégebbi elöl</option>
+                <option value="amount_desc" selected="@(Model.Order == "amount_desc")">Legdrágább elöl</option>
+                <option value="amount" selected="@(Model.Order == "amount")">Legolcsóbb elöl</option>
+            </select>
+            <button type="submit" class="btn btn-primary">Szűrés</button>
         </form>
     </div>
 </div>
@@ -59,46 +68,57 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach (var item in Model.Items)
+                        @if (!Model.Items.Any())
                         {
-                            <tr class="transfer-row">
-                                <td>
-                                    @item.Date.ToString("MM/dd")
-                                </td>
-                                <td class="text-right">
-                                    @item.Amount.ToString("### ### ###")Ft
-                                </td>
-                                <td class="d-none d-sm-table-cell">
-                                    @Html.DisplayFor(modelItem => item.ToName)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.CategoryName)
-                                </td>
-                                <td class="d-none d-sm-table-cell">
-                                    @Html.DisplayFor(modelItem => item.Comment)
-                                </td>
-                                <td class="text-center">
-                                    <form class="d-inline-block"
-                                          asp-controller="Income"
-                                          asp-action="Delete"
-                                          data-ajax-method="POST"
-                                          data-ajax="true"
-                                          data-ajax-update="#income-list"
-                                          data-ajax-mode="replace"
-                                          data-ajax-success="vinance.showAlert({message: 'Income successfully deleted', class:'success'})">
-                                        <input asp-for="@item.Id" class="d-none" name="incomeId">
-                                        <button type="submit" class="btn-table text-danger"><i class="fas fa-trash-alt"></i></button>
-                                    </form>
-                                    <a class="d-inline-block text-warning"
-                                       asp-controller="Income"
-                                       asp-action="Edit"
-                                       asp-route-incomeId="@item.Id"
-                                       data-ajax="true"
-                                       data-ajax-method="GET"
-                                       data-ajax-update="#edit-income"
-                                       data-ajax-mode="replace"><i class="fas fa-pen"></i></a>
+                            <tr>
+                                <td colspan="6">
+                                    Még nincsenek bevételeid
                                 </td>
                             </tr>
+                        }
+                        else
+                        {
+                            @foreach (var item in Model.Items)
+                            {
+                                <tr class="transfer-row">
+                                    <td>
+                                        @item.Date.ToString("MM/dd")
+                                    </td>
+                                    <td class="text-right">
+                                        @item.Amount.ToString("### ### ###")Ft
+                                    </td>
+                                    <td class="d-none d-sm-table-cell">
+                                        @Html.DisplayFor(modelItem => item.ToName)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.CategoryName)
+                                    </td>
+                                    <td class="d-none d-sm-table-cell">
+                                        @Html.DisplayFor(modelItem => item.Comment)
+                                    </td>
+                                    <td class="text-center">
+                                        <form class="d-inline-block"
+                                              asp-controller="Income"
+                                              asp-action="Delete"
+                                              data-ajax-method="POST"
+                                              data-ajax="true"
+                                              data-ajax-update="#income-list"
+                                              data-ajax-mode="replace"
+                                              data-ajax-success="vinance.showAlert({message: 'Income successfully deleted', class:'success'})">
+                                            <input asp-for="@item.Id" class="d-none" name="incomeId">
+                                            <button type="submit" class="btn-table text-danger"><i class="fas fa-trash-alt"></i></button>
+                                        </form>
+                                        <a class="d-inline-block text-warning"
+                                           asp-controller="Income"
+                                           asp-action="Edit"
+                                           asp-route-incomeId="@item.Id"
+                                           data-ajax="true"
+                                           data-ajax-method="GET"
+                                           data-ajax-update="#edit-income"
+                                           data-ajax-mode="replace"><i class="fas fa-pen"></i></a>
+                                    </td>
+                                </tr>
+                            }
                         }
                     </tbody>
                 </table>

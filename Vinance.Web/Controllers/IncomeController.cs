@@ -32,9 +32,9 @@ namespace Vinance.Web.Controllers
 
         [HttpGet]
         [Route("all")]
-        public IActionResult GetAll(int? categoryId = null, DateTime? from = null, DateTime? to = null, string order = "date_desc", int page = 1, int pageSize = 20)
+        public IActionResult GetAll(int? accountId = null, int? categoryId = null, DateTime? from = null, DateTime? to = null, string order = "date_desc", int page = 1, int pageSize = 20)
         {
-            return ViewComponent(typeof(GetAllIncome), new { categoryId, from, to, order, page, pageSize });
+            return ViewComponent(typeof(GetAllIncome), new { accountId, categoryId, from, to, order, page, pageSize });
         }
 
         [HttpGet]

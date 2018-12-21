@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 
@@ -97,6 +98,18 @@ namespace Vinance.Web.Controllers
                 return ViewComponent(typeof(GetAllAccount), new { editable = true });
             }
             return BadRequest();
+        }
+
+        [HttpGet]
+        [Route("daily-balance")]
+        public IActionResult GetDailyBalance(int? accountId = null, DateTime? from = null, DateTime? to = null)
+        {
+            if (!from.HasValue || !to.HasValue)
+            {
+                to = DateTime.Now;
+                from = to.Value.AddMonths(-1);
+            }
+            return ViewComponent(typeof(GetDailyBalances), new {accountId, from, to});
         }
     }
 }

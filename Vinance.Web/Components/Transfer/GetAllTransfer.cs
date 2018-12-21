@@ -1,26 +1,25 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Vinance.Web.Components.Transfer
 {
-    using Contracts.Enumerations;
     using Contracts.Interfaces;
 
     public class GetAllTransfer : ViewComponent
     {
         private readonly ITransferApi _transferApi;
-        private readonly ICategoryApi _categoryApi;
+        private readonly IAccountApi _accountApi;
 
-        public GetAllTransfer(ITransferApi transferApi, ICategoryApi categoryApi)
+        public GetAllTransfer(ITransferApi transferApi, IAccountApi accountApi)
         {
             _transferApi = transferApi;
-            _categoryApi = categoryApi;
+            _accountApi = accountApi;
         }
 
-        public async Task<IViewComponentResult> InvokeAsync(int? categoryId = null, DateTime? from = null, DateTime? to = null, string order = "date_desc", int page = 1, int pageSize = 20)
+        public async Task<IViewComponentResult> InvokeAsync(int? accountId = null, int? categoryId = null, DateTime? from = null, DateTime? to = null, string order = "date_desc", int page = 1, int pageSize = 20)
         {
             if (!from.HasValue || !to.HasValue)
             {
@@ -28,14 +27,15 @@ namespace Vinance.Web.Components.Transfer
                 from = to.Value.Subtract(TimeSpan.FromDays(30));
             }
 
-            var transfers = await _transferApi.GetAll(categoryId, from, to, page, pageSize, order);
-            var categories = await _categoryApi.GetCategories(CategoryType.Expense);
+            var transfers = await _transferApi.GetAll(accountId, from, to, page, pageSize, order);
+            var accounts = await _accountApi.GetAll();
 
             transfers.CategoryId = categoryId;
+            transfers.AccountId = accountId;
             transfers.From = from;
             transfers.To = to;
             transfers.Order = order;
-            transfers.Categories = categories.Select(c => new SelectListItem(c.Name, c.Id.ToString(), categoryId.HasValue && categoryId.Value == c.Id));
+            transfers.Accounts = accounts.Select(a => new SelectListItem(a.Name, a.Id.ToString(), accountId.HasValue && accountId.Value == a.Id));
 
             return View("GetAllTransfer", transfers);
         }

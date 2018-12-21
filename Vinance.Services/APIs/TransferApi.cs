@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,7 +22,7 @@ namespace Vinance.Services.APIs
             _responseHandler = responseHandler;
         }
 
-        public async Task<PagedList<Transfer>> GetAll(int? categoryId, DateTime? from = null, DateTime? to = null, int? page = null, int? pageSize = null, string order = null)
+        public async Task<PagedList<Transfer>> GetAll(int? accountId, DateTime? from = null, DateTime? to = null, int? page = null, int? pageSize = null, string order = null)
         {
             var sb = new StringBuilder("?");
             if (!from.HasValue || !to.HasValue)
@@ -35,9 +34,9 @@ namespace Vinance.Services.APIs
             sb.Append($"from={from.Value}");
             sb.Append($"&to={to.Value}");
 
-            if (categoryId.HasValue && categoryId.Value != 0)
+            if (accountId.HasValue && accountId.Value != 0)
             {
-                sb.Append($"&categoryId={categoryId.Value}");
+                sb.Append($"&accountId={accountId.Value}");
             }
 
             if (page.HasValue)

@@ -8,7 +8,7 @@ namespace Vinance.Contracts.Interfaces
 
     public interface IIncomeApi
     {
-        Task<PagedList<Income>> GetAll(int? categoryId, DateTime? from = null, DateTime? to = null, int? page = null, int? pageSize = null, string order = null);
+        Task<PagedList<Income>> GetAll(int? accountId, int? categoryId, DateTime? from = null, DateTime? to = null, int? page = null, int? pageSize = null, string order = null);
         Task<Income> Get(int incomeId);
         Task<bool> Create(Income expense);
         Task<bool> Delete(int expenseId);

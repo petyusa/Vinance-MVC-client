@@ -22,7 +22,7 @@ namespace Vinance.Services.APIs
             _responseHandler = responseHandler;
         }
 
-        public async Task<PagedList<Income>> GetAll(int? categoryId, DateTime? @from = null, DateTime? to = null, int? page = null, int? pageSize = null, string order = null)
+        public async Task<PagedList<Income>> GetAll(int? accountId, int? categoryId, DateTime? @from = null, DateTime? to = null, int? page = null, int? pageSize = null, string order = null)
         {
             var sb = new StringBuilder("?");
             if (!from.HasValue || !to.HasValue)
@@ -33,6 +33,11 @@ namespace Vinance.Services.APIs
 
             sb.Append($"from={from.Value}");
             sb.Append($"&to={to.Value}");
+
+            if (accountId.HasValue && accountId.Value != 0)
+            {
+                sb.Append($"&accountId={accountId.Value}");
+            }
 
             if (categoryId.HasValue && categoryId.Value != 0)
             {

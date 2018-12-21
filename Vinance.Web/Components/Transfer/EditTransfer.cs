@@ -6,21 +6,18 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Vinance.Web.Components.Transfer
 {
-    using Contracts.Enumerations;
     using Contracts.Interfaces;
     using Models;
 
     public class EditTransfer : ViewComponent
     {
         private readonly IAccountApi _accountApi;
-        private readonly ICategoryApi _categoryApi;
         private readonly ITransferApi _transferApi;
         private readonly IMapper _mapper;
 
-        public EditTransfer(IAccountApi accountApi, ICategoryApi categoryApi, ITransferApi transferApi, IMapper mapper)
+        public EditTransfer(IAccountApi accountApi, ITransferApi transferApi, IMapper mapper)
         {
             _accountApi = accountApi;
-            _categoryApi = categoryApi;
             _transferApi = transferApi;
             _mapper = mapper;
         }
@@ -28,13 +25,11 @@ namespace Vinance.Web.Components.Transfer
         public async Task<IViewComponentResult> InvokeAsync(int transferId)
         {
             var accounts = await _accountApi.GetAll();
-            var categories = await _categoryApi.GetCategories(CategoryType.Transfer);
 
             var transfer = await _transferApi.Get(transferId);
             var model = _mapper.Map<CreateTransferViewmodel>(transfer);
 
             model.AccountList = accounts.Where(a => a.IsActive).Select(a => new SelectListItem(a.Name, a.Id.ToString()));
-            model.CategoryList = categories.Select(c => new SelectListItem(c.Name, c.Id.ToString()));
 
             return View("EditTransfer", model);
         }

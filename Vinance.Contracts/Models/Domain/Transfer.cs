@@ -29,11 +29,5 @@ namespace Vinance.Contracts.Models.Domain
 
         [Display(Name = "Honnan")]
         public string FromName { get; set; }
-
-        [Required]
-        public int CategoryId { get; set; }
-
-        [Display(Name = "Kategória")]
-        public string CategoryName { get; set; }
     }
 }

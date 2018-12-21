@@ -7,11 +7,11 @@
     <div id="account-list" class="col-lg-8">
         @await Component.InvokeAsync("GetAllAccount", new { editable = true })
     </div>
-    <div id="edit-account" class="col-lg-4">
-    </div>
 </div>
 <div class="row">
     <div class="col-lg-12">
-        @await Component.InvokeAsync(typeof(GetDailyBalances), new { from = new DateTime(2017, 1, 1), to = new DateTime(2019, 3, 1) })
+        <div id="daily-balance-container">
+            @await Component.InvokeAsync(typeof(GetDailyBalances), new {first = true, from = new DateTime(2017, 1, 1), to = new DateTime(2019, 1, 1)})
+        </div>
     </div>
 </div>
