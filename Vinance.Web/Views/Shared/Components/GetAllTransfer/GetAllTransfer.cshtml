@@ -1,5 +1,6 @@
 ﻿@using Vinance.Contracts.Models.Domain
-@model Vinance.Contracts.Models.PagedList<Vinance.Contracts.Models.Domain.Transfer>
+@using Vinance.Contracts.Enumerations
+@model Vinance.Contracts.Models.PagedList<Transfer>
 @{
     Transfer dummy = null;
 }
@@ -18,6 +19,7 @@
               data-ajax-mode="replace">
             <input type="text" autocomplete="off" name="from" class="form-control text-right mr-2" id="from-datetimepicker" data-toggle="datetimepicker" data-target="#from-datetimepicker" value="@Model.From?.ToString("yyyy-MM-dd")" />
             <input type="text" autocomplete="off" name="to" class="form-control text-right mr-2" id="to-datetimepicker" data-toggle="datetimepicker" data-target="#to-datetimepicker" value="@Model.To?.ToString("yyyy-MM-dd")" />
+            <input type="hidden" asp-for="TransferType"/>
             <select name="accountId" id="accountId" asp-items="@Model.Accounts" class="custom-select mr-2">
                 <option value="">Számla</option>
             </select>

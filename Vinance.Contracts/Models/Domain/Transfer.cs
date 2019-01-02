@@ -3,6 +3,8 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Vinance.Contracts.Models.Domain
 {
+    using Enumerations;
+
     public class Transfer
     {
         public int Id { get; set; }
@@ -10,6 +12,8 @@ namespace Vinance.Contracts.Models.Domain
         [Required]
         [Display(Name = "Dátum")]
         public DateTime Date { get; set; }
+
+        public TransferType TransferType { get; set; }
 
         [Required]
         [Display(Name = "Összeg")]

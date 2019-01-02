@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Vinance.Web.Components.Account
 {
+    using Contracts.Enumerations;
     using Contracts.Interfaces;
 
     public class GetAllAccount : ViewComponent
@@ -15,10 +16,11 @@ namespace Vinance.Web.Components.Account
             _accountApi = accountApi;
         }
 
-        public async Task<IViewComponentResult> InvokeAsync(bool editable)
+        public async Task<IViewComponentResult> InvokeAsync(AccountType? accountType, bool editable)
         {
-            var accounts = await _accountApi.GetAll();
+            var accounts = await _accountApi.GetAll(accountType);
             ViewBag.Editable = editable;
+            ViewBag.AccountType = accountType;
             accounts = accounts.OrderBy(a => a.Name);
             return View("GetAllAccount", accounts);
         }

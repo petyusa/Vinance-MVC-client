@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 namespace Vinance.Services.APIs
 {
     using Contracts;
+    using Contracts.Enumerations;
     using Contracts.Interfaces;
     using Contracts.Models;
     using Contracts.Models.Domain;
@@ -22,7 +23,7 @@ namespace Vinance.Services.APIs
             _responseHandler = responseHandler;
         }
 
-        public async Task<PagedList<Transfer>> GetAll(int? accountId, DateTime? from = null, DateTime? to = null, int? page = null, int? pageSize = null, string order = null)
+        public async Task<PagedList<Transfer>> GetAll(int? accountId, TransferType? transferType, DateTime? from = null, DateTime? to = null, int? page = null, int? pageSize = null, string order = null)
         {
             var sb = new StringBuilder("?");
             if (!from.HasValue || !to.HasValue)
@@ -37,6 +38,11 @@ namespace Vinance.Services.APIs
             if (accountId.HasValue && accountId.Value != 0)
             {
                 sb.Append($"&accountId={accountId.Value}");
+            }
+
+            if (transferType.HasValue)
+            {
+                sb.Append($"&transfertype={transferType.Value}");
             }
 
             if (page.HasValue)

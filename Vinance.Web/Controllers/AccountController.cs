@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Vinance.Web.Controllers
 {
     using Components.Account;
+    using Contracts.Enumerations;
     using Contracts.Interfaces;
     using Contracts.Models.Domain;
     using Models;
@@ -31,9 +32,9 @@ namespace Vinance.Web.Controllers
 
         [HttpGet]
         [Route("all")]
-        public IActionResult GetAll()
+        public IActionResult GetAll(AccountType? accountType)
         {
-            return ViewComponent(typeof(GetAllAccount));
+            return ViewComponent(typeof(GetAllAccount), new { accountType });
         }
 
         [HttpGet]
@@ -109,7 +110,7 @@ namespace Vinance.Web.Controllers
                 to = DateTime.Now;
                 from = to.Value.AddMonths(-1);
             }
-            return ViewComponent(typeof(GetDailyBalances), new {accountId, from, to});
+            return ViewComponent(typeof(GetDailyBalances), new { accountId, from, to });
         }
     }
 }

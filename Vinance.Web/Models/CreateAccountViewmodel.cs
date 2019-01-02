@@ -2,6 +2,8 @@
 
 namespace Vinance.Web.Models
 {
+    using Contracts.Enumerations;
+
     public class CreateAccountViewmodel
     {
         public string Id { get; set; }
@@ -9,6 +11,10 @@ namespace Vinance.Web.Models
         [Required(ErrorMessage = "Kérlek add meg a számla nevét.")]
         [Display(Name = "Név")]
         public string Name { get; set; }
+
+        [Required]
+        [Display(Name = "Számla típusa")]
+        public AccountType AccountType { get; set; }
 
         [Display(Name = "Egyenleg")]
         public int Balance { get; set; }

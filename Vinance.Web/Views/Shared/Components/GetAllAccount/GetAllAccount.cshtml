@@ -1,14 +1,28 @@
-﻿@using Vinance.Contracts.Models.Domain
+﻿@using Vinance.Contracts.Enumerations
+@using Vinance.Contracts.Models.Domain
 @model IEnumerable<Account>
 @{
     var accounts = ViewBag.Editable ? Model.ToList() : Model.Where(a => a.IsActive).ToList();
+    var title = "Számlák";
+    if (ViewBag.AccountType == AccountType.Saving)
+    {
+        title = "Megtakarítások";
+    }
+    else if (ViewBag.AccountType == AccountType.Debt)
+    {
+        title = "Tartozások";
+    }
+    else if (ViewBag.AccountType == AccountType.Loan)
+    {
+        title = "Kölcsönök";
+    }
 }
 
 <table class="table table-sm table-bordered table-striped" id="account-list">
     <thead class="thead-dark">
         <tr>
             <th colspan="2">
-                Számlák
+                @title
             </th>
             @if (ViewBag.Editable)
             {

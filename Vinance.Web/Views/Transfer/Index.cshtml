@@ -1,4 +1,6 @@
-﻿@{
+﻿@using Vinance.Contracts.Enumerations
+@using Vinance.Web.Components.Transfer
+@{
     ViewData["Title"] = "Pénzmozgások";
 }
 
@@ -7,7 +9,7 @@
 <div class="row">
     <div class="col-12">
         <div id="transfer-list">
-            @await Component.InvokeAsync("GetAllTransfer")
+            @await Component.InvokeAsync(typeof(GetAllTransfer), new{ transferType = TransferType.Transfer})
         </div>
     </div>
 </div>

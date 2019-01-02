@@ -4,13 +4,14 @@ using System.Threading.Tasks;
 
 namespace Vinance.Contracts.Interfaces
 {
+    using Enumerations;
     using Models;
     using Models.Domain;
 
     public interface IAccountApi
     {
         Task<bool> Create(Account account);
-        Task<IEnumerable<Account>> GetAll();
+        Task<IEnumerable<Account>> GetAll(AccountType? accountType = null);
         Task<Account> GetById(int accountId);
         Task<bool> Update(Account account);
         Task<bool> Delete(int accountId);

@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Vinance.Contracts.Enumerations;
 
 namespace Vinance.Contracts.Models.Domain
 {
@@ -9,6 +10,10 @@ namespace Vinance.Contracts.Models.Domain
         [Required]
         [Display(Name = "Név")]
         public string Name { get; set; }
+
+        [Required]
+        [Display(Name = "Számla típus")]
+        public AccountType AccountType { get; set; }
 
         [Display(Name = "Egyenleg")]
         public int Balance { get; set; }

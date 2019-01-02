@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
-using Vinance.Contracts.Models;
 
 namespace Vinance.Services.APIs
 {
     using Contracts;
+    using Contracts.Enumerations;
     using Contracts.Interfaces;
+    using Contracts.Models;
     using Contracts.Models.Domain;
     using Extensions;
 
@@ -29,10 +30,16 @@ namespace Vinance.Services.APIs
             return response.IsSuccessStatusCode;
         }
 
-        public async Task<IEnumerable<Account>> GetAll()
+        public async Task<IEnumerable<Account>> GetAll(AccountType? accountType = null)
         {
+            var query = "";
+            if (accountType.HasValue)
+            {
+                query = $"?accounttype={accountType.Value}";
+            }
+
             var client = _factory.CreateClient(Constants.AuthenticatedClient);
-            var response = await client.GetAsync("accounts");
+            var response = await client.GetAsync($"accounts{query}");
             return await _responseHandler.HandleAsync<IEnumerable<Account>>(response);
         }
 
