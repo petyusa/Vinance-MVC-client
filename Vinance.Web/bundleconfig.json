@@ -3,7 +3,6 @@
         "outputFileName": "wwwroot/css/site.min.css",
         "inputFiles": [
             "wwwroot/lib/tempus-dominus-bootstrap-4/css/tempusdominus-bootstrap-4.css",
-            "wwwroot/lib/twitter-bootstrap/css/bootstrap.css",
             "wwwroot/css/site.css"
         ],
         "minify": {
@@ -12,7 +11,17 @@
         }
     },
     {
-        "outputFileName": "wwwroot/css/dark-theme.min.css",
+        "outputFileName": "wwwroot/css/bootstrap.min.css",
+        "inputFiles": [
+            "wwwroot/lib/twitter-bootstrap/css/bootstrap.css"
+        ],
+        "minify": {
+            "enabled": true,
+            "commentMode": "hacks"
+        }
+    },
+    {
+        "outputFileName": "wwwroot/css/bootstrap-dark.min.css",
         "inputFiles": [
             "wwwroot/lib/twitter-bootstrap/css/dark-theme/bootstrap-dark.css"
         ],

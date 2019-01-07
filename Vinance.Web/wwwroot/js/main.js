@@ -24,21 +24,28 @@
         });
     }
 
-    const backgroundColors = [
-        "#B58900",
-        "#6610f2",
-        "#D33682",
-        "#fd7e14",
-        "#20c997",
-        "#839496",
-        "#268BD2",
-        "#CB4B16",
-        "green",
-        "#2AA198",
-        "#073642",
-        "#6f42c1",
-        "#e83e8c"
-    ];
+    function getColors() {
+        const bodyStyles = window.getComputedStyle(document.body);
+        return [
+            bodyStyles.getPropertyValue("--blue"),
+            bodyStyles.getPropertyValue("--green"),
+            bodyStyles.getPropertyValue("--pink"),
+            bodyStyles.getPropertyValue("--yellow"),
+            bodyStyles.getPropertyValue("--info"),
+            bodyStyles.getPropertyValue("--indigo"),
+            bodyStyles.getPropertyValue("--red"),
+            bodyStyles.getPropertyValue("--teal"),
+            bodyStyles.getPropertyValue("--orange"),
+            bodyStyles.getPropertyValue("--warning"),
+            bodyStyles.getPropertyValue("--cyan"),
+            bodyStyles.getPropertyValue("--success"),
+            bodyStyles.getPropertyValue("--primary"),
+            bodyStyles.getPropertyValue("--danger"),
+            bodyStyles.getPropertyValue("--secondary"),
+            bodyStyles.getPropertyValue("--purple"),
+            bodyStyles.getPropertyValue("--gray")
+        ];
+    }
 
     function createChart(chartId, labels, amounts) {
         const canvasDiv = document.getElementById(chartId);
@@ -48,7 +55,7 @@
             labels: labels,
             datasets: [{
                 data: amounts,
-                backgroundColor: backgroundColors
+                backgroundColor: getColors()
             }]
         };
         const options = {
@@ -92,6 +99,47 @@
             });
     }
 
+    function createDailyBalanceChart(chartId, labels, balances) {
+        const canvasDiv = document.getElementById(chartId);
+        canvasDiv.height = 400;
+        const ctx = canvasDiv.getContext('2d');
+        const data = {
+            labels: labels.map((item) => {
+                return moment(new Date(item)).format("YY-MM-DD");
+            }),
+            datasets: [{
+                label: "Egyenleg",
+                data: balances,
+                backgroundColor: getColors()[0]
+            }]
+        };
+        const options = {
+            maintainAspectRatio: false,
+            elements: {
+                point: {
+                    radius: 0
+                }
+            },
+            scales: {
+                yAxes: [
+                    {
+                        display: true,
+                        ticks: {
+                            beginAtZero: true,
+                            callback: function (value, index, values) {
+                                return value + " Ft";
+                            }
+                        }
+                    }]
+            }
+        };
+        const myPieChart = new Chart(ctx, {
+            type: 'line',
+            data: data,
+            options: options
+        });
+    }
+
     function getDataSets(arr) {
         const labels = getLabels(arr);
         const dataSets = [];
@@ -100,7 +148,7 @@
                 stack: "stack",
                 label: labels[i],
                 data: getDataForCategory(arr, labels[i]),
-                backgroundColor: backgroundColors[i]
+                backgroundColor: getColors()[i]
             });
         }
         return dataSets;
@@ -134,7 +182,8 @@
         showAlert: showAlert,
         initDatePicker: initializeDatetimepicker,
         createChart: createChart,
-        createStackedChart: createStackedChart
+        createStackedChart: createStackedChart,
+        createDailyBalanceChart: createDailyBalanceChart
     };
 })();
 
@@ -150,4 +199,26 @@ $.validator.unobtrusive.adapters.add("notequalto", ["other"], function (options)
     };
     options.rules["notequalto"] = params;
     options.messages["notequalto"] = options.message;
+});
+
+function setTheme(theme) {
+    document.cookie = `theme=${theme}`;
+    location.reload();
+}
+
+$(function () {
+    const theme = document.cookie.replace(/(?:(?:^|.*;\s*)theme\s*\=\s*([^;]*).*$)|^.*$/, "$1");
+    if (theme === "dark") {
+        $("#theme-change-btn").bootstrapToggle("off");
+    } else {
+        $("#theme-change-btn").bootstrapToggle("on");
+    }
+
+    $("#theme-change-btn").change(function () {
+        if ($(this).prop("checked")) {
+            setTheme("light");
+        } else {
+            setTheme("dark");
+        }
+    });
 });
