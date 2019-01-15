@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Vinance.Web.Models
+namespace Vinance.Web.Models.Category
 {
     public class CategoryStatisticsList
     {

@@ -1,13 +1,13 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Vinance.Web.Components.Category
 {
     using Contracts.Enumerations;
     using Contracts.Interfaces;
-    using Models;
+    using Models.Category;
 
     public class CategoryChart : ViewComponent
     {

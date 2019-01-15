@@ -1,5 +1,5 @@
 ﻿@using Vinance.Contracts.Enumerations
-@model Vinance.Web.Models.CategoryViewmodel
+@model Vinance.Web.Models.Category.CategoryViewmodel
 @{
     var type = Model.Type;
     var formId = $"edit-{type}-form";
@@ -11,8 +11,7 @@
       data-ajax-method="POST"
       data-ajax-update="#category-tables"
       data-ajax-mode="replace"
-      data-ajax-success="vinance.showAlert({message:'Kategória módosítva', class: 'success'})">
-</form>
+      data-ajax-success="vinance.showAlert({message:'Kategória módosítva', class: 'success'})"></form>
 <tr>
     <td class="input-td">
         <input asp-for="Name" class="table-input" form="@formId" />
@@ -21,13 +20,13 @@
     @if (type == CategoryType.Expense)
     {
         <td class="input-td" colspan="2">
-            <input asp-for="MonthlyLimit" placeholder="Havi limit" class="table-input text-right" form="@formId"/>
+            <input asp-for="MonthlyLimit" placeholder="Havi limit" class="table-input text-right" form="@formId" />
         </td>
     }
     else
     {
         <td class="d-none">
-            <input asp-for="MonthlyLimit" form="@formId" value="0"/>
+            <input asp-for="MonthlyLimit" form="@formId" value="0" />
         </td>
         <td></td>
     }

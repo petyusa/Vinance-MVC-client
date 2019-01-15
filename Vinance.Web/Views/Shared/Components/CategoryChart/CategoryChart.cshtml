@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Vinance.Web.Models.CategoryViewmodel>
+﻿@model IEnumerable<Vinance.Web.Models.Category.CategoryViewmodel>
 @{
     var categoryNames = Newtonsoft.Json.JsonConvert.SerializeObject(Model.Select(c => c.Name));
     var categoryBalances = Newtonsoft.Json.JsonConvert.SerializeObject(Model.Select(c => c.Balance));

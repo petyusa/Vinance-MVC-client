@@ -1,14 +1,14 @@
-﻿using System;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using AutoMapper;
-using Microsoft.AspNetCore.Mvc;
 
 namespace Vinance.Web.Components.Category
 {
     using Contracts.Enumerations;
     using Contracts.Interfaces;
-    using Models;
+    using Models.Category;
 
     public class GetAllCategory : ViewComponent
     {

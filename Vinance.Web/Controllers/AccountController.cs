@@ -1,7 +1,7 @@
-﻿using System;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Threading.Tasks;
 
 namespace Vinance.Web.Controllers
 {
@@ -9,7 +9,7 @@ namespace Vinance.Web.Controllers
     using Contracts.Enumerations;
     using Contracts.Interfaces;
     using Contracts.Models.Domain;
-    using Models;
+    using Models.Account;
 
     [Route("accounts")]
     public class AccountController : Controller

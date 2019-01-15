@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Vinance.Web.Models
+namespace Vinance.Web.Models.Account
 {
     using Contracts.Enumerations;
 

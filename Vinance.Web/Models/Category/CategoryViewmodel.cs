@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using Vinance.Web.Attributes;
 
-namespace Vinance.Web.Models
+namespace Vinance.Web.Models.Category
 {
+    using Attributes;
     using Contracts.Enumerations;
 
     public class CategoryViewmodel

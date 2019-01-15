@@ -1,16 +1,16 @@
-﻿using System;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using Vinance.Contracts.Enumerations;
+using System;
+using System.Threading.Tasks;
 
 namespace Vinance.Web.Controllers
 {
     using Components.MainPage;
     using Components.Transfer;
+    using Contracts.Enumerations;
     using Contracts.Interfaces;
     using Contracts.Models.Domain;
-    using Models;
+    using Models.Transfer;
 
     [Route("transfers")]
     public class TransferController : Controller

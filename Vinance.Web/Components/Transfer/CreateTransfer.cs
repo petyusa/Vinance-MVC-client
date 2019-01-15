@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 namespace Vinance.Web.Components.Transfer
 {
     using Contracts.Interfaces;
-    using Models;
+    using Models.Transfer;
 
     public class CreateTransfer : ViewComponent
     {

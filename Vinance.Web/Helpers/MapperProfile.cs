@@ -7,8 +7,11 @@ namespace Vinance.Web.Helpers
     using Contracts.Models;
     using Contracts.Models.Domain;
     using Contracts.Models.Identity;
-    using Models;
+    using Models.Category;
+    using Models.Expense;
     using Models.Identity;
+    using Models.Income;
+    using Models.Transfer;
 
     public class MapperProfile : Profile
     {

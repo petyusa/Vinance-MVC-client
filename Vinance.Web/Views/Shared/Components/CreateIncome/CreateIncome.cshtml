@@ -1,7 +1,6 @@
-﻿@model Vinance.Web.Models.CreateIncomeViewmodel
-
+﻿@model Vinance.Web.Models.Income.CreateIncomeViewmodel
 <div class="form-container">
-    <form id="create-income-form" 
+    <form id="create-income-form"
           asp-controller="Income"
           asp-action="Create"
           data-ajax="true"
@@ -17,7 +16,7 @@
         </div>
         <div class="form-group">
             <label asp-for="Amount"></label>
-            <input asp-for="Amount" class="form-control text-right"/>
+            <input asp-for="Amount" class="form-control text-right" />
         </div>
         <div class="form-group">
             <label asp-for="Comment"></label>

@@ -9,7 +9,7 @@ namespace Vinance.Web.Controllers
     using Contracts.Enumerations;
     using Contracts.Interfaces;
     using Contracts.Models.Domain;
-    using Models;
+    using Models.Category;
 
     [Route("categories")]
     public class CategoryController : Controller

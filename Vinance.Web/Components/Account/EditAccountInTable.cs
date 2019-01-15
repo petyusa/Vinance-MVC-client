@@ -1,11 +1,11 @@
-﻿using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using Vinance.Web.Models;
+using System.Threading.Tasks;
 
 namespace Vinance.Web.Components.Account
 {
     using Contracts.Interfaces;
+    using Web.Models.Account;
 
     public class EditAccountInTable : ViewComponent
     {

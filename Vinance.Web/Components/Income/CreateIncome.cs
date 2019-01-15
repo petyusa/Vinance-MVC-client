@@ -1,13 +1,13 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Vinance.Web.Components.Income
 {
     using Contracts.Enumerations;
     using Contracts.Interfaces;
-    using Models;
+    using Models.Income;
 
     public class CreateIncome : ViewComponent
     {

@@ -3,7 +3,7 @@
 namespace Vinance.Web.Components.Category
 {
     using Contracts.Enumerations;
-    using Models;
+    using Models.Category;
 
     public class CreateCategoryInTable : ViewComponent
     {

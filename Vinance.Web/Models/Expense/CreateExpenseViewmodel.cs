@@ -1,9 +1,9 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using Microsoft.AspNetCore.Mvc.Rendering;
 
-namespace Vinance.Web.Models
+namespace Vinance.Web.Models.Expense
 {
     public class CreateExpenseViewmodel
     {

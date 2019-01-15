@@ -8,7 +8,7 @@ namespace Vinance.Web.Components.Category
 {
     using Contracts.Enumerations;
     using Contracts.Interfaces;
-    using Models;
+    using Web.Models.Category;
 
     public class CategoryStats : ViewComponent
     {
@@ -26,7 +26,7 @@ namespace Vinance.Web.Components.Category
             if (!from.HasValue || !to.HasValue)
             {
                 var now = DateTime.Now;
-                to = new DateTime(now.Year, now.Month,1).AddMonths(1);
+                to = new DateTime(now.Year, now.Month, 1).AddMonths(1);
                 from = to.Value.AddYears(-1);
             }
 

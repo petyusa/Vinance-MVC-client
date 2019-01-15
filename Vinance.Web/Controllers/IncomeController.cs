@@ -1,7 +1,7 @@
-﻿using System;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Threading.Tasks;
 
 namespace Vinance.Web.Controllers
 {
@@ -9,7 +9,6 @@ namespace Vinance.Web.Controllers
     using Components.MainPage;
     using Contracts.Interfaces;
     using Contracts.Models.Domain;
-    using Models;
 
     [Route("incomes")]
     public class IncomeController : Controller

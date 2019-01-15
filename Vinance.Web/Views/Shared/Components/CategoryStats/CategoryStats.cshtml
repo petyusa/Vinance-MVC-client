@@ -1,5 +1,5 @@
 ﻿@using Newtonsoft.Json;
-@model CategoryStatisticsList
+@model Vinance.Web.Models.Category.CategoryStatisticsList
 @{
     var expenseCategoryNames = Model.ExpenseStats.SelectMany(m => m.Items.Select(c => c.Name)).Distinct().OrderBy(c => c).ToList();
     var incomeCategoryNames = Model.IncomeStats.SelectMany(m => m.Items.Select(c => c.Name)).Distinct().OrderBy(c => c).ToList();

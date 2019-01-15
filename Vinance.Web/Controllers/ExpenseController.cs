@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
-using Vinance.Contracts.Enumerations;
 
 namespace Vinance.Web.Controllers
 {
@@ -10,7 +9,7 @@ namespace Vinance.Web.Controllers
     using Components.MainPage;
     using Contracts.Interfaces;
     using Contracts.Models.Domain;
-    using Models;
+    using Models.Expense;
 
     [Route("expenses")]
     public class ExpenseController : Controller

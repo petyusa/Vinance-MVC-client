@@ -1,14 +1,14 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Vinance.Web.Components.Income
 {
     using Contracts.Enumerations;
     using Contracts.Interfaces;
-    using Models;
+    using Models.Income;
 
     public class EditIncome : ViewComponent
     {
